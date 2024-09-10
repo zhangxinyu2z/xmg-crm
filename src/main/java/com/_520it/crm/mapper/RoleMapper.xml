@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.RoleMapper">
+	<resultMap id="BaseResultMap" type="com._520it.crm.domain.Role">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sn" property="sn" jdbcType="VARCHAR" />
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from role
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<delete id="deleteRelation">
+		delete from role_permission where r_id=#{rid}
+	</delete>
+	<insert id="insert" parameterType="com._520it.crm.domain.Role" useGeneratedKeys="true" keyProperty="id">
+		insert into role (name, sn)
+		values (#{name,jdbcType=VARCHAR}, #{sn,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertRelation">
+		insert into role_permission (r_id,p_id) values (#{rid},#{pid})
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.Role">
+		update role
+		set name = #{name,jdbcType=VARCHAR},
+		sn = #{sn,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select id, name, sn
+		from role
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select id, name, sn
+		from role
+	</select>
+	<sql id="where_sql">
+	<where>
+		<if test="keyword != null">
+			(
+				name like concat("%",#{keyword},"%") or
+				sn like concat("%",#{keyword},"%")
+			)
+		</if>
+		</where>
+	</sql>
+	<select id="queryForPageCount" resultType="long">
+		select count(*) from role 
+		<include refid="where_sql"></include>
+	</select>
+	<select id="queryForPage" resultMap="BaseResultMap">
+		select * from role 
+		<include refid="where_sql"></include>
+		<if test="page!=null">
+			limit #{start},#{rows}
+		</if>
+	</select>
+	<select id="queryForEmp" resultMap="BaseResultMap">
+		select * from role
+	</select>
+</mapper>

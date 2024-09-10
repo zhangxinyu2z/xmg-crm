@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com._520it.crm.mapper.SystemDictionaryItemMapper">
+	<resultMap id="BaseResultMap" type="com._520it.crm.domain.SystemDictionaryItem">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="intro" jdbcType="VARCHAR" property="intro" />
+		<result column="state" property="state" />
+		<association javaType="com._520it.crm.domain.SystemDictionary" property="parent">
+			<id column="parent_id" property="id" />
+			<result column="d_sn" jdbcType="VARCHAR" property="sn" />
+			<result column="d_name" jdbcType="VARCHAR" property="name" />
+			<result column="d_intro" jdbcType="VARCHAR" property="intro" />
+		</association>
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from systemdictionaryitem
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" keyProperty="id" parameterType="com._520it.crm.domain.SystemDictionaryItem" useGeneratedKeys="true">
+		insert into systemdictionaryitem (name, intro, parent_id,state
+		)
+		values (#{name,jdbcType=VARCHAR},
+		#{intro,jdbcType=VARCHAR}, #{parent.id,jdbcType=BIGINT},#{state}
+		)
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.SystemDictionaryItem">
+		update systemdictionaryitem
+		set name = #{name,jdbcType=VARCHAR},
+		intro = #{intro,jdbcType=VARCHAR},
+		state=#{state},
+		parent_id = #{parent.id,jdbcType=BIGINT}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		select id, name, intro, parent_id,state
+		from
+		systemdictionaryitem
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select id, name, intro, parent_id,state 
+		from systemdictionaryitem
+	</select>
+
+	<select id="queryCount" resultType="long">
+		select count(*) from systemdictionaryitem where parent_id=#{id}
+	</select>
+
+	<select id="queryForPageById" resultMap="BaseResultMap">
+		select t.*,d.name d_name, d.sn d_sn, d.intro d_intro
+		from systemdictionaryitem t, systemdictionary d where t.parent_id = d.id and parent_id=#{id}
+		<if test="page !=null">
+			limit #{start},#{rows}
+		</if>
+	</select>
+	
+	<select id="queryDicItem"  resultMap="BaseResultMap">
+		select * from systemdictionaryitem where parent_id=#{id}
+	</select>
+</mapper>

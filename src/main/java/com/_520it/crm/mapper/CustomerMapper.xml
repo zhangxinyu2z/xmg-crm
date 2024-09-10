@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.CustomerMapper">
+	<resultMap id="BaseResultMap" type="com._520it.crm.domain.Customer">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="age" property="age" jdbcType="INTEGER" />
+		<result column="gender" property="gender" jdbcType="BIT" />
+		<result column="tel" property="tel" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="qq" property="qq" jdbcType="VARCHAR" />
+		<result column="wechat" property="wechat" jdbcType="VARCHAR" />
+		<result column="job" property="job" jdbcType="VARCHAR" />
+		<result column="salarylevel" property="salarylevel" jdbcType="VARCHAR" />
+		<result column="customersource" property="customersource" jdbcType="VARCHAR" />
+		<result column="inputtime" property="inputtime" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="TINYINT" />
+		<result column="becometime" property="becometime" jdbcType="TIMESTAMP" />
+		<association property="inchargeruser" javaType="com._520it.crm.domain.Employee"
+			columnPrefix="inchargeruser_">
+			<id column="id" property="id" />
+			<result column="username" property="username" />
+		</association>
+		<association property="inputuser" javaType="com._520it.crm.domain.Employee" columnPrefix="inputuser_">
+			<id column="id" property="id" />
+			<result column="username" property="username" />
+		</association>
+
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from customer
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com._520it.crm.domain.Customer" useGeneratedKeys="true" keyProperty="id">
+		insert
+		into customer (name, age, gender,
+		tel, email, qq, wechat,
+		job, salarylevel, customersource,
+		inchargeruser_id,
+		inputuser_id, inputtime,
+		status, becometime)
+		values (#{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER},
+		#{gender,jdbcType=BIT},
+		#{tel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR},
+		#{wechat,jdbcType=VARCHAR},
+		#{job,jdbcType=VARCHAR}, #{salarylevel,jdbcType=VARCHAR},
+		#{customersource,jdbcType=VARCHAR},
+		#{inchargeruser.id,jdbcType=BIGINT}, #{inputuser.id,jdbcType=BIGINT},
+		#{inputtime,jdbcType=TIMESTAMP},
+		0, #{becometime,jdbcType=TIMESTAMP})
+	</insert>
+
+	<update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.Customer">
+		update customer
+		set name = #{name,jdbcType=VARCHAR},
+		age =
+		#{age,jdbcType=INTEGER},
+		gender = #{gender,jdbcType=BIT},
+		tel = #{tel,jdbcType=VARCHAR},
+		email =
+		#{email,jdbcType=VARCHAR},
+		qq = #{qq,jdbcType=VARCHAR},
+		wechat = #{wechat,jdbcType=VARCHAR},
+		job =
+		#{job,jdbcType=VARCHAR},
+		salarylevel = #{salarylevel,jdbcType=VARCHAR},
+		customersource =
+		#{customersource,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<update id="updateStatusById">
+		update customer set status=#{status}
+		<if test="status == 1">
+			,becometime = now()
+		</if>
+		where id=#{id}
+	</update>
+
+	<update id="updateInChargerUser">
+		update customer set inchargeruser_id = #{newseller.id} where id = #{customer.id}
+	</update>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select id, name, age, gender, tel,
+		email, qq, wechat, job, salarylevel, customersource,
+		inchargeruser_id, inputuser_id, inputtime, status, becometime
+		from
+		customer
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select id, name, age, gender, tel, email, qq, wechat, job, salarylevel,
+		customersource,
+		inchargeruser_id, inputuser_id, inputtime, status, becometime
+		from customer
+	</select>
+
+	<sql id="field_sql">
+		c.id,c.name,c.age,c.gender,c.tel,c.email,c.qq,c.wechat,c.job,c.salarylevel,c.customersource,c.inputtime,c.status,c.becometime,
+		c.inchargeruser_id,incharger.username inchargeruser_username,
+		c.inputuser_id,inputuser.username inputuser_username
+	</sql>
+
+	<sql id="table_sql">
+		from
+		customer c
+		LEFT JOIN employee inputuser on c.inputuser_id = inputuser.id
+		left join employee incharger on
+		incharger.id=c.inchargeruser_id
+	</sql>
+
+	<sql id="condition_sql">
+		<if test="keyword !=null">
+			and (
+			c.name like concat("%",#{keyword},"%") or c.tel like concat("%",#{keyword},"%")
+			)
+		</if>
+		<if test="status != null and status != 3">
+			and c.status = #{status}
+		</if>
+		<if test="status == null">
+			and c.status=0
+		</if>
+		<if test="status == 3">
+			and c.status in (0,-1)
+		</if>
+	</sql>
+
+	<select id="queryCount" resultType="long">
+		select count(*)
+		<include refid="table_sql" />
+		<where>
+			<include refid="condition_sql" />
+			<if test="userid!=null">
+				and c.inchargeruser_id = #{userid}
+			</if>
+		</where>
+	</select>
+
+	<select id="queryForPage" resultMap="BaseResultMap">
+		select
+		<include refid="field_sql" />
+		<include refid="table_sql" />
+		<where>
+			<include refid="condition_sql" />
+			<if test="userid!=null">
+				and c.inchargeruser_id = #{userid}
+			</if>
+			order by c.inputtime desc
+			<if test="page!=null">
+				limit #{start},#{rows}
+			</if>
+		</where>
+	</select>
+
+	<select id="queryFormalCustomerCount" resultType="long">
+		select count(*)
+		<include refid="table_sql" />
+		where c.status = 1
+	</select>
+
+	<select id="queryFormalCustomer" resultMap="BaseResultMap">
+		select 
+		<include refid="field_sql"/>
+		<include refid="table_sql" />
+		where c.status = 1
+		<if test="page != null">
+			limit #{start},#{rows}
+		</if>
+	</select>
+</mapper>

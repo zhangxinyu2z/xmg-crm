@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.LogMapper" >
+  <resultMap id="BaseResultMap" type="com._520it.crm.domain.Log" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="optime" property="optime" jdbcType="TIMESTAMP" />
+    <result column="opip" property="opip" jdbcType="VARCHAR" />
+    <result column="function" property="function" jdbcType="VARCHAR" />
+    <result column="params" property="params" jdbcType="VARCHAR" />
+     <association property="opuser" javaType="com._520it.crm.domain.Employee">
+		<id column="opuser_id" property="id"/>
+    </association>
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com._520it.crm.domain.Log" useGeneratedKeys="true" keyProperty="id" >
+    insert into log (opuser_id, optime, opip, 
+      `function`, params)
+    values (#{opuser.id,jdbcType=BIGINT}, #{optime,jdbcType=TIMESTAMP}, #{opip,jdbcType=VARCHAR}, 
+      #{function,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.Log" >
+    update log
+    set opuser_id = #{opuser.id,jdbcType=BIGINT},
+      optime = #{optime,jdbcType=TIMESTAMP},
+      opip = #{opip,jdbcType=VARCHAR},
+      function = #{function,jdbcType=VARCHAR},
+      params = #{params,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, opuser_id, optime, opip, function, params
+    from log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, opuser_id, optime, opip, function, params
+    from log
+  </select>
+</mapper>
