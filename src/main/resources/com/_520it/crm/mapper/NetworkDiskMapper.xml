@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.NetworkDiskMapper">
+    <resultMap id="BaseResultMap" type="com._520it.crm.domain.NetworkDisk">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="path" property="path" jdbcType="VARCHAR"/>
+        <result column="dir" property="dir"></result>
+        <result column="uploadTime" property="uploadtime" jdbcType="TIMESTAMP"/>
+        <result column="type" property="type"></result>
+        <result column="pub" property="pub"></result>
+        <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
+        <association column="user_id" property="user" select="com._520it.crm.mapper.EmployeeMapper.selectByPrimaryKey">
+        </association>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from NetworkDisk
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com._520it.crm.domain.NetworkDisk" useGeneratedKeys="true" keyProperty="id">
+    insert into NetworkDisk (name, path,dir,user_id,
+      uploadTime, parent_id,type,pub)
+    values (#{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR},#{dir},#{user.id},
+      #{uploadtime,jdbcType=TIMESTAMP}, #{parentId,jdbcType=BIGINT},#{type},#{pub})
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.NetworkDisk">
+        update NetworkDisk
+        <set>
+            <if test="name!=null">
+                name=#{name},
+            </if>
+            <if test="pub!=null">
+                pub=#{pub}
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select *
+    from NetworkDisk
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select *
+    from NetworkDisk
+  </select>
+
+    <!-- 查询条件-->
+    <sql id="condition">
+        <where>
+            <if test="keyword!=null">
+                AND name LIKE concat("%",#{keyword},"%")
+            </if>
+            <choose>
+                <when test="pid!=null">AND parent_id=#{pid}</when>
+                <otherwise>AND parent_id is NULL</otherwise>
+            </choose>
+        </where>
+    </sql>
+
+    <!--查询总数-->
+    <select id="queryByConditionCount" resultType="long">
+        select count(*) from NetworkDisk d
+        <include refid="condition"/>
+    </select>
+    <select id="queryByCondition" resultMap="BaseResultMap">
+        select * from NetworkDisk
+        <include refid="condition"/>
+        <if test="page!=null">
+            limit #{start},#{rows}
+        </if>
+    </select>
+
+</mapper>

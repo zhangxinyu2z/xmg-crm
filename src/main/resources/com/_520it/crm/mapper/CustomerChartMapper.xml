@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.CustomerChartMapper" >
+  <resultMap id="BaseResultMap" type="com._520it.crm.domain.CustomerChart" >
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="VARCHAR" />
+    <result column="amountCustomer" property="amountCustomer" jdbcType="BIGINT" />
+    <association property="employee" javaType="Employee" columnPrefix="employee_">
+      <id column="id" property="id"/>
+      <result column="name" property="username"/>
+    </association>
+  </resultMap>
+
+  <resultMap id="CustomerVoMap" type="com._520it.crm.domain.CustomerVO" >
+    <result column="time" property="time" jdbcType="VARCHAR" />
+    <result column="amountCustomer" property="amountCustomer" jdbcType="BIGINT" />
+  </resultMap>
+
+<sql id="sss">
+  <if test="typee=='year'">
+    group by year(c.becomeTime)
+  </if>
+  <if test="typee=='month'">
+    group by month(c.becomeTime)
+  </if>
+  <if test="typee=='quarter'">
+    group by quarter(c.becomeTime)
+  </if>
+</sql>
+<sql id="aaa">
+  <if test="typee=='year'">
+    year(c.becomeTime) as time
+  </if>
+  <if test="typee=='month'">
+    month(c.becomeTime) as time
+  </if>
+  <if test="typee=='quarter'">
+    quarter(c.becomeTime) as time
+  </if>
+</sql>
+
+
+
+  <sql id="conditionSql">
+    <where>
+      <if test="keyword!=null">
+        and (e.username like concat('%',#{keyword},'%'))
+      </if>
+      <if test="beginDate!=null">
+        AND c.becometime &gt;= #{beginDate}
+      </if>
+      <if test="endDate!=null">
+        AND c.becometime &lt;= #{endDate}
+      </if>
+      <if test="status==0">
+        AND c.status =false
+      </if>
+      <if test="status==1">
+        AND c.status =true
+      </if>
+      <if test="userId != null">
+        AND c.inChargeUser_id = #{userId}
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryByConditionCount" resultType="long">
+    SELECT count(*) from customer c  LEFT JOIN employee e on c.inChargeUser_id=e.id
+    <include refid="conditionSql"/>
+  </select>
+
+  <select id="queryByCondition" resultMap="BaseResultMap">
+    select <include refid="aaa"/>, count(c.name) as amountCustomer,c.name,c.becometime,
+    e.username as employee_name,e.id as employee_id
+    from customer c LEFT JOIN employee e on c.inChargeUser_id=e.id
+    <include refid="conditionSql"/>
+    <include refid="sss"/>,c.inChargeUser_id
+    <if test="page!=null">
+      limit #{start},#{rows}
+    </if>
+  </select>
+
+  <select id="selectTimeYear" resultType="String">
+    select <include refid="aaa"/>
+    from customer c LEFT JOIN employee e on c.inChargeUser_id=e.id
+    <include refid="conditionSql"/>
+    <include refid="sss"/>
+  </select>
+
+  <select id="selectAmountYear" resultType="long">
+    select count(*) as amountCustomer
+    from customer c LEFT JOIN employee e on c.inChargeUser_id=e.id
+    <include refid="conditionSql"/>
+    <include refid="sss"/>
+  </select>
+
+  <select id="selectPie" resultMap="CustomerVoMap">
+    select <include refid="aaa"/>, count(c.name) as amountCustomer
+    from customer c LEFT JOIN employee e on c.inChargeUser_id=e.id
+    <include refid="conditionSql"/>
+    <include refid="sss"/>
+    <if test="page!=null">
+      limit #{start},#{rows}
+    </if>
+  </select>
+
+</mapper>

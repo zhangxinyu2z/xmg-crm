@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.ContractChartMapper">
+    <resultMap id="BaseResultMap" type="com._520it.crm.domain.ContractChart">
+        <result column="time" property="time" jdbcType="VARCHAR"/>
+        <result column="amountcontract" property="amountcontract" jdbcType="BIGINT"/>
+    </resultMap>
+    <resultMap id="ContractVoMap" type="com._520it.crm.domain.ContractChartVO">
+        <result column="time" property="time" jdbcType="VARCHAR"/>
+        <result column="amountCustomer" property="amountCustomer" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="conditionSql">
+        <where>
+            <if test="beginDate!=null">
+                AND signTime &gt;= #{beginDate}
+            </if>
+            <if test="endDate!=null">
+                AND signTime &lt;= #{endDate}
+            </if>
+            <if test="status==3">
+                AND status=3
+            </if>
+        </where>
+    </sql>
+    <sql id="sss">
+        <if test="typee=='year'">
+            group by year(signTime)
+        </if>
+        <if test="typee=='month'">
+            group by month(signTime)
+        </if>
+        <if test="typee=='quarter'">
+            group by quarter(signTime)
+        </if>
+    </sql>
+    <sql id="aaa">
+        <if test="typee=='year'">
+            year(signTime) as time
+        </if>
+        <if test="typee=='month'">
+            month(signTime) as time
+        </if>
+        <if test="typee=='quarter'">
+            quarter(signTime) as time
+        </if>
+    </sql>
+    <select id="selectByConditionCount" resultType="long">
+        SELECT count(*) from contract
+        <include refid="conditionSql"/>
+    </select>
+
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        select<include refid="aaa"/>,SUM(contractSum) as amountcontract from contract
+        <include refid="conditionSql"/>
+        <include refid="sss"/>
+        <if test="page!=null">
+            limit #{start},#{rows}
+        </if>
+    </select>
+
+    <select id="selectTimeYear" resultType="String">
+        select
+        <include refid="aaa"/>
+        from contract
+        <include refid="conditionSql"/>
+        <include refid="sss"/>
+    </select>
+
+    <select id="selectAmountYear" resultType="long">
+        select SUM(contractSum) as amountcontract from contract
+        <include refid="conditionSql"/>
+        <include refid="sss"/>
+    </select>
+
+    <select id="selectPie" resultMap="ContractVoMap">
+        select<include refid="aaa"/>, SUM(contractSum) as amountCustomer
+        from contract
+        <include refid="conditionSql"/>
+        <include refid="sss"/>
+        <if test="page!=null">
+            limit #{start},#{rows}
+        </if>
+    </select>
+
+</mapper>

@@ -36,7 +36,8 @@ public class LoginInterceptor implements HandlerInterceptor {
 		}
 
 		// ------ 用户权限 ------
-		// 只处理controller的请求： org.springframework.web.method.HandlerMethod
+		// 只处理controller的请求： org.springframework.web.method.HandlerMethod。
+		// 对于其他资源请求，比如静态资源noPermission.json，handler的类型是DefaultServletHttpRequestHandler，就会出现CastException
 		if (handler instanceof HandlerMethod) {
 			// 拼接权限表达式（包名+类名:接口路径名）：com._520it.crm.web.controller.EmployeeController:employee_list
 			HandlerMethod handlerMethod = (HandlerMethod)handler;

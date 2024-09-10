@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.CustomerDevPlanMapper">
+    <resultMap id="BaseResultMap" type="com._520it.crm.domain.CustomerDevPlan">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="planTime" property="plantime" jdbcType="TIMESTAMP"/>
+        <result column="planSubject" property="plansubject" jdbcType="VARCHAR"/>
+        <result column="planType" property="plantype" jdbcType="VARCHAR"/>
+        <result column="traceResult" property="traceresult" jdbcType="INTEGER"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="inputTime" property="inputtime" jdbcType="TIMESTAMP"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="planDetails" property="plandetails" jdbcType="LONGVARCHAR"/>
+        <association column="customer_id" property="customer" javaType="com._520it.crm.domain.Customer"
+                     columnPrefix="c_">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+        </association>
+        <association column="inputUser_id" property="inputuser" javaType="com._520it.crm.domain.Employee"
+                     columnPrefix="e_">
+            <id column="id" property="id"/>
+            <result column="name" property="username"/>
+        </association>
+
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from customerdevplan
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com._520it.crm.domain.CustomerDevPlan" useGeneratedKeys="true" keyProperty="id">
+    insert into customerdevplan (planTime, planSubject, planType, 
+      traceResult, remark, customer_id, 
+      inputUser_id, inputTime, type, 
+      planDetails)
+    values (#{plantime,jdbcType=TIMESTAMP}, #{plansubject,jdbcType=VARCHAR}, #{plantype,jdbcType=VARCHAR}, 
+      #{traceresult,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{customer.id,jdbcType=BIGINT},
+      #{inputuser.id,jdbcType=BIGINT}, #{inputtime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER},
+      #{plandetails,jdbcType=LONGVARCHAR})
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.CustomerDevPlan">
+    update customerdevplan
+    set planTime = #{plantime,jdbcType=TIMESTAMP},
+      planSubject = #{plansubject,jdbcType=VARCHAR},
+      planType = #{plantype,jdbcType=VARCHAR},
+      traceResult = #{traceresult,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      customer_id = #{customer.id,jdbcType=BIGINT},
+      planDetails = #{plandetails,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+    <sql id="fieldSql">
+        p.id, p.planTime, p.planSubject, p.planType, p.traceResult, p.remark,p.inputTime, p.type, p.planDetails,c.id as c_id,c.name as c_name,e.id as e_id,e.username as e_name
+    </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="fieldSql"/>
+        from
+        customerdevplan p
+        left join
+        customer c on  p.customer_id = c.id
+        left join
+        employee e on p.inputUser_id = e.id
+        where p.id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="fieldSql"/>
+        from
+        customerdevplan p
+        left join
+        customer c on  p.customer_id = c.id
+        left join
+        employee e on p.inputUser_id = e.id
+    </select>
+
+    <sql id="conditionSql">
+
+            <if test="keyword != null">
+                AND c.name like concat('%',#{keyword},'%')
+            </if>
+            <if test="beginDate">
+                AND p.inputTime &gt;= #{beginDate}
+            </if>
+            <if test="endDate">
+                AND p.inputTime &lt;= #{endDate}
+            </if>
+            <if test="traceresult">
+                AND P.traceResult = #{traceresult}
+            </if>
+
+    </sql>
+
+
+    <select id="queryDevPlanByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="fieldSql"/>
+        from
+        customerdevplan p
+        left join
+        customer c on  p.customer_id = c.id
+        left join
+        employee e on p.inputUser_id = e.id
+        where p.type = 1
+        <if test="userId !=null">
+             and p.inputUser_id = #{userId}
+        </if>
+        <include refid="conditionSql"/>
+        order by p.inputTime desc
+        <if test="page !=null">
+            limit #{start},#{rows}
+        </if>
+
+    </select>
+    <select id="queryDevPlanByConditionCount" resultType="long">
+        select
+        count(*)
+        from
+        customerdevplan p
+        left join
+        customer c on  p.customer_id = c.id
+        left join
+        employee e on p.inputUser_id = e.id
+          where p.type = 1
+        <if test="userId != null">
+            AND p.inputUser_id =#{userId}
+        </if>
+        <include refid="conditionSql"/>
+    </select>
+    <select id="queryPotentialDevPlanByConditionCount" resultType="java.lang.Long">
+         select
+          count(*)
+        from
+        customerdevplan p
+        left join
+        customer c on  p.customer_id = c.id
+        left join
+        employee e on p.inputUser_id = e.id
+        where p.type = 0
+        <if test="userId != null">
+            AND p.inputUser_id =#{userId}
+        </if>
+        <include refid="conditionSql"/>
+    </select>
+    <select id="queryPotentialDevPlanByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="fieldSql"/>
+        from
+        customerdevplan p
+        left join
+        customer c on   p.customer_id = c.id
+        left join
+        employee e on p.inputUser_id = e.id
+        where p.type = 0
+            <if test="userId != null">
+                AND p.inputUser_id =#{userId}
+            </if>
+            <include refid="conditionSql"/>
+            order by p.inputTime desc
+            <if test="page !=null">
+                limit #{start},#{rows}
+            </if>
+    </select>
+    <select id="selectByCustomerId" resultType="com._520it.crm.domain.CustomerDevPlan">
+        select * from customerdevplan p where p.type = 0 and p.customer_id = #{id}
+    </select>
+
+</mapper>

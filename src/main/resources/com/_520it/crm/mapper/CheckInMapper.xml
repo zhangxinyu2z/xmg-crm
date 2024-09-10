@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.CheckInMapper">
+    <resultMap id="BaseResultMap" type="com._520it.crm.domain.CheckIn">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="userIP" property="userip" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="BIT"/>
+        <result column="signInTime" property="signintime" jdbcType="TIMESTAMP"/>
+        <result column="signOutTime" property="signouttime" jdbcType="TIMESTAMP"/>
+        <result column="checkTime" property="checktime" jdbcType="TIMESTAMP"/>
+
+        <association property="employee" javaType="Employee">
+            <id column="employee_id" property="id"/>
+            <result column="employee_name" property="username"/>
+        </association>
+
+        <association property="checkman" javaType="Employee">
+            <id column="checkman_id" property="id"/>
+            <result column="checkman_username" property="username"/>
+        </association>
+
+    </resultMap>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from checkin
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+    <insert id="insert" parameterType="com._520it.crm.domain.CheckIn" useGeneratedKeys="true" keyProperty="id">
+    insert into checkin (employee_id, userIP, state, 
+      signInTime, signOutTime, checkman_id, 
+      checkTime)
+    values (#{employee.id,jdbcType=BIGINT}, #{userip,jdbcType=VARCHAR}, #{state,jdbcType=BIT}, 
+      #{signintime,jdbcType=TIMESTAMP}, #{signouttime,jdbcType=TIMESTAMP}, #{checkman.id,jdbcType=BIGINT}, 
+      #{checktime,jdbcType=TIMESTAMP})
+  </insert>
+
+    <!-- 备份 -->
+    <!-- <insert id="insert" parameterType="com._520it.crm.domain.CheckIn" useGeneratedKeys="true" keyProperty="id" >
+      insert into checkin (employee_id, userIP, state,
+        signInTime, signOutTime, checkman_id,
+        checkTime)
+      values (#{employee.id,jdbcType=BIGINT}, #{userip,jdbcType=VARCHAR}, #{state,jdbcType=BIT},
+        #{signintime,jdbcType=TIMESTAMP}, #{signouttime,jdbcType=TIMESTAMP}, #{checkman.id,jdbcType=BIGINT},
+        #{checktime,jdbcType=TIMESTAMP})
+    </insert> -->
+
+
+    <update id="updateByPrimaryKey" parameterType="CheckIn">
+    update checkin
+    set employee_id = #{employee.id,jdbcType=BIGINT},
+      state = #{state,jdbcType=BIT},
+      signInTime = #{signintime,jdbcType=TIMESTAMP},
+      signOutTime = #{signouttime,jdbcType=TIMESTAMP},
+      checkman_id = #{checkman.id,jdbcType=BIGINT},
+      checkTime = #{checktime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <!-- 备份 -->
+    <!--  <update id="updateByPrimaryKey" parameterType="CheckIn" >
+       update checkin
+       set employee_id = #{employee.id,jdbcType=BIGINT},
+         userIP = #{userip,jdbcType=VARCHAR},
+         state = #{state,jdbcType=BIT},
+         signInTime = #{signintime,jdbcType=TIMESTAMP},
+         signOutTime = #{signouttime,jdbcType=TIMESTAMP},
+         checkman_id = #{checkman.id,jdbcType=BIGINT},
+         checkTime = #{checktime,jdbcType=TIMESTAMP}
+       where id = #{id,jdbcType=BIGINT}
+     </update> -->
+
+    <sql id="filesql">
+    c.id, c.userIP, c.state ,c.signInTime ,c.signOutTime ,c.checkTime ,e.id as employee_id ,
+    e.username as employee_name ,ee.id as checkman_id ,ee.username as checkman_username   
+   </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select id, employee_id, userIP, state, signInTime, signOutTime, checkman_id, checkTime
+    from checkin
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, employee_id, userIP, state, signInTime, signOutTime, checkman_id, checkTime
+    from checkin
+  </select>
+
+    <!--    高级查询条件部分 -->
+    <sql id="conditionSql">
+        <where>
+            <if test="state > 0">
+                AND c.state = #{state}
+            </if>
+            <if test="keyword!=null">
+                AND e.username like concat('%',#{keyword},'%')
+            </if>
+            <if test="beginDate!=null">
+                AND (c.signInTime &gt;= #{beginDate} OR c.signOutTime &gt;= #{beginDate} )
+            </if>
+            <if test="endDate!=null">
+                AND ( c.signInTime &lt;= #{endDate} OR c.signOutTime &lt;= #{endDate})
+            </if>
+        </where>
+    </sql>
+
+
+    <select id="queryByConditionCount" resultType="long">
+        select count(*) from checkIn c left join employee e on e.id = c.employee_id left join employee ee on ee.id =
+        c.checkman_id
+        <include refid="conditionSql"/>
+    </select>
+
+    <select id="queryByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="filesql"/>
+        from checkIn c left join employee e on e.id = c.employee_id left join employee ee on ee.id = c.checkman_id
+        <include refid="conditionSql"/>
+        <if test=" page != null">
+            limit #{start},#{rows};
+        </if>
+    </select>
+
+    <!-- 普通员工查询考勤  条数-->
+    <select id="queryCheckInByEidCount" resultType="long">
+   		 select count(*) from checkIn  c left join employee e on e.id = c.employee_id  left join employee ee on ee.id = c.checkman_id
+   		 where e.id = #{id}
+  	 </select>
+
+    <!-- 普通员工查询考勤 -->
+    <select id="queryCheckInByEid" resultMap="BaseResultMap">
+        select
+        <include refid="filesql"/>
+        from checkIn c left join employee e on e.id = c.employee_id left join employee ee on ee.id = c.checkman_id
+        where e.id = #{id}
+        <!--  <if test=" page != null">
+             limit #{start},#{rows};
+         </if> -->
+    </select>
+
+</mapper>

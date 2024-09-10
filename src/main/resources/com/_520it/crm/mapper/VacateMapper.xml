@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.VacateMapper">
+    <resultMap id="BaseResultMap" type="com._520it.crm.domain.Vacate">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="state" property="state" jdbcType="TINYINT"/>
+        <result column="begintime" property="begintime" jdbcType="TIMESTAMP"/>
+        <result column="endtime" property="endtime" jdbcType="TIMESTAMP"/>
+        <result column="audittime" property="audittime" jdbcType="TIMESTAMP"/>
+        <association property="employee" javaType="Employee">
+            <id column="employee_id" property="id"/>
+            <result column="employee_name" property="username"/>
+        </association>
+        <association property="audit" javaType="Employee">
+            <id column="audit_id" property="id"/>
+            <result column="audit_username" property="username"/>
+        </association>
+    </resultMap>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from vacate
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+    <insert id="insert" parameterType="com._520it.crm.domain.Vacate" useGeneratedKeys="true" keyProperty="id">
+    insert into vacate (employee_id, state, begintime, 
+      endtime, audit_id, audittime
+      )
+    values (#{employee.id,jdbcType=BIGINT}, #{state,jdbcType=TINYINT}, #{begintime,jdbcType=TIMESTAMP}, 
+      #{endtime,jdbcType=TIMESTAMP}, #{audit.id,jdbcType=BIGINT}, #{audittime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.Vacate">
+    update vacate
+    set employee_id = #{employee.id,jdbcType=BIGINT},
+      state = #{state,jdbcType=TINYINT},
+      begintime = #{begintime,jdbcType=TIMESTAMP},
+      endtime = #{endtime,jdbcType=TIMESTAMP},
+      audit_id = #{audit.id,jdbcType=BIGINT},
+      audittime = #{audittime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select id, employee_id, state, begintime, endtime, audit_id, audittime
+    from vacate
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, employee_id, state, begintime, endtime, audit_id, audittime
+    from vacate
+  </select>
+
+    <sql id="filesql">
+    v.id, v.state ,v.begintime ,v.endtime ,v.audittime , e.id as employee_id ,
+    e.username as employee_name ,ee.id as audit_id ,ee.username as audit_username   
+   </sql>
+
+    <!--    高级查询条件部分 -->
+    <sql id="conditionSql">
+        <where>
+            <if test="state>=0">
+                AND v.state = #{state}
+            </if>
+            <if test="keyword!=null">
+                AND e.username like concat('%',#{keyword},'%')
+            </if>
+            <if test="beginDate!=null">
+                AND (v.begintime &gt;= #{beginDate} OR v.endtime &gt;= #{beginDate} )
+            </if>
+            <if test="endDate!=null">
+                AND ( v.begintime &lt;= #{endDate} OR v.endtime &lt;= #{endDate})
+            </if>
+            <if test="id!=null">
+                AND e.id = #{id}
+            </if>
+        </where>
+    </sql>
+    <!--    <sql id="conditionSqlEid">
+                <where>
+                 <if test="qo.state>=0">
+                  AND v.state = #{state}
+               </if>
+               <if test="qo.keyword!=null">
+                   AND e.username like concat('%',#{keyword},'%')
+               </if>
+               <if test="qo.beginDate!=null">
+                   AND (v.begintime &gt;= #{beginDate} OR v.endtime &gt;= #{beginDate} )
+               </if>
+               <if test="qo.endDate!=null">
+                   AND ( v.begintime &lt;= #{endDate} OR  v.endtime &lt;= #{endDate})
+               </if>
+               <if test="id!=null">
+                  AND e.id = #{id}
+               </if>
+
+           </where>
+       </sql> -->
+
+    <select id="queryByConditionCount" resultType="long">
+        select count(*) from vacate v left join employee e on e.id = v.employee_id left join employee ee on ee.id =
+        v.audit_id
+        <include refid="conditionSql"/>
+    </select>
+    <select id="queryByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="filesql"/>
+        from vacate v left join employee e on e.id = v.employee_id left join employee ee on ee.id = v.audit_id
+        <include refid="conditionSql"/>
+        <if test=" page != null">
+            limit #{start},#{rows};
+        </if>
+    </select>
+    <!-- 普通员工查询请假  条数-->
+    <select id="queryVacateByEidCount" resultType="long">
+   		 select count(*) from vacate v left join employee e on e.id = v.employee_id  left join employee ee on ee.id = v.audit_id 
+   		 where e.id = #{id}
+  	 </select>
+
+    <!-- 普通员工查询请假 -->
+    <select id="queryVacateByEid" resultMap="BaseResultMap">
+        select
+        <include refid="filesql"/>
+        from vacate v left join employee e on e.id = v.employee_id left join employee ee on ee.id = v.audit_id
+        <include refid="conditionSql"/>
+
+        <if test=" page != null">
+            limit #{start},#{rows};
+        </if>
+    </select>
+
+</mapper>

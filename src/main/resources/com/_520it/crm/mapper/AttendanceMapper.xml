@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.AttendanceMapper">
+    <resultMap id="BaseResultMap" type="com._520it.crm.domain.Attendance">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="date" property="date" jdbcType="DATE"/>
+        <result column="signinday" property="signinday" jdbcType="BIGINT"/>
+        <result column="lateday" property="lateday" jdbcType="BIGINT"/>
+        <result column="earlyday" property="earlyday" jdbcType="BIGINT"/>
+        <result column="vacateday" property="vacateday" jdbcType="BIGINT"/>
+        <association property="employee" javaType="Employee">
+            <id column="employee_id" property="id"/>
+            <result column="employee_name" property="username"/>
+        </association>
+    </resultMap>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from attendance
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+    <delete id="deleteAll">
+    delete from attendance
+  </delete>
+
+    <insert id="insert" parameterType="com._520it.crm.domain.Attendance" useGeneratedKeys="true" keyProperty="id">
+    insert into attendance (employee_id, date, signinday, 
+      lateday, earlyday ,vacateday)
+    values (#{employee.id,jdbcType=BIGINT}, #{date,jdbcType=DATE}, #{signinday,jdbcType=BIGINT}, 
+      #{lateday,jdbcType=BIGINT}, #{earlyday,jdbcType=BIGINT}, #{vacateday,jdbcType=BIGINT})
+  </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.Attendance">
+    update attendance
+    set employee_id = #{employee.id,jdbcType=BIGINT},
+      date = #{date,jdbcType=DATE},
+      signinday = #{signinday,jdbcType=BIGINT},
+      lateday = #{lateday,jdbcType=BIGINT},
+      earlyday = #{earlyday,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select id, employee_id, date, signinday, lateday, earlyday
+    from attendance 
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+    select a.id, a.employee_id, a.date, a.signinday, a.lateday, a.earlyday , a.vacateday, e.username as employee_name 
+    from attendance a  left join employee e on e.id = a.employee_id
+  </select>
+
+
+    <sql id="filesql">
+    a.id,a.date ,a.signinday, a.lateday, a.earlyday ,a.vacateday, e.id as employee_id ,e.username as employee_name 
+   </sql>
+
+
+    <select id="getSigninCount" resultType="java.lang.Long">
+	  SELECT COUNT(*) from checkin c left join employee e on e.id = c.employee_id 
+	  where ( DATE_FORMAT(c.signInTime,'%y%M')=DATE_FORMAT(now(),'%y%M') or
+			DATE_FORMAT(c.signOutTime,'%y%M')=DATE_FORMAT(now(),'%y%M') )
+	  		AND employee_id = #{id} 
+  </select>
+
+    <select id="getEarlyCount" resultType="java.lang.Long">
+	SELECT
+	sum(if(signOutTime,DATE_FORMAT(IFNULL(signOutTime,1729),'%H%i') &lt; 1730,1))
+	from checkin c left join employee e on e.id = c.employee_id where (
+	DATE_FORMAT(c.signInTime,'%y%M')=DATE_FORMAT(now(),'%y%M') or
+	DATE_FORMAT(c.signOutTime,'%y%M')=DATE_FORMAT(now(),'%y%M')  )
+	AND e.id = #{id}
+  </select>
+    <!--
+        获取请假天数
+        请假条的审核状态必须是1
+
+     -->
+    <select id="getVacateCount" resultType="java.lang.Long">
+	SELECT SUM(v.state = 1 ) from vacate v LEFT JOIN employee e on e.id = v.employee_id 
+	where  DATE_FORMAT(v.audittime,'%y%M') = DATE_FORMAT(now(),'%y%M') AND e.id = #{id}
+  </select>
+
+    <!--条件筛选是当月的签到，如果没有签到，记为迟到，如果签到了，判断是否迟到-->
+    <select id="getLateCount" resultType="java.lang.Long">
+	SELECT
+	sum(if(signInTime,DATE_FORMAT(IFNULL(signInTime,0831),'%H%i') &gt; 0830,1))
+	from checkin c left join employee e on e.id = c.employee_id where (
+	DATE_FORMAT(c.signInTime,'%y%M')=DATE_FORMAT(now(),'%y%M') or
+	DATE_FORMAT(c.signOutTime,'%y%M')=DATE_FORMAT(now(),'%y%M') ) 
+	AND e.id =#{id}
+  </select>
+
+    <select id="selectByEid" resultMap="BaseResultMap">
+        SELECT
+        <include refid="filesql"/>
+        from attendance a LEFT JOIN employee e on e.id = a.employee_id where e.id = #{id}
+    </select>
+
+    <!--    高级查询条件部分 -->
+    <sql id="conditionSql">
+        <where>
+            <if test="keyword!=null">
+                AND e.username like concat('%',#{keyword},'%')
+            </if>
+
+        </where>
+    </sql>
+
+    <select id="queryByConditionCount" resultType="long">
+        select count(*) from attendance a LEFT JOIN employee e on e.id = a.employee_id
+        <include refid="conditionSql"/>
+        AND DATE_FORMAT(a.date,'%y%M')=DATE_FORMAT(now(),'%y%M')
+    </select>
+
+    <select id="queryByCondition" resultMap="BaseResultMap">
+        select
+        <include refid="filesql"/>
+        from attendance a LEFT JOIN employee e on e.id = a.employee_id
+        <include refid="conditionSql"/>
+        AND DATE_FORMAT(a.date,'%y%M')=DATE_FORMAT(now(),'%y%M')
+        <if test=" page != null">
+            limit #{start},#{rows};
+        </if>
+    </select>
+
+    <!-- 普通员工查询考勤  条数-->
+    <select id="queryAttendanceByEidCount" resultType="long">
+   		 select count(*)
+   		 from attendance a LEFT JOIN employee e on  e.id = a.employee_id
+   		 where e.id = #{id}
+  	 </select>
+
+    <!-- 普通员工查询考勤 -->
+    <select id="queryAttendanceByEid" resultMap="BaseResultMap">
+        select
+        <include refid="filesql"/>
+        from attendance a LEFT JOIN employee e on e.id = a.employee_id
+        where e.id = #{id}
+        <!--  <if test=" page != null">
+             limit #{start},#{rows};
+         </if> -->
+    </select>
+
+</mapper>

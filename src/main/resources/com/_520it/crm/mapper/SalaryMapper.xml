@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.SalaryMapper" >
+  <resultMap id="BaseResultMap" type="com._520it.crm.domain.Salary" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="salary" property="salary" jdbcType="DECIMAL" />
+    <result column="date" property="date" jdbcType="DATE" />
+ <!--<result column="year" property="date" jdbcType="DATE" />
+    <result column="month" property="date" jdbcType="DATE" /> -->
+    <association property="employee" javaType="Employee" >
+         <id column="employee_id" property="id"/>
+         <result column="employee_name" property="username"/>
+    </association>
+  </resultMap>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from salary
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <delete id="deleteAll" >
+    delete from salary
+  </delete>
+
+  <insert id="insert" parameterType="com._520it.crm.domain.Salary" useGeneratedKeys="true" keyProperty="id" >
+    insert into salary (salary, date, employee_id
+      )
+    values (#{salary,jdbcType=DECIMAL}, #{date,jdbcType=DATE}, #{employee.id,jdbcType=BIGINT}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.Salary" >
+    update salary
+    set salary = #{salary,jdbcType=DECIMAL},
+      date = #{date,jdbcType=DATE},
+      employee_id = #{employee.id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, salary, date, employee_id
+    from salary
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, salary, date, employee_id
+    from salary
+  </select>
+  
+  <sql id="filesql">
+    s.id,s.date ,s.salary , e.id as employee_id ,e.username as employee_name 
+   </sql>
+  
+  <select id="selectByEid"  resultMap="BaseResultMap">
+  		SELECT <include refid="filesql"/> 
+  		from attendance a LEFT JOIN employee e on  e.id = a.employee_id where e.id = #{id}
+  </select>
+  
+  <!--    高级查询条件部分 -->
+    <sql id="conditionSql">
+       	<where>
+            <if test="keyword!=null">
+                AND e.username like concat('%',#{keyword},'%')
+            </if>
+            <if test="year!=null">
+                AND DATE_FORMAT(s.date,'%Y') = #{year}
+            </if>
+            <if test="month!=null">
+                AND DATE_FORMAT(s.date,'%m') = #{month}
+            </if>
+         
+        </where>
+    </sql>
+  
+  	 <select id="queryByConditionCount" resultType="long">
+   		 select count(*) from salary s LEFT JOIN employee e on  e.id = s.employee_id
+   		 <include refid="conditionSql"/>
+  	 </select>
+
+    <select id="queryByCondition" resultMap="BaseResultMap">
+        select <include refid="filesql"/> 
+        from  salary s LEFT JOIN employee e on  e.id = s.employee_id
+        <include refid="conditionSql"/>
+        <if test=" page != null">
+            limit #{start},#{rows};
+        </if>
+    </select>
+    
+  	<!-- 普通员工查询薪资   条数-->
+     <select id="querySalaryByEidCount" resultType="long">
+   		 select count(*)
+   		  from salary s LEFT JOIN employee e on  e.id = s.employee_id
+   		 where e.id = #{id}
+  	 </select>
+
+  	<!-- 普通员工查询薪资 -->
+    <select id="querySalaryByEid" resultMap="BaseResultMap">
+        select  <include refid="filesql"/>
+        from salary s LEFT JOIN employee e on  e.id = s.employee_id
+        where e.id = #{id}
+       <!--  <if test=" page != null"> 
+            limit #{start},#{rows};
+        </if>  -->
+    </select>
+
+</mapper>

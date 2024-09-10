@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.GuaranteeMapper" >
+  <resultMap id="BaseResultMap" type="com._520it.crm.domain.Guarantee" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sn" property="sn" jdbcType="VARCHAR" />
+    <result column="productName" property="productname" jdbcType="VARCHAR" />
+  <!--   <result column="customer_id" property="customer" jdbcType="BIGINT" /> -->
+    <result column="dueTime" property="duetime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <association property="customer" javaType="Customer" columnPrefix="customer_">
+     <id column="id" property="id"/>
+     <result column="name" property="name"/>
+    </association>
+  </resultMap>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from guarantee
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com._520it.crm.domain.Guarantee" useGeneratedKeys="true" keyProperty="id" >
+    insert into guarantee (sn, productName, customer_id, 
+      dueTime, remark)
+    values (#{sn,jdbcType=VARCHAR}, #{productname,jdbcType=VARCHAR}, #{customer.id,jdbcType=BIGINT}, 
+      #{duetime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.Guarantee" >
+    update guarantee
+    
+      <set> 
+      <if test="sn != null">
+      sn = #{sn,jdbcType=VARCHAR},
+     </if>
+     <if test="productname != null">
+      productName = #{productname,jdbcType=VARCHAR},
+     </if>
+     <!-- <if test="customer != null">
+       customer_id = #{customer.id,jdbcType=BIGINT},
+     </if> -->
+       <if test="duetime != null">
+        dueTime = #{duetime,jdbcType=TIMESTAMP},
+       </if>
+       <if test="remark != null">
+       remark = #{remark,jdbcType=VARCHAR}
+       </if>
+      </set>
+        where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, sn, productName, customer_id, dueTime, remark
+    from guarantee
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select g.id, g.sn, g.productName,  g.dueTime, g.remark,
+     c.id as customer_id,c.name as customer_name FROM guarantee g left join customer c on g.customer_id = c.id  
+  </select>
+   
+   <!-- 高级查询条件 -->
+   <sql id="conditionSql">
+      <where>
+       <if test="keyword != null">
+         AND (g.productName like concat("%",#{keyword},"%") OR g.sn like concat("%",#{keyword},"%")) 
+         </if>
+      </where>
+   </sql>
+  
+  <!--总条数  -->
+  <select id="selectByConditionCount" resultType="long">
+   select count(*) from guarantee g <include refid="conditionSql"/>
+  </select>
+  
+  <!-- 结果集 -->
+  <select id="selectByCondition" resultMap="BaseResultMap">
+     select g.id, g.sn, g.productName,  g.dueTime, g.remark,
+     c.id as customer_id,c.name as customer_name FROM guarantee g left join customer c on g.customer_id = c.id  
+     <include refid="conditionSql"/>
+    <if test="page != null">
+       limit #{start},#{rows}
+    </if>
+  </select>
+  
+   
+   <!--删除明细  -->
+   <delete id="deleteByItems" parameterType="long">
+     delete from guaranteeItem where guarantee_id = #{id}
+   </delete>
+   
+   <!-- 修改延保时间 -->
+   <update id="updateTime" parameterType="com._520it.crm.domain.Guarantee">
+      update  guarantee  set  dueTime = #{duetime}   where id = #{id}
+   </update>
+   
+   
+   
+  
+</mapper>

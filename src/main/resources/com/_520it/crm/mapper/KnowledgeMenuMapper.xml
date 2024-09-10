@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.KnowledgeMenuMapper" >
+  <resultMap id="BaseResultMap" type="com._520it.crm.domain.KnowledgeMenu" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="text" property="text" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="BIT" />
+    <result column="checked" property="checked" jdbcType="BIT" />
+    <result column="attributes" property="attributes" jdbcType="VARCHAR" />
+    <collection column="id" property="children" ofType="KnowledgeMenu" select="com._520it.crm.mapper.KnowledgeMenuMapper.selectByPid"></collection>
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from knowledgemenu
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com._520it.crm.domain.KnowledgeMenu" useGeneratedKeys="true" keyProperty="id" >
+    insert into knowledgemenu (text, state, checked, 
+      attributes, parent_id)
+    values (#{text,jdbcType=VARCHAR}, #{state,jdbcType=BIT}, #{checked,jdbcType=BIT}, 
+      #{attributes,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.KnowledgeMenu" >
+    update knowledgemenu
+    set text = #{text,jdbcType=VARCHAR},
+      state = #{state,jdbcType=BIT},
+      checked = #{checked,jdbcType=BIT},
+      attributes = #{attributes,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, text, state, checked, attributes, parent_id
+    from knowledgemenu
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, text, state, checked, attributes, parent_id
+    from knowledgemenu
+  </select>
+  
+   
+   <select id="selectRoot" resultMap="BaseResultMap">
+        select id,text,state,checked,attributes,parent_id from knowledgemenu where parent_id is null
+    </select>
+    <select id="selectByPid" resultMap="BaseResultMap">
+        select id,text,state,checked,attributes,parent_id from knowledgemenu where parent_id = #{id}
+    </select>
+</mapper>

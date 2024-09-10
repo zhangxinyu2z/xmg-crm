@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com._520it.crm.mapper.GuaranteeItemMapper">
+  <resultMap id="BaseResultMap" type="GuaranteeItem">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="guaranteeTime" jdbcType="TIMESTAMP" property="guaranteetime" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="cost" jdbcType="INTEGER" property="cost" />
+   <!--  <result column="guarantee_id" jdbcType="BIGINT" property="guaranteeId" /> -->
+    <association property="guarantee" javaType="Guarantee" columnPrefix="guarantee_">
+     <id column="id" property="id"/>
+     <result column="sn" property="sn"/>
+    </association>
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from guaranteeitem  where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" keyProperty="id" parameterType="GuaranteeItem" useGeneratedKeys="true">
+    insert into guaranteeitem (guaranteeTime, content, status, 
+      cost, guarantee_id
+      )
+    values (#{guaranteetime,jdbcType=TIMESTAMP}, #{content,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+       #{cost,jdbcType=INTEGER}, #{guarantee.id,jdbcType=BIGINT}
+      )
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="GuaranteeItem">
+    update guaranteeitem
+    set guaranteeTime = #{guaranteetime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      cost = #{cost,jdbcType=INTEGER},
+      guarantee_id = #{guarantee.id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, guaranteeTime, content, status, cost, guarantee_id
+    from guaranteeitem
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+    select a.id, a.guaranteeTime, a.content, a.status, a.cost, g.id as guarantee_id ,g.sn as guarantee_sn
+    from guaranteeitem a left join guarantee g on a.guarantee_id = g.id;
+  </select>
+  
+  <select id="selectAllItem" resultMap="BaseResultMap">
+    select a.id, a.guaranteeTime, a.content, a.status, a.cost, g.id as guarantee_id ,g.sn as guarantee_sn
+    from guaranteeitem a left join guarantee g on a.guarantee_id = g.id where g.id = #{id};
+  </select>
+  
+  
+  <select id="selectItems" parameterType="long" resultType="long">
+     select count(*) from guaranteeItem where guarantee_id = #{id}  AND cost=0
+  </select>
+  
+  
+  <select id="queryStatusByItem" resultMap="BaseResultMap">
+      select a.id, a.guaranteeTime, a.content, a.status, a.cost, g.id as guarantee_id ,g.sn as guarantee_sn
+    from guaranteeitem a left join guarantee g on a.guarantee_id = g.id where a.`status` = #{status}
+  </select> 
+</mapper>

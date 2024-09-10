@@ -5,6 +5,7 @@ import com._520it.crm.domain.Employee;
 import com._520it.crm.domain.Log;
 import com._520it.crm.service.LogService;
 import com._520it.crm.utils.UserContext;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.aspectj.lang.JoinPoint;
@@ -96,6 +97,8 @@ public class LogAspect {
 			//String s=  jsonObject.toString();
 
 			objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+			// 不序列空值
+			objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
 			params = objectMapper.writeValueAsString(map);
 			log.setParams(params);
 		} catch (Exception e) {

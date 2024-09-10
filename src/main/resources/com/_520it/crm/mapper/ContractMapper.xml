@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com._520it.crm.mapper.ContractMapper" >
+  <resultMap id="BaseResultMap" type="com._520it.crm.domain.Contract" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="sn" property="sn" jdbcType="VARCHAR" />
+    <result column="signTime" property="signtime" jdbcType="TIMESTAMP" />
+    <result column="contractSum" property="contractsum" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="VARCHAR" />
+    <result column="payTime" property="paytime" jdbcType="TIMESTAMP" />
+    <result column="intro" property="intro" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="file" property="file" jdbcType="VARCHAR" />
+    <result column="modifyTime" property="modifytime" jdbcType="TIMESTAMP" />
+
+    <association property="customer" javaType="Customer" columnPrefix="cus_">
+      <id column="id" property="id"/>
+      <result column="name" property="name"/>
+    </association>
+
+    <association property="seller" javaType="Employee" columnPrefix="emp_">
+      <id column="id" property="id"/>
+      <result column="username" property="username"/>
+    </association>
+
+    <association property="modifyuser" javaType="Employee" columnPrefix="emps_">
+      <id column="id" property="id"/>
+      <result column="username" property="username"/>
+    </association>
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from contract
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com._520it.crm.domain.Contract" useGeneratedKeys="true" keyProperty="id" >
+    insert into contract (sn, customer_id, signTime, 
+      seller_id, contractSum, money, 
+      payTime, intro, status, 
+      file, modifyUser_id, modifyTime
+      )
+    values (#{sn,jdbcType=VARCHAR}, #{customer.id,jdbcType=BIGINT}, #{signtime,jdbcType=TIMESTAMP},
+      #{seller.id,jdbcType=BIGINT}, #{contractsum,jdbcType=VARCHAR}, #{money,jdbcType=VARCHAR},
+      #{paytime,jdbcType=TIMESTAMP}, #{intro,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{file,jdbcType=VARCHAR}, #{modifyuser.id,jdbcType=BIGINT}, #{modifytime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.Contract" >
+    update contract
+    set sn = #{sn,jdbcType=VARCHAR},
+      customer_id = #{customer.id,jdbcType=BIGINT},
+      signTime = #{signtime,jdbcType=TIMESTAMP},
+      seller_id = #{seller.id,jdbcType=BIGINT},
+      contractSum = #{contractsum,jdbcType=VARCHAR},
+      money = #{money,jdbcType=VARCHAR},
+      payTime = #{paytime,jdbcType=TIMESTAMP},
+      intro = #{intro,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      file = #{file,jdbcType=VARCHAR},
+      modifyUser_id = #{modifyuser.id,jdbcType=BIGINT},
+      modifyTime = #{modifytime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select <include refid="filesql"/>
+    from contract o left join customer c on o.customer_id=c.id left join employee e on o.seller_id=e.id left join employee p on o.modifyUser_id=p.id
+    where o.id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, sn, customer_id, signTime, seller_id, contractSum, money, payTime, intro, 
+    status, file, modifyUser_id, modifyTime
+    from contract
+  </select>
+
+
+  <sql id="filesql">
+    o.id,o.sn,o.signTime,o.customer_id,o.seller_id,o.contractSum,o.money,o.payTime,o.intro,
+    o.file,o.modifyUser_id,o.modifyTime,o.status,
+    c.id as cus_id,c.name as cus_name,e.id as emp_id,e.username as emp_username,p.id as emps_id,p.username as emps_username
+  </sql>
+
+
+  <sql id="conditionSql">
+    <where>
+      <if test="status!=null">
+        AND o.status = #{status}
+      </if>
+      <if test="keyword!=null">
+        AND (c.name like concat('%',#{keyword},'%') OR e.username like concat('%',#{keyword},'%')  OR p.username LIKE concat('%',#{keyword},'%'))
+      </if>
+      <if test="beginDate!=null">
+        AND o.signTime &gt;= #{beginDate}
+      </if>
+      <if test="endDate!=null">
+        AND o.signTime &lt;= #{endDate}
+      </if>
+    </where>
+  </sql>
+
+  <!--高级查询部分-->
+  <select id="queryByConditionCount" resultType="java.lang.Long">
+    select count(*) from contract o left join customer c on o.customer_id=c.id left join employee e on o.seller_id=e.id left join employee p on o.modifyUser_id=p.id
+    <include refid="conditionSql"/>
+  </select>
+
+  <select id="queryByCondition" resultMap="BaseResultMap">
+    select
+    <include refid="filesql"/>
+    from contract o left join customer c on o.customer_id=c.id left join employee e on o.seller_id=e.id left join employee p on o.modifyUser_id=p.id
+    <include refid="conditionSql"/>
+    <if test="page != null">
+      limit #{start},#{rows}
+    </if>
+  </select>
+
+  <!--审核-->
+  <update id="checked" parameterType="long">
+    update contract set status = status + 1 where id = #{id}
+  </update>
+
+  <!--拒绝审核-->
+  <update id="noChecked" parameterType="long">
+    update contract set status = 4 where id = #{id}
+  </update>
+
+</mapper>
