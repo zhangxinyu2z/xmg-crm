@@ -1,4 +1,4 @@
-package com._520it.crm.query;
+package com._520it.crm.req;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class EmployeeQueryObject extends QueryObject {
+public class EmployeePageReq extends PageReq {
 
 	/** 员工高级查询关键字 */
 	private String keyword;

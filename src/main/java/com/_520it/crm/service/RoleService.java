@@ -1,8 +1,8 @@
 package com._520it.crm.service;
 
 import com._520it.crm.domain.Role;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.req.PageReq;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public interface RoleService {
 	 */
 	int updateByPrimaryKey(Role record);
 
-	PageResult queryForPage(QueryObject queryObject);
+	PageResult queryForPage(PageReq pageReq);
 
 	/**
 	 * @return

@@ -3,6 +3,8 @@ package com._520it.crm.domain;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * 数据字典明细
  * 
@@ -11,7 +13,8 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class SystemDictionaryItem {
+public class SystemDictionaryItem implements Serializable {
+	private static final long serialVersionUID = 2949694148163817251L;
 	private Long id;
 
 	private String name;

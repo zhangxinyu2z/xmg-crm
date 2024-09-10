@@ -1,4 +1,4 @@
-package com._520it.crm.query;
+package com._520it.crm.req;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class PermissionQueryObject extends QueryObject {
+public class PermissionPageReq extends PageReq {
 	/** 角色id */
 	private Long rid;
 }

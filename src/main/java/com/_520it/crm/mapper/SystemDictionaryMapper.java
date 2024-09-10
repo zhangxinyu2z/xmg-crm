@@ -1,7 +1,7 @@
 package com._520it.crm.mapper;
 
 import com._520it.crm.domain.SystemDictionary;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
 
 import java.util.List;
 
@@ -27,5 +27,5 @@ public interface SystemDictionaryMapper {
 	 * @param qo
 	 * @return
 	 */
-	List<SystemDictionary> queryForPage(QueryObject qo);
+	List<SystemDictionary> queryForPage(PageReq qo);
 }

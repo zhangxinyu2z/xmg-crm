@@ -1,4 +1,4 @@
-package com._520it.crm.query;
+package com._520it.crm.req;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import lombok.Setter;
  * @date 2021/06/19
  */
 @Setter@Getter
-public class QueryObject {
+public class PageReq {
 	/** 请求的是第几页 */
 	private Integer page;
 

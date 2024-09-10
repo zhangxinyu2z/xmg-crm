@@ -3,8 +3,8 @@ package com._520it.crm.service;
 import java.util.List;
 
 import com._520it.crm.domain.SystemDictionaryItem;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.req.PageReq;
 
 /**
  * @author xinyu
@@ -26,7 +26,7 @@ public interface SystemDictionaryItemService {
 	 * @param qo
 	 * @return
 	 */
-	PageResult queryItemById(QueryObject qo);
+	PageResult queryItemById(PageReq qo);
 
 	/**
 	 * @param id

@@ -1,13 +1,12 @@
 package com._520it.crm.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com._520it.crm.domain.Customer;
 import com._520it.crm.domain.CustomerTransfer;
-import com._520it.crm.query.CustomerQueryObject;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.CustomerPageReq;
+import com._520it.crm.req.PageReq;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface CustomerMapper {
 	int deleteByPrimaryKey(Long id);
@@ -23,12 +22,12 @@ public interface CustomerMapper {
 	/**
 	 * 查询当前用户负责的客户
 	 */
-	List<Customer> queryForPage(QueryObject queryObject);
+	List<Customer> queryForPage(PageReq pageReq);
 
 	/**
 	 * 查询当前用户负责的客户的数量
 	 */
-	Long queryCount(QueryObject queryObject);
+	Long queryCount(PageReq pageReq);
 
 	/**
 	 * 修改当前客户状态
@@ -48,12 +47,12 @@ public interface CustomerMapper {
 	/**
 	 * 查询满足条件的所有正式客户的统计数量
 	 */
-	Long queryFormalCustomerCount(CustomerQueryObject qo);
+	Long queryFormalCustomerCount(CustomerPageReq qo);
 
 	/**
 	 * 查询满足条件的所有正式客户
 	 * @param qo
 	 * @return
 	 */
-	List<Customer> queryFormalCustomer(CustomerQueryObject qo);
+	List<Customer> queryFormalCustomer(CustomerPageReq qo);
 }

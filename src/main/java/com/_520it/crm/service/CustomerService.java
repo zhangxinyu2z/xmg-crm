@@ -1,12 +1,12 @@
 package com._520it.crm.service;
 
-import java.util.List;
-
 import com._520it.crm.domain.Customer;
 import com._520it.crm.domain.CustomerTransfer;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.CustomerQueryObject;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.CustomerPageReq;
+import com._520it.crm.req.PageReq;
+import com._520it.crm.resp.PageResult;
+
+import java.util.List;
 
 /**
  * @author xinyu
@@ -31,7 +31,7 @@ public interface CustomerService {
 	 * <p>
 	 * 市场专员只能查询自己负责的
 	 */
-	PageResult queryForPage(QueryObject queryObject);
+	PageResult queryForPage(PageReq pageReq);
 
 	/**
 	 * 修改潜在客户状态为-1；开发失败 1;正式客户
@@ -46,5 +46,5 @@ public interface CustomerService {
 	/**
 	 * 查询所有的正式客户
 	 */
-	PageResult formalList(CustomerQueryObject qo);
+	PageResult formalList(CustomerPageReq qo);
 }

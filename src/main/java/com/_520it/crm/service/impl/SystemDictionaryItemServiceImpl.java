@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com._520it.crm.domain.SystemDictionaryItem;
 import com._520it.crm.mapper.SystemDictionaryItemMapper;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.req.PageReq;
 import com._520it.crm.service.SystemDictionaryItemService;
 
 @Service
@@ -18,7 +18,7 @@ public class SystemDictionaryItemServiceImpl implements SystemDictionaryItemServ
 	private SystemDictionaryItemMapper systemDictionaryItemDao;
 
 	@Override
-	public PageResult queryItemById(QueryObject qo) {
+	public PageResult queryItemById(PageReq qo) {
 		Long count = systemDictionaryItemDao.queryCount(qo);
 		if (count == 0) {
 			return new PageResult(0, Collections.EMPTY_LIST);

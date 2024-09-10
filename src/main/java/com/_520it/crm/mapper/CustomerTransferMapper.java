@@ -1,7 +1,7 @@
 package com._520it.crm.mapper;
 
 import com._520it.crm.domain.CustomerTransfer;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
 
 import java.util.List;
 
@@ -20,11 +20,11 @@ public interface CustomerTransferMapper {
 	 * @param qo
 	 * @return
 	 */
-	Long queryCount(QueryObject qo);
+	Long queryCount(PageReq qo);
 
 	/**
 	 * @param qo
 	 * @return
 	 */
-	List<CustomerTransfer> queryTransferList(QueryObject qo);
+	List<CustomerTransfer> queryTransferList(PageReq qo);
 }

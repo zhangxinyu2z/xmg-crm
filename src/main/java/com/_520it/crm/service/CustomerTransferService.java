@@ -1,8 +1,8 @@
 package com._520it.crm.service;
 
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.req.PageReq;
 
 public interface CustomerTransferService {
-	PageResult list(QueryObject qo);
+	PageResult list(PageReq qo);
 }

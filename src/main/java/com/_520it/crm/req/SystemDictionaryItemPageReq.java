@@ -1,4 +1,4 @@
-package com._520it.crm.query;
+package com._520it.crm.req;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import lombok.Setter;
  * @date 2021/06/26
  */
 @Setter@Getter
-public class SystemDictionaryItemQueryObject extends QueryObject {
+public class SystemDictionaryItemPageReq extends PageReq {
 	/**
 	 * 数据字典项id
 	 */

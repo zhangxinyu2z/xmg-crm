@@ -41,13 +41,13 @@
 			<tx:method name="select*" read-only="true" propagation="SUPPORTS" />
 			<tx:method name="query*" read-only="true" propagation="SUPPORTS" />
 			<tx:method name="list*" read-only="true" propagation="SUPPORTS" />
-			<!-- 都不匹配使用默认的事务 -->
+			<!-- 其他方式使用默认的事务 -->
 			<tx:method name="*" />
 		</tx:attributes>
 	</tx:advice>
 	
 	<!-- 日志增强类 -->
-	<bean id="logUtil" class="com._520it.crm.util.LogUtil"/>
+	<bean id="logUtil" class="com._520it.crm.aop.LogAspect"/>
 	
 	<!-- 5.aop相关配置，事务的增强对service包的操作有效-->
 	<aop:config>

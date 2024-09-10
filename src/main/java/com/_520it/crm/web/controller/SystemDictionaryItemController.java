@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com._520it.crm.domain.SystemDictionaryItem;
 import com._520it.crm.service.SystemDictionaryItemService;
-import com._520it.crm.util.AJAXResult;
+import com._520it.crm.resp.AJAXResult;
 
 /**
  * @author xinyu

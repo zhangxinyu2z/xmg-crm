@@ -1,16 +1,15 @@
 package com._520it.crm.service.impl;
 
-import java.util.Collections;
-import java.util.List;
-
+import com._520it.crm.domain.Permission;
+import com._520it.crm.mapper.PermissionMapper;
+import com._520it.crm.req.PageReq;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com._520it.crm.domain.Permission;
-import com._520it.crm.mapper.PermissionMapper;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.QueryObject;
-import com._520it.crm.service.PermissionService;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author xinyu
@@ -48,12 +47,12 @@ public class PermissionServiceImpl implements PermissionService {
 	}
 
 	@Override
-	public PageResult queryForPage(QueryObject queryObject) {
-		Long count = permissionMapper.queryForPageCount(queryObject);
+	public PageResult queryForPage(PageReq pageReq) {
+		Long count = permissionMapper.queryForPageCount(pageReq);
 		if(count == 0) {
 			return new PageResult(0, Collections.EMPTY_LIST);
 		}
-		List<Permission> resultList = permissionMapper.queryForPage(queryObject);
+		List<Permission> resultList = permissionMapper.queryForPage(pageReq);
 		return new PageResult(count.intValue(), resultList);
 	}
 

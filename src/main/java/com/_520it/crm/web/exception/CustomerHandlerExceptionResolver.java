@@ -17,18 +17,16 @@ import java.io.Writer;
  */
 public class CustomerHandlerExceptionResolver implements HandlerExceptionResolver {
 	/**
-	 * @param o
-	 *            发生异常的信息位置 包名+类名+方法名（形参） 字符串
-	 * @param e
-	 *            发生的具体异常 程序发布后不可能再用开发工具，只能通过日志，程序打了war包，发布到linux服务器上
+	 * @param o 发生异常的信息位置 包名+类名+方法名（形参） 字符串
+	 * @param e 发生的具体异常 程序发布后不可能再用开发工具，只能通过日志，程序打了war包，发布到linux服务器上
 	 * @return
 	 */
 	@Override
 	public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
 		Object o, Exception e) {
-		String message = null;
+		String message;
 		// 预期异常
-		if (e instanceof MessageException) {
+		if (e instanceof CrmException) {
 			message = e.getMessage();
 		} else {
 			// 未知异常,把堆栈信息保存到打印流中
@@ -40,8 +38,9 @@ public class CustomerHandlerExceptionResolver implements HandlerExceptionResolve
 		ModelAndView modelAndView = new ModelAndView();;
 		modelAndView.addObject("msg", message);
 //		modelAndView.setViewName("error");
-//		modelAndView.setViewName("forward:/cs.jsp");
-		modelAndView.setView(new RedirectView(httpServletRequest.getContextPath() + "/cs.jsp"));
+//		modelAndView.setViewName("forward:/error.jsp");
+		//给一个统一的报错页面，错误信息打印到日志文件中
+		modelAndView.setView(new RedirectView(httpServletRequest.getContextPath() + "/error.jsp"));
 		return modelAndView;
 
 	}

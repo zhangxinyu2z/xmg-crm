@@ -1,8 +1,8 @@
 package com._520it.crm.web.interceptor;
 
 import com._520it.crm.domain.Employee;
-import com._520it.crm.util.PermissionUtil;
-import com._520it.crm.util.UserContext;
+import com._520it.crm.utils.PermissionUtil;
+import com._520it.crm.utils.UserContext;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -25,7 +25,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 		// 为当前用户线程保存request对象，日志从中获取信息
 		UserContext.set(request);
 
-		// ------ 用户登录拦截功能相关 ------
+		// ------ 用户是否登录 ------
 		// 从session中获取当前用户信息
 		Employee currentUser = (Employee)request.getSession().getAttribute(UserContext.USER_IN_SESSION);
 		// 如果session中没有用户信息，或者存在用户信息但是用户的状态为离职
@@ -35,17 +35,12 @@ public class LoginInterceptor implements HandlerInterceptor {
 			return false;
 		}
 
-		// ------ 用户权限访问功能相关 ------
-		// 如果不是class org.springframework.web.method.HandlerMethod，说明没有走controller方法，不需要校验（处理响应的json）
+		// ------ 用户权限 ------
+		// 只处理controller的请求： org.springframework.web.method.HandlerMethod
 		if (handler instanceof HandlerMethod) {
-			// 拼接权限表达式(controller全类名+方法名)
+			// 拼接权限表达式（包名+类名:接口路径名）：com._520it.crm.web.controller.EmployeeController:employee_list
 			HandlerMethod handlerMethod = (HandlerMethod)handler;
-			// com._520it.crm.web.controller.EmployeeController:employee_list
 			String function = handlerMethod.getBean().getClass().getName() + ":" + handlerMethod.getMethod().getName();
-			/* 2、根据权限表达式进行权限处理
-			 * 如果不是权限路径，不需要拦截,返回true
-			 * 如果是权限路径，判断当前用户是否拥有该访问权限
-			 */
 			boolean result = PermissionUtil.checkPermission(function);
 			if (result) {
 				return true;

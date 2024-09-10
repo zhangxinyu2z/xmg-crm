@@ -2,14 +2,12 @@ package com._520it.crm.web.controller;
 
 import com._520it.crm.domain.Employee;
 import com._520it.crm.domain.Menu;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.EmployeeQueryObject;
-import com._520it.crm.service.EmployeeService;
-import com._520it.crm.service.MenuService;
-import com._520it.crm.service.PermissionService;
-import com._520it.crm.util.AJAXResult;
-import com._520it.crm.util.PermissionUtil;
-import com._520it.crm.util.UserContext;
+import com._520it.crm.req.EmployeePageReq;
+import com._520it.crm.resp.AJAXResult;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.service.*;
+import com._520it.crm.utils.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,20 +15,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author zhang xinyu
  * @date 2021/06/16
  */
 @Controller
+@Slf4j
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
     @Autowired
     private MenuService menuService;
-
     @Autowired
     private PermissionService permissionService;
 
@@ -42,23 +40,23 @@ public class EmployeeController {
     @RequestMapping("/employee_queryRoleById")
     @ResponseBody
     public List<Long> queryByEmployeeId(Long eid) {
-        List<Long> roleIds = null;
-        roleIds = employeeService.queryRoleById(eid);
+        List<Long> roleIds = employeeService.queryRoleById(eid);
         return roleIds;
     }
 
     @RequestMapping("/employee_save")
     @ResponseBody
     public AJAXResult save(Employee employee) {
-        AJAXResult result;
+        AJAXResult result = AJAXResult.createResponse();
         try {
-            employee.setPassword("666666");
+            employee.setPassword(EncryptHelper.md5("123456"));
             employee.setState(true);
             employee.setAdmin(false);
             employeeService.insert(employee);
-            result = new AJAXResult(true, "保存成功");
         } catch (Exception e) {
-            result = new AJAXResult("保存异常，请联系管理员");
+            log.error(e.getMessage(), e);
+            result.setSuccess(false);
+            result.setMsg("系统异常");
         }
         return result;
     }
@@ -66,14 +64,13 @@ public class EmployeeController {
     @RequestMapping("/employee_update")
     @ResponseBody
     public AJAXResult update(Employee employee) {
-        AJAXResult result;
+        AJAXResult result = AJAXResult.createResponse();
         try {
             employeeService.updateByPrimaryKey(employee);
-            result = new AJAXResult(true, "修改成功");
         } catch (Exception e) {
             e.printStackTrace();
-            // 日志信息
-            result = new AJAXResult("修改异常，请联系管理员");
+            result.setSuccess(false);
+            result.setMsg("系统异常");
         }
         return result;
     }
@@ -81,28 +78,28 @@ public class EmployeeController {
     @RequestMapping("/employee_delete")
     @ResponseBody
     public AJAXResult delete(long id) {
-        AJAXResult result;
+        AJAXResult result = AJAXResult.createResponse();
         try {
             employeeService.updateState(id);
             result = new AJAXResult(true, "离职成功");
         } catch (Exception e) {
             e.printStackTrace();
-            // 日志信息
-            result = new AJAXResult("操作异常，请联系管理员");
+            result.setSuccess(false);
+            result.setMsg("系统异常");
         }
         return result;
     }
 
     @RequestMapping("/employee_list")
     @ResponseBody
-    public PageResult list(EmployeeQueryObject queryObject) {
+    public PageResult list(EmployeePageReq queryObject) {
         return employeeService.queryForPage(queryObject);
     }
 
     @RequestMapping("/employee_export")
     @ResponseBody
-    public AJAXResult export(HttpServletResponse response) throws IOException {
-        AJAXResult result = null;
+    public AJAXResult export(HttpServletResponse response) {
+        AJAXResult result;
         try {
             response.setHeader("Content-Disposition", "attachment;filename=SignInTable.xls");
             // response.setContentType("application/vnd.ms-excel;charset=UTF-8");
@@ -119,26 +116,28 @@ public class EmployeeController {
     public AJAXResult login(String username, String password, HttpServletRequest request) {
         //拦截器对登录接口放行，由于aop日志需要从request获取信息，需要将当前线程请求的request存储
         UserContext.set(request);
-        AJAXResult result;
-        Employee currentUser = employeeService.getEmployeeForLogin(username, password);
-        if (currentUser != null) {
-            result = new AJAXResult(true, "登录成功");
-            //1.存储用户信息到session中
-            request.getSession().setAttribute(UserContext.USER_IN_SESSION, currentUser);
-
-            //2.存储用户的权限信息
-            List<String> userPermissions = permissionService.queryPermissionByEmpId(currentUser.getId());
-            request.getSession().setAttribute(UserContext.PERMISSION_IN_SESSION, userPermissions);
-
-            // 3.保存用户菜单权限到session中
-            List<Menu> menus = menuService.queryForMenu();
-            // 先查询出所有的系统菜单，在根据用户的权限去除用户无权访问的菜单
-            PermissionUtil.checkMenus(menus);
-            request.getSession().setAttribute(UserContext.MENU_IN_SESSION, menus);
-
-        } else {
-            result = new AJAXResult("账号或密码错误");
+        AJAXResult result = AJAXResult.createResponse();
+        String token = EncryptHelper.md5(password);
+        Employee currentUser = employeeService.getEmployeeForLogin(username, token);
+        if (Objects.isNull(currentUser)) {
+            result.setSuccess(false);
+            result.setMsg("账号或密码错误");
+            return result;
         }
+
+        //1.存储用户信息到session中
+        request.getSession().setAttribute(UserContext.USER_IN_SESSION, currentUser);
+
+        //2.存储用户的权限信息
+        List<String> userPermissions = permissionService.queryPermissionByEmpId(currentUser.getId());
+        request.getSession().setAttribute(UserContext.PERMISSION_IN_SESSION, userPermissions);
+
+        // 3.保存用户菜单权限到session中
+        List<Menu> menus = menuService.queryForMenu();
+        // 先查询出所有的系统菜单，在根据用户的权限去除用户无权访问的菜单
+        PermissionUtil.checkMenus(menus);
+        request.getSession().setAttribute(UserContext.MENU_IN_SESSION, menus);
+
         return result;
     }
 
@@ -149,7 +148,7 @@ public class EmployeeController {
      */
     @RequestMapping("/queryEmployeeByRole")
     @ResponseBody
-    public List<Employee> queryEmployeeByRole() {
+    public List<Employee> queryEmployeeByRole(String id) {
         return employeeService.queryEmployeeByRole();
     }
 

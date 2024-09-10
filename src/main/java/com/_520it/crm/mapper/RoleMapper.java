@@ -1,7 +1,7 @@
 package com._520it.crm.mapper;
 
 import com._520it.crm.domain.Role;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
 
 import java.util.List;
 
@@ -34,11 +34,11 @@ public interface RoleMapper {
 	void insertRelation(@Param("rid") Long rid, @Param("pid") Long pid);
 
 	/**
-	 * @param queryObject
+	 * @param pageReq
 	 */
-	Long queryForPageCount(QueryObject queryObject);
+	Long queryForPageCount(PageReq pageReq);
 
-	List<Role> queryForPage(QueryObject queryObject);
+	List<Role> queryForPage(PageReq pageReq);
 
 	List<Role> queryForEmp();
 

@@ -1,4 +1,4 @@
-package com._520it.crm.query;
+package com._520it.crm.req;
 
 import java.util.Date;
 
@@ -15,7 +15,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class CustomerTransferQueryObject extends QueryObject {
+public class CustomerTransferPageReq extends PageReq {
 	/**
 	 * 客户姓名
 	 */

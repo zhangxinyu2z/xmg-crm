@@ -35,8 +35,10 @@
 				除了使用这种方式，还可以通过配置mvc：resources指定资源查找的位置 
 			-->
 			<mvc:mapping path="/*" />
-			<mvc:exclude-mapping path="/login" /> <!-- 不拦截login -->
-			<!-- <mvc:exclude-mapping path="/*.json"/> --><!-- 拦截器不拦截.json格式的数据  -->
+			<!-- 不拦截login -->
+			<mvc:exclude-mapping path="/login" />
+			<!-- 不拦截.json格式的数据  -->
+			<!-- <mvc:exclude-mapping path="/*.json"/> -->
 			<bean class="com._520it.crm.web.interceptor.LoginInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>

@@ -3,7 +3,7 @@ package com._520it.crm.mapper;
 import java.util.List;
 
 import com._520it.crm.domain.SystemDictionaryItem;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
 
 public interface SystemDictionaryItemMapper {
 	int deleteByPrimaryKey(Long id);
@@ -20,13 +20,13 @@ public interface SystemDictionaryItemMapper {
 	 * @param qo
 	 * @return
 	 */
-	Long queryCount(QueryObject qo);
+	Long queryCount(PageReq qo);
 
 	/**
 	 * @param qo
 	 * @return
 	 */
-	List<SystemDictionaryItem> queryForPageById(QueryObject qo);
+	List<SystemDictionaryItem> queryForPageById(PageReq qo);
 
 	/**
 	 * 查询字典对应的字典明细

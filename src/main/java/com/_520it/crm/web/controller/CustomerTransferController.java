@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.CustomerTransferQueryObject;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.req.CustomerTransferPageReq;
 import com._520it.crm.service.CustomerTransferService;
 
 @Controller
@@ -21,7 +21,7 @@ public class CustomerTransferController {
 	
 	@RequestMapping("/customerTransfer_list")
 	@ResponseBody
-	public PageResult list(CustomerTransferQueryObject qo) {
+	public PageResult list(CustomerTransferPageReq qo) {
 		return customerTransferService.list(qo);
 	}
 }

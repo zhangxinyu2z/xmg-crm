@@ -1,11 +1,10 @@
 package com._520it.crm.mapper;
 
-import java.util.List;
-
+import com._520it.crm.domain.Employee;
+import com._520it.crm.req.EmployeePageReq;
 import org.apache.ibatis.annotations.Param;
 
-import com._520it.crm.domain.Employee;
-import com._520it.crm.query.EmployeeQueryObject;
+import java.util.List;
 
 public interface EmployeeMapper {
 	int deleteByPrimaryKey(Long id);
@@ -31,12 +30,12 @@ public interface EmployeeMapper {
 	/**
 	 * 查询分页记录数
 	 */
-	Long queryForPageCount(EmployeeQueryObject queryObject);
+	Long queryForPageCount(EmployeePageReq queryObject);
 
 	/**
 	 * 查询分页数据
 	 */
-	List<Employee> queryForPage(EmployeeQueryObject queryObject);
+	List<Employee> queryForPage(EmployeePageReq queryObject);
 
 	void updateState(long id);
 

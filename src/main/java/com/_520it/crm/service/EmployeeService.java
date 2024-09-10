@@ -1,8 +1,8 @@
 package com._520it.crm.service;
 
 import com._520it.crm.domain.Employee;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.EmployeeQueryObject;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.req.EmployeePageReq;
 
 import javax.servlet.ServletOutputStream;
 import java.util.List;
@@ -31,7 +31,7 @@ public interface EmployeeService {
 	 * @param queryObject
 	 * @return
 	 */
-	PageResult queryForPage(EmployeeQueryObject queryObject);
+	PageResult queryForPage(EmployeePageReq queryObject);
 
 	/**
 	 * 修改员工状态

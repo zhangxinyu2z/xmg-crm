@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com._520it.crm.domain.Role;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.RoleQueryObject;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.req.RolePageReq;
 import com._520it.crm.service.RoleService;
-import com._520it.crm.util.AJAXResult;
+import com._520it.crm.resp.AJAXResult;
 
 @Controller
 public class RoleController {
@@ -25,7 +25,7 @@ public class RoleController {
 
 	@RequestMapping("role_list")
 	@ResponseBody
-	public PageResult list(RoleQueryObject qo) {
+	public PageResult list(RolePageReq qo) {
 		return roleService.queryForPage(qo);
 	}
 

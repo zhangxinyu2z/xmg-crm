@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com._520it.crm.domain.Department;
 import com._520it.crm.mapper.DepartmentMapper;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.DepartmentQueryObject;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.req.DepartmentPageReq;
 import com._520it.crm.service.DepartmentService;
 
 /**
@@ -55,7 +55,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 
 	@Override
-	public PageResult queryForPage(DepartmentQueryObject qo) {
+	public PageResult queryForPage(DepartmentPageReq qo) {
 		Long count = departmentDao.queryForPageCount(qo);
 		if (count == 0) {
 			return new PageResult(0, Collections.EMPTY_LIST);

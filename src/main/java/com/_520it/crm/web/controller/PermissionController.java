@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.PermissionQueryObject;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.req.PermissionPageReq;
 import com._520it.crm.service.PermissionService;
 
 /**
@@ -15,18 +15,18 @@ import com._520it.crm.service.PermissionService;
  */
 @Controller
 public class PermissionController {
-	@Autowired
-	private PermissionService permissionService;
-	
-	@RequestMapping("/permission_list")
-	@ResponseBody
-	public PageResult permissionList(PermissionQueryObject qo) {
-		return permissionService.queryForPage(qo);
-	}
-	
-	@RequestMapping("/permission_queryById")
-	@ResponseBody
-	public PageResult queryPermissionsById(PermissionQueryObject qo) {
-		return permissionService.queryForPage(qo);
-	}
+    @Autowired
+    private PermissionService permissionService;
+
+    @RequestMapping("/permission_list")
+    @ResponseBody
+    public PageResult permissionList(PermissionPageReq qo) {
+        return permissionService.queryForPage(qo);
+    }
+
+    @RequestMapping("/permission_queryById")
+    @ResponseBody
+    public PageResult queryPermissionsById(PermissionPageReq qo) {
+        return permissionService.queryForPage(qo);
+    }
 }

@@ -1,17 +1,19 @@
 package com._520it.crm.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 角色信息类
  */
 @Setter
 @Getter
-public class Role {
+public class Role implements Serializable {
+	private static final long serialVersionUID = -7696420095165807634L;
 	/** 角色id */
 	private Long id;
 

@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import com._520it.crm.domain.Permission;
 import com._520it.crm.domain.Role;
 import com._520it.crm.mapper.RoleMapper;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.req.PageReq;
 import com._520it.crm.service.RoleService;
 
 @Service
@@ -62,12 +62,12 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public PageResult queryForPage(QueryObject queryObject) {
-		Long count = roleMapper.queryForPageCount(queryObject);
+	public PageResult queryForPage(PageReq pageReq) {
+		Long count = roleMapper.queryForPageCount(pageReq);
 		if (count == 0) {
 			return new PageResult(0, Collections.EMPTY_LIST);
 		}
-		List<Role> roleList = roleMapper.queryForPage(queryObject);
+		List<Role> roleList = roleMapper.queryForPage(pageReq);
 		return new PageResult(count.intValue(), roleList);
 	}
 

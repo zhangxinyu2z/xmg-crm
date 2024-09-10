@@ -4,7 +4,7 @@
 $(function() {
 	var customerTransferDatagrid, customerTransferDialog, transferForm, customerCombogrid, newsellerCombogrid;
 	customerTransferDatagrid = $("#customerTransfer_datagrid");
-	transferDialog = $("#transfer_dialog");
+	customerTransferDialog = $("#transfer_dialog");
 	transferForm = $("#transfer_form");
 	customerCombogrid = $("#customerCombogrid");
 	newsellerCombogrid = $("#newsellerCombogrid");

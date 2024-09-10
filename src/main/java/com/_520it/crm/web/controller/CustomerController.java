@@ -1,21 +1,18 @@
 package com._520it.crm.web.controller;
 
-import java.util.Date;
-
+import com._520it.crm.domain.*;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.req.CustomerPageReq;
+import com._520it.crm.resp.AJAXResult;
+import com._520it.crm.service.CustomerService;
+import com._520it.crm.utils.PermissionUtil;
+import com._520it.crm.utils.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com._520it.crm.domain.Customer;
-import com._520it.crm.domain.CustomerTransfer;
-import com._520it.crm.domain.Employee;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.CustomerQueryObject;
-import com._520it.crm.service.CustomerService;
-import com._520it.crm.util.AJAXResult;
-import com._520it.crm.util.PermissionUtil;
-import com._520it.crm.util.UserContext;
+import java.util.Date;
 
 /**
  * @author xinyu
@@ -39,7 +36,7 @@ public class CustomerController {
 	 */
 	@RequestMapping("/customer_list")
 	@ResponseBody
-	public PageResult list(CustomerQueryObject qo) {
+	public PageResult list(CustomerPageReq qo) {
 		/*
 		 * 用户的角色不同，能查询的信息也有所不同
 		 * 市场专员只能查看自己负责的客户
@@ -71,7 +68,7 @@ public class CustomerController {
 	 */
 	@RequestMapping("/formalcustomer_list")
 	@ResponseBody
-	public PageResult formalList(CustomerQueryObject qo) {
+	public PageResult formalList(CustomerPageReq qo) {
 		return customerService.formalList(qo);
 	}
 
@@ -83,7 +80,7 @@ public class CustomerController {
 			Employee currentUser = (Employee)UserContext.get().getSession().getAttribute(UserContext.USER_IN_SESSION);
 
 			customer.setInputuser(currentUser);
-			customer.setInchargeruser(currentUser);
+			customer.setInchargeuser(currentUser);
 			customer.setInputtime(new Date());
 			// 新增用户状态为潜在客户 sql插入为0
 			customerService.insert(customer);

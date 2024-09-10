@@ -16,8 +16,8 @@
 		<result column="inputtime" property="inputtime" jdbcType="TIMESTAMP" />
 		<result column="status" property="status" jdbcType="TINYINT" />
 		<result column="becometime" property="becometime" jdbcType="TIMESTAMP" />
-		<association property="inchargeruser" javaType="com._520it.crm.domain.Employee"
-			columnPrefix="inchargeruser_">
+		<association property="inchargeuser" javaType="com._520it.crm.domain.Employee"
+			columnPrefix="inchargeuser_">
 			<id column="id" property="id" />
 			<result column="username" property="username" />
 		</association>
@@ -36,7 +36,7 @@
 		into customer (name, age, gender,
 		tel, email, qq, wechat,
 		job, salarylevel, customersource,
-		inchargeruser_id,
+		inchargeuser_id,
 		inputuser_id, inputtime,
 		status, becometime)
 		values (#{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER},
@@ -45,7 +45,7 @@
 		#{wechat,jdbcType=VARCHAR},
 		#{job,jdbcType=VARCHAR}, #{salarylevel,jdbcType=VARCHAR},
 		#{customersource,jdbcType=VARCHAR},
-		#{inchargeruser.id,jdbcType=BIGINT}, #{inputuser.id,jdbcType=BIGINT},
+		#{inchargeuser.id,jdbcType=BIGINT}, #{inputuser.id,jdbcType=BIGINT},
 		#{inputtime,jdbcType=TIMESTAMP},
 		0, #{becometime,jdbcType=TIMESTAMP})
 	</insert>
@@ -78,13 +78,13 @@
 	</update>
 
 	<update id="updateInChargerUser">
-		update customer set inchargeruser_id = #{newseller.id} where id = #{customer.id}
+		update customer set inchargeuser_id = #{newseller.id} where id = #{customer.id}
 	</update>
 
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
 		select id, name, age, gender, tel,
 		email, qq, wechat, job, salarylevel, customersource,
-		inchargeruser_id, inputuser_id, inputtime, status, becometime
+		inchargeuser_id, inputuser_id, inputtime, status, becometime
 		from
 		customer
 		where id = #{id,jdbcType=BIGINT}
@@ -92,13 +92,13 @@
 	<select id="selectAll" resultMap="BaseResultMap">
 		select id, name, age, gender, tel, email, qq, wechat, job, salarylevel,
 		customersource,
-		inchargeruser_id, inputuser_id, inputtime, status, becometime
+		inchargeuser_id, inputuser_id, inputtime, status, becometime
 		from customer
 	</select>
 
 	<sql id="field_sql">
 		c.id,c.name,c.age,c.gender,c.tel,c.email,c.qq,c.wechat,c.job,c.salarylevel,c.customersource,c.inputtime,c.status,c.becometime,
-		c.inchargeruser_id,incharger.username inchargeruser_username,
+		c.inchargeuser_id,incharge.username inchargeuser_username,
 		c.inputuser_id,inputuser.username inputuser_username
 	</sql>
 
@@ -106,8 +106,8 @@
 		from
 		customer c
 		LEFT JOIN employee inputuser on c.inputuser_id = inputuser.id
-		left join employee incharger on
-		incharger.id=c.inchargeruser_id
+		left join employee incharge on
+		incharge.id=c.inchargeuser_id
 	</sql>
 
 	<sql id="condition_sql">
@@ -133,7 +133,7 @@
 		<where>
 			<include refid="condition_sql" />
 			<if test="userid!=null">
-				and c.inchargeruser_id = #{userid}
+				and c.inChargeUser_id = #{userid}
 			</if>
 		</where>
 	</select>
@@ -145,7 +145,7 @@
 		<where>
 			<include refid="condition_sql" />
 			<if test="userid!=null">
-				and c.inchargeruser_id = #{userid}
+				and c.inChargeUser_id = #{userid}
 			</if>
 			order by c.inputtime desc
 			<if test="page!=null">
@@ -161,7 +161,7 @@
 	</select>
 
 	<select id="queryFormalCustomer" resultMap="BaseResultMap">
-		select 
+		select
 		<include refid="field_sql"/>
 		<include refid="table_sql" />
 		where c.status = 1

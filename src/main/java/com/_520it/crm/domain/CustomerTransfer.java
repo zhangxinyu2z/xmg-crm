@@ -1,11 +1,11 @@
 package com._520it.crm.domain;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 客户移交记录
@@ -15,7 +15,8 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class CustomerTransfer {
+public class CustomerTransfer implements Serializable {
+	private static final long serialVersionUID = 2490983538010513739L;
 	private Long id;
 
 	/**
@@ -31,7 +32,7 @@ public class CustomerTransfer {
 	/**
 	 * 移交时间
 	 */
-	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8") // 转成json是long的
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	private Date transtime;
 
 	/**

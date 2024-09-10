@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com._520it.crm.domain.SystemDictionary;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.SystemDictionaryItemQueryObject;
-import com._520it.crm.query.SystemDictionaryQueryObject;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.req.SystemDictionaryItemPageReq;
+import com._520it.crm.req.SystemDictionaryPageReq;
 import com._520it.crm.service.SystemDictionaryItemService;
 import com._520it.crm.service.SystemDictionaryService;
 
@@ -32,14 +32,14 @@ public class SystemDictionaryController {
 	
 	@RequestMapping("/systemDictionaryList")
 	@ResponseBody
-	public PageResult list(SystemDictionaryQueryObject qo) {
+	public PageResult list(SystemDictionaryPageReq qo) {
 		PageResult result = systemDictionaryService.queryForPage(qo);
 		return result;
 	}
 	
 	@RequestMapping("/querySystemDictionaryItemById")
 	@ResponseBody
-	public PageResult itemList(SystemDictionaryItemQueryObject qo) {
+	public PageResult itemList(SystemDictionaryItemPageReq qo) {
 		PageResult result = systemDictionaryItemService.queryItemById(qo);
 		return result;
 	}

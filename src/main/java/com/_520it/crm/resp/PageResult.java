@@ -1,9 +1,9 @@
-package com._520it.crm.page;
-
-import java.util.List;
+package com._520it.crm.resp;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 /**
  * 组件需要的数据信息

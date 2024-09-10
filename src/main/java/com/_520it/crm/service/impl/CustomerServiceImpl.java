@@ -1,19 +1,18 @@
 package com._520it.crm.service.impl;
 
-import java.util.Collections;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com._520it.crm.domain.Customer;
 import com._520it.crm.domain.CustomerTransfer;
 import com._520it.crm.mapper.CustomerMapper;
 import com._520it.crm.mapper.CustomerTransferMapper;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.CustomerQueryObject;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.CustomerPageReq;
+import com._520it.crm.req.PageReq;
+import com._520it.crm.resp.PageResult;
 import com._520it.crm.service.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -49,7 +48,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public PageResult queryForPage(QueryObject qo) {
+	public PageResult queryForPage(PageReq qo) {
 		Long count = customerDao.queryCount(qo);
 		if (count == 0) {
 			return new PageResult(0, Collections.EMPTY_LIST);
@@ -73,7 +72,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public PageResult formalList(CustomerQueryObject qo) {
+	public PageResult formalList(CustomerPageReq qo) {
 		Long count = customerDao.queryFormalCustomerCount(qo);
 		if (count == 0) {
 			return new PageResult(0, Collections.EMPTY_LIST);

@@ -1,7 +1,7 @@
 package com._520it.crm.mapper;
 
 import com._520it.crm.domain.Department;
-import com._520it.crm.query.DepartmentQueryObject;
+import com._520it.crm.req.DepartmentPageReq;
 
 import java.util.List;
 
@@ -22,11 +22,11 @@ public interface DepartmentMapper {
 	 * @param qo
 	 * @return
 	 */
-	Long queryForPageCount(DepartmentQueryObject qo);
+	Long queryForPageCount(DepartmentPageReq qo);
 
 	/**
 	 * @param qo
 	 * @return
 	 */
-	List<Department> queryForPage(DepartmentQueryObject qo);
+	List<Department> queryForPage(DepartmentPageReq qo);
 }

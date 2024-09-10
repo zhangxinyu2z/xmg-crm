@@ -1,9 +1,10 @@
 package com._520it.crm.domain;
 
-import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * 树形菜单需要的参数
@@ -13,7 +14,8 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class Menu {
+public class Menu implements Serializable {
+	private static final long serialVersionUID = 2301176155196421550L;
 	/** 节点id */
 	private Long id;
 

@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com._520it.crm.domain.Department;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.DepartmentQueryObject;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.req.DepartmentPageReq;
 import com._520it.crm.service.DepartmentService;
-import com._520it.crm.util.AJAXResult;
+import com._520it.crm.resp.AJAXResult;
 
 @Controller
 public class DepartmentController {
@@ -31,7 +31,7 @@ public class DepartmentController {
 
 	@RequestMapping("/department_list")
 	@ResponseBody
-	public PageResult list(DepartmentQueryObject qo) {
+	public PageResult list(DepartmentPageReq qo) {
 		return departmentService.queryForPage(qo);
 	}
 

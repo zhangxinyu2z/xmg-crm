@@ -1,4 +1,4 @@
-package com._520it.crm.query;
+package com._520it.crm.req;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +8,7 @@ import lombok.Setter;
  * @date 2021/06/23
  */
 @Setter@Getter
-public class DepartmentQueryObject extends QueryObject {
+public class DepartmentPageReq extends PageReq {
 	private String keyword;
 	private Boolean state;
 }

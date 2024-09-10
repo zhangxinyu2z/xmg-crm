@@ -3,7 +3,7 @@ package com._520it.crm.mapper;
 import java.util.List;
 
 import com._520it.crm.domain.Permission;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
 
 public interface PermissionMapper {
 	int deleteByPrimaryKey(Long id);
@@ -20,18 +20,18 @@ public interface PermissionMapper {
 
 	/**
 	 * 查询权限的总计数，如果有高级查询条件
-	 * @param queryObject
+	 * @param pageReq
 	 *            请求分页信息
 	 */
-	Long queryForPageCount(QueryObject queryObject);
+	Long queryForPageCount(PageReq pageReq);
 
 	/**
 	 * 返回分页的所有权限记录
 	 * 
-	 * @param queryObject
+	 * @param pageReq
 	 *            分页请求的参数
 	 */
-	List<Permission> queryForPage(QueryObject queryObject);
+	List<Permission> queryForPage(PageReq pageReq);
 	
 	/**
 	 * 根据employee id 查询权限路径

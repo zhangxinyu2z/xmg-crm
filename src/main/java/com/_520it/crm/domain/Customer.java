@@ -1,16 +1,16 @@
 package com._520it.crm.domain;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.Getter;
-
 import lombok.Setter;
+
+import java.io.Serializable;
+import java.util.Date;
 
 @Setter
 @Getter
-public class Customer {
+public class Customer implements Serializable {
+	private static final long serialVersionUID = -6885172181938395414L;
 	private Long id;
 
 	private String name;
@@ -42,7 +42,7 @@ public class Customer {
 	/**
 	 * 负责人
 	 */
-	private Employee inchargeruser;
+	private Employee inchargeuser;
 
 	/**
 	 * 创建人
