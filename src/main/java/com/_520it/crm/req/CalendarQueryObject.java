@@ -9,5 +9,5 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CalendarQueryObject extends QueryObject {
+public class CalendarQueryObject extends PageReq {
 }

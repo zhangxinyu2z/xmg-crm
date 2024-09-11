@@ -6,6 +6,6 @@ package com._520it.crm.req;
  * @author xinyu
  * @date 2021/06/26
  */
-public class SystemDictionaryPageReq extends PageReq {
+public class SystemDictionaryQueryObject extends PageReq {
 
 }

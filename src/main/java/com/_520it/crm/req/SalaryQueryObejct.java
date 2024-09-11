@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Setter @Getter
-public class SalaryQueryObejct extends QueryObject{
+public class SalaryQueryObejct extends PageReq{
 
 	
 	 //查询条件

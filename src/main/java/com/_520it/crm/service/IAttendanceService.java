@@ -1,8 +1,8 @@
 package com._520it.crm.service;
 
 import com._520it.crm.domain.Attendance;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
+import com._520it.crm.resp.PageResult;
 
 import javax.servlet.ServletOutputStream;
 import java.util.List;
@@ -26,7 +26,7 @@ public interface IAttendanceService {
      * @param qo
      * @return
      */
-    PageResult queryByCondition(QueryObject qo);
+    PageResult queryByCondition(PageReq qo);
 
     int updateAttendance();
 

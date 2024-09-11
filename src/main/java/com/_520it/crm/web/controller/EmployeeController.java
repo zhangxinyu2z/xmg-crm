@@ -2,8 +2,8 @@ package com._520it.crm.web.controller;
 
 import com._520it.crm.domain.Employee;
 import com._520it.crm.domain.Menu;
-import com._520it.crm.req.EmployeePageReq;
-import com._520it.crm.resp.AJAXResult;
+import com._520it.crm.req.EmployeeQueryObject;
+import com._520it.crm.resp.AjaxResult;
 import com._520it.crm.resp.PageResult;
 import com._520it.crm.service.*;
 import com._520it.crm.utils.*;
@@ -46,8 +46,8 @@ public class EmployeeController {
 
     @RequestMapping("/employee_save")
     @ResponseBody
-    public AJAXResult save(Employee employee) {
-        AJAXResult result = AJAXResult.createResponse();
+    public AjaxResult save(Employee employee) {
+        AjaxResult result = AjaxResult.createResponse();
         try {
             employee.setPassword(EncryptHelper.md5("123456"));
             employee.setState(true);
@@ -63,8 +63,8 @@ public class EmployeeController {
 
     @RequestMapping("/employee_update")
     @ResponseBody
-    public AJAXResult update(Employee employee) {
-        AJAXResult result = AJAXResult.createResponse();
+    public AjaxResult update(Employee employee) {
+        AjaxResult result = AjaxResult.createResponse();
         try {
             employeeService.updateByPrimaryKey(employee);
         } catch (Exception e) {
@@ -77,11 +77,11 @@ public class EmployeeController {
 
     @RequestMapping("/employee_delete")
     @ResponseBody
-    public AJAXResult delete(long id) {
-        AJAXResult result = AJAXResult.createResponse();
+    public AjaxResult delete(long id) {
+        AjaxResult result = AjaxResult.createResponse();
         try {
             employeeService.updateState(id);
-            result = new AJAXResult(true, "离职成功");
+            result = new AjaxResult(true, "离职成功");
         } catch (Exception e) {
             e.printStackTrace();
             result.setSuccess(false);
@@ -92,31 +92,31 @@ public class EmployeeController {
 
     @RequestMapping("/employee_list")
     @ResponseBody
-    public PageResult list(EmployeePageReq queryObject) {
+    public PageResult list(EmployeeQueryObject queryObject) {
         return employeeService.queryForPage(queryObject);
     }
 
     @RequestMapping("/employee_export")
     @ResponseBody
-    public AJAXResult export(HttpServletResponse response) {
-        AJAXResult result;
+    public AjaxResult export(HttpServletResponse response) {
+        AjaxResult result;
         try {
             response.setHeader("Content-Disposition", "attachment;filename=SignInTable.xls");
             // response.setContentType("application/vnd.ms-excel;charset=UTF-8");
             employeeService.export(response.getOutputStream());
-            result = new AJAXResult(true, "导出成功");
+            result = new AjaxResult(true, "导出成功");
         } catch (Exception e) {
-            result = new AJAXResult("导出异常");
+            result = new AjaxResult("导出异常");
         }
         return result;
     }
 
     @RequestMapping("/login")
     @ResponseBody
-    public AJAXResult login(String username, String password, HttpServletRequest request) {
+    public AjaxResult login(String username, String password, HttpServletRequest request) {
         //拦截器对登录接口放行，由于aop日志需要从request获取信息，需要将当前线程请求的request存储
         UserContext.set(request);
-        AJAXResult result = AJAXResult.createResponse();
+        AjaxResult result = AjaxResult.createResponse();
         String token = EncryptHelper.md5(password);
         Employee currentUser = employeeService.getEmployeeForLogin(username, token);
         if (Objects.isNull(currentUser)) {
@@ -135,7 +135,7 @@ public class EmployeeController {
         // 3.保存用户菜单权限到session中
         List<Menu> menus = menuService.queryForMenu();
         // 先查询出所有的系统菜单，在根据用户的权限去除用户无权访问的菜单
-        PermissionUtil.checkMenus(menus);
+        PermissionUtils.checkMenus(menus);
         request.getSession().setAttribute(UserContext.MENU_IN_SESSION, menus);
 
         return result;

@@ -9,7 +9,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class CustomerPageReq extends PageReq {
+public class CustomerQueryObject extends PageReq {
 	/**
 	 * 用户id,负责人
 	 */

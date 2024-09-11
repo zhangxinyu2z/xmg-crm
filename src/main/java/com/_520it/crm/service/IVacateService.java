@@ -1,8 +1,8 @@
 package com._520it.crm.service;
 
 import com._520it.crm.domain.Vacate;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
+import com._520it.crm.resp.PageResult;
 
 import java.util.List;
 
@@ -16,12 +16,12 @@ public interface IVacateService {
 
     List<Vacate> listAll();
 
-    PageResult queryByCondition(QueryObject qo);
+    PageResult queryByCondition(PageReq qo);
 
     /**
      * 普通员工查询自己的请假记录
      */
-    PageResult queryVacateByEid(QueryObject qo);
+    PageResult queryVacateByEid(PageReq qo);
 
     int delete(Long id);
 

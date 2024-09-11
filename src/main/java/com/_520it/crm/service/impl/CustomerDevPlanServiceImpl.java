@@ -2,11 +2,11 @@ package com._520it.crm.service.impl;
 
 import com._520it.crm.domain.CustomerDevPlan;
 import com._520it.crm.mapper.CustomerDevPlanMapper;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.CustomerDevPlanQueryObject;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.CustomerDevPlanQueryObject;
+import com._520it.crm.req.PageReq;
+import com._520it.crm.resp.PageResult;
 import com._520it.crm.service.ICustomerDevPlanService;
-import com._520it.crm.util.PermissionUtils;
+import com._520it.crm.utils.PermissionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +51,7 @@ public class CustomerDevPlanServiceImpl implements ICustomerDevPlanService {
     }
 
     @Override
-    public PageResult queryDevPlanByCondition(QueryObject qo) {
+    public PageResult queryDevPlanByCondition(PageReq qo) {
         // 市场主管可以查看所有正式客户开发计划
         if (PermissionUtils.checkPermission("com._520it.crm.web.controller.CustomerDevPlanController:ALL")) {
             CustomerDevPlanQueryObject qo1 = (CustomerDevPlanQueryObject) qo;
@@ -75,7 +75,7 @@ public class CustomerDevPlanServiceImpl implements ICustomerDevPlanService {
      * @return
      */
     @Override
-    public PageResult queryPontentialDevPlanByCondition(QueryObject qo) {
+    public PageResult queryPontentialDevPlanByCondition(PageReq qo) {
         // 市场主管可以查看所有潜在列表计划
         if (PermissionUtils.checkPermission("com._520it.crm.web.controller.CustomerDevPlanController:ALL")) {
             CustomerDevPlanQueryObject customerQo = (CustomerDevPlanQueryObject) qo;

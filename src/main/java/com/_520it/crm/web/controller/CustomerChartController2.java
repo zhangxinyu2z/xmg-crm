@@ -2,20 +2,17 @@ package com._520it.crm.web.controller;
 
 import com._520it.crm.domain.CustomerVO;
 import com._520it.crm.domain.Employee;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.CustomerChartQueryObject;
+import com._520it.crm.req.CustomerChartQueryObject;
+import com._520it.crm.resp.PageResult;
 import com._520it.crm.service.ICustomerChartService;
-import com._520it.crm.util.UserContext;
+import com._520it.crm.utils.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CustomerChartController2 {

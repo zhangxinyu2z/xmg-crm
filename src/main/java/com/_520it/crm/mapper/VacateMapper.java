@@ -1,7 +1,7 @@
 package com._520it.crm.mapper;
 
 import com._520it.crm.domain.Vacate;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
 
 import java.util.List;
 
@@ -16,13 +16,13 @@ public interface VacateMapper {
 
     int updateByPrimaryKey(Vacate record);
 
-    Long queryByConditionCount(QueryObject qo);
+    Long queryByConditionCount(PageReq qo);
 
-    List<Vacate> queryByCondition(QueryObject qo);
+    List<Vacate> queryByCondition(PageReq qo);
 
-    Long queryVacateByEidCount(QueryObject qo);
+    Long queryVacateByEidCount(PageReq qo);
 
-    List<Vacate> queryVacateByEid(QueryObject qo);
+    List<Vacate> queryVacateByEid(PageReq qo);
 
 
 }

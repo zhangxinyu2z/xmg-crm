@@ -3,10 +3,10 @@ package com._520it.crm.service.impl;
 import com._520it.crm.domain.Contract;
 import com._520it.crm.domain.ContractChartVO;
 import com._520it.crm.mapper.ContractChartMapper;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
+import com._520it.crm.resp.PageResult;
 import com._520it.crm.service.IContractChartService;
-import com._520it.crm.util.PermissionUtils;
+import com._520it.crm.utils.PermissionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ public class ContractChartServiceImpl implements IContractChartService {
 
 
     @Override
-    public PageResult selectByCondition(QueryObject qo) {
+    public PageResult selectByCondition(PageReq qo) {
         if (PermissionUtils.checkPermission("com._520it.crm.web.controller.CustomerController:all")) {
 
         }
@@ -34,18 +34,18 @@ public class ContractChartServiceImpl implements IContractChartService {
     }
 
     @Override
-    public List<String> selectTimeYear(QueryObject qo) {
+    public List<String> selectTimeYear(PageReq qo) {
         return dao.selectTimeYear(qo);
     }
 
 
     @Override
-    public List<Long> selectAmountYear(QueryObject qo) {
+    public List<Long> selectAmountYear(PageReq qo) {
         return dao.selectAmountYear(qo);
     }
 
     @Override
-    public List<ContractChartVO> selectPie(QueryObject qo) {
+    public List<ContractChartVO> selectPie(PageReq qo) {
         return dao.selectPie(qo);
     }
 }

@@ -1,15 +1,12 @@
 package com._520it.crm.web.controller;
 
-import com._520it.crm.domain.Customer;
-import com._520it.crm.domain.CustomerTransfer;
-import com._520it.crm.domain.Employee;
-import com._520it.crm.domain.SystemDictionaryItem;
-import com._520it.crm.page.AjaxResult;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.PotentialCustomerQueryObject;
+import com._520it.crm.annotation.RequiredPermission;
+import com._520it.crm.domain.*;
+import com._520it.crm.req.PotentialCustomerQueryObject;
+import com._520it.crm.resp.AjaxResult;
+import com._520it.crm.resp.PageResult;
 import com._520it.crm.service.*;
-import com._520it.crm.util.RequiredPermission;
-import com._520it.crm.util.UserContext;
+import com._520it.crm.utils.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,19 +25,16 @@ import java.util.List;
 public class PotentialCustomerController extends BaseController {
 
     @Autowired
-    private ICustomerService customerService;
+    private CustomerService customerService;
 
     @Autowired
-    private IRoleService roleService;
+    private CustomerTransferService transferService;
 
     @Autowired
-    private ICustomerTransferService transferService;
+    private EmployeeService employeeService;
 
     @Autowired
-    private IEmployeeService employeeService;
-
-    @Autowired
-    private ISystemDictionaryItemService systemDictionaryItemService;
+    private SystemDictionaryItemService systemDictionaryItemService;
 
     @RequiredPermission("查看潜在客户")
     @RequestMapping("/potentialCustomer")
@@ -48,13 +42,9 @@ public class PotentialCustomerController extends BaseController {
         return "potentialCustomer";
     }
 
-
     /**
      * 查询所有潜在客户
      * 默认全部显示所有的潜在客户
-     *
-     * @param qo
-     * @return
      */
     @RequestMapping("/potentialCustomer_list")
     @ResponseBody
@@ -71,7 +61,7 @@ public class PotentialCustomerController extends BaseController {
     }
 
     private Employee getCurrentLoginEmployee() {
-        return (Employee) UserContext.get().getSession().getAttribute(UserContext.USER_IN_SESSION);
+        return (Employee)UserContext.get().getSession().getAttribute(UserContext.USER_IN_SESSION);
     }
 
     /**
@@ -96,24 +86,19 @@ public class PotentialCustomerController extends BaseController {
     @RequestMapping("/potentialCustomer_save")
     @ResponseBody
     public AjaxResult save(Customer c) {
-        AjaxResult result = null;
+        AjaxResult result = AjaxResult.createResponse();
         Employee employee = getCurrentLoginEmployee();
         try {
             c.setStatus(0);
             c.setInputtime(new Date());
             c.setInputuser(employee);
             c.setInchargeuser(employee);
-            int effectCount = customerService.save(c);
-            if (effectCount > 0) {
-                result = new AjaxResult(true, "保存成功");
-            } else {
-                result = new AjaxResult(true, "保存失败");
-            }
+            customerService.save(c);
         } catch (Exception e) {
             e.printStackTrace();
-            result = new AjaxResult(true, "保存异常");
+            result.setSuccess(false);
+            result.setMsg("保存失败");
         }
-
         return result;
     }
 
@@ -129,7 +114,7 @@ public class PotentialCustomerController extends BaseController {
         AjaxResult result = null;
         try {
             c.setStatus(0);
-            int effectCount = customerService.update(c);
+            int effectCount = customerService.updateById(c);
 
             if (effectCount > 0) {
                 result = new AjaxResult(true, "更新成功");
@@ -167,7 +152,7 @@ public class PotentialCustomerController extends BaseController {
             CustomerTransfer transfer = new CustomerTransfer();
             transfer.setCustomer(c);
             transfer.setOldseller(c.getInchargeuser());
-            transfer.setNewseller(employeeService.get(inchargeId));
+            transfer.setNewseller(employeeService.selectByPrimaryKey(inchargeId));
             transfer.setTranstime(new Date());
             transfer.setTransuser(employee);
             transfer.setTransreason(reason);
@@ -185,7 +170,6 @@ public class PotentialCustomerController extends BaseController {
         }
         return result;
     }
-
 
     /**
      * 潜在客户开发失败

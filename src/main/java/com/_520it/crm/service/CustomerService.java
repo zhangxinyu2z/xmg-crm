@@ -2,8 +2,7 @@ package com._520it.crm.service;
 
 import com._520it.crm.domain.Customer;
 import com._520it.crm.domain.CustomerTransfer;
-import com._520it.crm.req.CustomerPageReq;
-import com._520it.crm.req.PageReq;
+import com._520it.crm.req.*;
 import com._520it.crm.resp.PageResult;
 
 import java.util.List;
@@ -46,5 +45,21 @@ public interface CustomerService {
 	/**
 	 * 查询所有的正式客户
 	 */
-	PageResult formalList(CustomerPageReq qo);
+	PageResult formalList(CustomerQueryObject qo);
+
+	int updateByChargeId(Long id, Long inchargeuserId);
+
+	int customerAdmit(Long id, Long id1);
+
+	PageResult queryResourcePoolByCondition(CustomerResourcePoolQueryObject qo);
+
+	boolean save(Customer c);
+
+	int updateById(Customer c);
+
+	int updateStatusFalseById(Long id);
+
+	int updateStatusSuccessById(Long id);
+
+	PageResult queryByCondition(PotentialCustomerQueryObject qo);
 }

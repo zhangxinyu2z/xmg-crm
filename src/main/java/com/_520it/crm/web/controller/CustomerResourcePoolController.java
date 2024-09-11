@@ -1,16 +1,12 @@
 package com._520it.crm.web.controller;
 
-import com._520it.crm.domain.Customer;
-import com._520it.crm.domain.Employee;
-import com._520it.crm.domain.SystemDictionaryItem;
-import com._520it.crm.page.AjaxResult;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.CustomerResourcePoolQueryObject;
-import com._520it.crm.service.ICustomerService;
-import com._520it.crm.service.IRoleService;
-import com._520it.crm.service.ISystemDictionaryItemService;
-import com._520it.crm.util.RequiredPermission;
-import com._520it.crm.util.UserContext;
+import com._520it.crm.annotation.RequiredPermission;
+import com._520it.crm.domain.*;
+import com._520it.crm.req.CustomerResourcePoolQueryObject;
+import com._520it.crm.resp.AjaxResult;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.service.*;
+import com._520it.crm.utils.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,14 +24,13 @@ import java.util.List;
 public class CustomerResourcePoolController extends BaseController {
 
     @Autowired
-    private ICustomerService customerService;
+    private CustomerService customerService;
 
     @Autowired
-    private IRoleService roleService;
-
+    private RoleService roleService;
 
     @Autowired
-    private ISystemDictionaryItemService systemDictionaryItemService;
+    private SystemDictionaryItemService systemDictionaryItemService;
 
     @RequiredPermission("查看客户资源池")
     @RequestMapping("/customerResourcePool")
@@ -45,6 +40,7 @@ public class CustomerResourcePoolController extends BaseController {
 
     /**
      * 资源池客户列表
+     *
      * @param qo
      * @return
      */
@@ -52,7 +48,7 @@ public class CustomerResourcePoolController extends BaseController {
     @ResponseBody
     public PageResult list(CustomerResourcePoolQueryObject qo) {
         PageResult result = null;
-        Employee e = (Employee) UserContext.get().getSession().getAttribute(UserContext.USER_IN_SESSION);
+        Employee e = (Employee)UserContext.get().getSession().getAttribute(UserContext.USER_IN_SESSION);
         try {
             qo.setUserId(e.getId());
             result = customerService.queryResourcePoolByCondition(qo);
@@ -72,7 +68,7 @@ public class CustomerResourcePoolController extends BaseController {
     @RequestMapping("/customerResourcePool_save")
     @ResponseBody
     public AjaxResult save(Customer c) {
-        Employee employee = (Employee) UserContext.get().getSession().getAttribute(UserContext.USER_IN_SESSION);
+        Employee employee = (Employee)UserContext.get().getSession().getAttribute(UserContext.USER_IN_SESSION);
 
         AjaxResult result = null;
         try {
@@ -80,13 +76,7 @@ public class CustomerResourcePoolController extends BaseController {
             c.setInputtime(new Date());
             c.setInputuser(employee);
             c.setInchargeuser(employee);
-            int effectCount = customerService.save(c);
-
-            if (effectCount > 0) {
-                result = new AjaxResult(true, "保存成功");
-            } else {
-                result = new AjaxResult(true, "保存失败");
-            }
+            customerService.save(c);
         } catch (Exception e) {
             e.printStackTrace();
             result = new AjaxResult(true, "保存异常");
@@ -98,13 +88,13 @@ public class CustomerResourcePoolController extends BaseController {
     @RequestMapping("/customerResourcePool_update")
     @ResponseBody
     public AjaxResult update(Customer c) {
-//        Employee employee = (Employee) UserContext.getLocalRequest().getSession().getAttribute(UserContext
-//        .USER_IN_SESSION);
+        //        Employee employee = (Employee) UserContext.getLocalRequest().getSession().getAttribute(UserContext
+        //        .USER_IN_SESSION);
 
         AjaxResult result = null;
         try {
             c.setStatus(0);
-            int effectCount = customerService.update(c);
+            int effectCount = customerService.updateById(c);
 
             if (effectCount > 0) {
                 result = new AjaxResult(true, "更新成功");
@@ -119,11 +109,10 @@ public class CustomerResourcePoolController extends BaseController {
         return result;
     }
 
-
     @RequestMapping("/customer_admit")
     @ResponseBody
     public AjaxResult admit(Long id) {
-        Employee employee = (Employee) UserContext.get().getSession().getAttribute(UserContext.USER_IN_SESSION);
+        Employee employee = (Employee)UserContext.get().getSession().getAttribute(UserContext.USER_IN_SESSION);
 
         AjaxResult result = null;
         try {
@@ -141,6 +130,5 @@ public class CustomerResourcePoolController extends BaseController {
 
         return result;
     }
-
 
 }

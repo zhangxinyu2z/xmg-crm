@@ -1,8 +1,8 @@
 package com._520it.crm.service;
 
 import com._520it.crm.domain.Guarantee;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
+import com._520it.crm.resp.PageResult;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ public interface IGuaranteeService {
      * @param qo
      * @return
      */
-    PageResult queryByCondition(QueryObject qo);
+    PageResult queryByCondition(PageReq qo);
 
     /**
      * 修改延保时间

@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 @Setter @Getter
-public class VacateQueryObject extends QueryObject{
+public class VacateQueryObject extends PageReq{
 
 	private int state = -1 ;
     private String keyword; // 关键字查询

@@ -1,31 +1,25 @@
 package com._520it.crm.web.controller;
 
+import com._520it.crm.annotation.RequiredPermission;
 import com._520it.crm.domain.*;
-import com._520it.crm.page.AjaxResult;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.ContractQueryObject;
+import com._520it.crm.req.ContractQueryObject;
+import com._520it.crm.resp.AjaxResult;
+import com._520it.crm.resp.PageResult;
 import com._520it.crm.service.IContractService;
 import com._520it.crm.service.IGuaranteeService;
-import com._520it.crm.util.RequiredPermission;
-import com._520it.crm.util.UserContext;
+import com._520it.crm.utils.UserContext;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * 客户签订（定金）订单，如果确定购买公司产品，需要签订购买合同.

@@ -1,8 +1,8 @@
 package com._520it.crm.service;
 
 import com._520it.crm.domain.NetworkDisk;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.NetworkDiskQueryObject;
+import com._520it.crm.req.NetworkDiskQueryObject;
+import com._520it.crm.resp.PageResult;
 
 /**
  *

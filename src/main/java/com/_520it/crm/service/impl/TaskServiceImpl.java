@@ -1,21 +1,18 @@
 package com._520it.crm.service.impl;
 
-import com._520it.crm.domain.Department;
-import com._520it.crm.domain.Employee;
-import com._520it.crm.domain.Task;
+import com._520it.crm.domain.*;
 import com._520it.crm.mapper.TaskMapper;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.TaskQueryObject;
-import com._520it.crm.service.IDepartmentService;
+import com._520it.crm.req.TaskQueryObject;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.service.DepartmentService;
 import com._520it.crm.service.ITaskService;
-import com._520it.crm.util.UserContext;
+import com._520it.crm.utils.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class TaskServiceImpl implements ITaskService {
@@ -23,7 +20,7 @@ public class TaskServiceImpl implements ITaskService {
 	private TaskMapper dao;
 	
 	@Autowired
-	private IDepartmentService departmentService;
+	private DepartmentService departmentService;
 
 	@Override
 	public int save(Task task) {

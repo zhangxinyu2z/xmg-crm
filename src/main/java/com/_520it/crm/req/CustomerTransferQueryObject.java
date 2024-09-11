@@ -15,7 +15,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class CustomerTransferPageReq extends PageReq {
+public class CustomerTransferQueryObject extends PageReq {
 	/**
 	 * 客户姓名
 	 */

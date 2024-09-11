@@ -1,7 +1,7 @@
 package com._520it.crm.mapper;
 
 import com._520it.crm.domain.Salary;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
 
 import java.util.List;
 
@@ -19,8 +19,8 @@ public interface SalaryMapper {
 	List<Salary> querySalaryByEid(Long id);
 
 	//查询全部工资
-	List<Salary> queryByCondition(QueryObject qo);
+	List<Salary> queryByCondition(PageReq qo);
 	//查询全部工资条数
-	Long queryByConditionCount(QueryObject qo);
+	Long queryByConditionCount(PageReq qo);
 
 }

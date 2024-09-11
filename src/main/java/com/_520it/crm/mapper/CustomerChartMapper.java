@@ -2,20 +2,20 @@ package com._520it.crm.mapper;
 
 import com._520it.crm.domain.Customer;
 import com._520it.crm.domain.CustomerVO;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
 
 import java.util.List;
 
 public interface CustomerChartMapper {
 
-    List<Customer> queryByCondition(QueryObject qo);
+    List<Customer> queryByCondition(PageReq qo);
 
-    Long queryByConditionCount(QueryObject qo);
+    Long queryByConditionCount(PageReq qo);
 
 
-    List<String> selectTimeYear(QueryObject qo);
+    List<String> selectTimeYear(PageReq qo);
 
-    List<Long> selectAmountYear(QueryObject qo);
+    List<Long> selectAmountYear(PageReq qo);
 
-    List<CustomerVO> selectPie(QueryObject qo);
+    List<CustomerVO> selectPie(PageReq qo);
 }

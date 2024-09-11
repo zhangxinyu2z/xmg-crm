@@ -3,14 +3,10 @@ package com._520it.crm.service.impl;
 import com._520it.crm.domain.Employee;
 import com._520it.crm.domain.Salary;
 import com._520it.crm.mapper.SalaryMapper;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
+import com._520it.crm.resp.PageResult;
 import com._520it.crm.service.ISalaryService;
-import jxl.Cell;
-import jxl.CellType;
-import jxl.DateCell;
-import jxl.Sheet;
-import jxl.Workbook;
+import jxl.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,7 +49,7 @@ public class SalaryServiceImpl implements ISalaryService {
     }
 
     @Override
-    public PageResult queryByCondition(QueryObject qo) {
+    public PageResult queryByCondition(PageReq qo) {
         // 根据查询条件查询出总条数
         Long count = dao.queryByConditionCount(qo);
         if (count == 0) {

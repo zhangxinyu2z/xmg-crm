@@ -1,20 +1,13 @@
 package com._520it.crm.service.impl;
 
-import com._520it.crm.domain.Attendance;
-import com._520it.crm.domain.CheckIn;
-import com._520it.crm.domain.Employee;
+import com._520it.crm.domain.*;
 import com._520it.crm.mapper.AttendanceMapper;
 import com._520it.crm.mapper.EmployeeMapper;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
+import com._520it.crm.resp.PageResult;
 import com._520it.crm.service.IAttendanceService;
 import jxl.Workbook;
-import jxl.write.Alignment;
-import jxl.write.Label;
-import jxl.write.VerticalAlignment;
-import jxl.write.WritableCellFormat;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
+import jxl.write.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -111,7 +104,7 @@ public class AttendanceServiceImpl implements IAttendanceService {
      * @return
      */
     @Override
-    public PageResult queryByCondition(QueryObject qo) {
+    public PageResult queryByCondition(PageReq qo) {
         // 根据查询条件查询出总条数
         Long count = dao.queryByConditionCount(qo);
         // 总条数为0,返回空的结果集

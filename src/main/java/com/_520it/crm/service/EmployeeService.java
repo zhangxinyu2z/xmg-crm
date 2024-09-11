@@ -2,7 +2,7 @@ package com._520it.crm.service;
 
 import com._520it.crm.domain.Employee;
 import com._520it.crm.resp.PageResult;
-import com._520it.crm.req.EmployeePageReq;
+import com._520it.crm.req.EmployeeQueryObject;
 
 import javax.servlet.ServletOutputStream;
 import java.util.List;
@@ -31,7 +31,7 @@ public interface EmployeeService {
 	 * @param queryObject
 	 * @return
 	 */
-	PageResult queryForPage(EmployeePageReq queryObject);
+	PageResult queryForPage(EmployeeQueryObject queryObject);
 
 	/**
 	 * 修改员工状态

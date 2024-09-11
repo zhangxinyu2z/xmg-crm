@@ -1,10 +1,10 @@
 package com._520it.crm.web.controller;
 
-import com._520it.crm.page.AjaxResult;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.ClewQueryObject;
+import com._520it.crm.req.ClewQueryObject;
+import com._520it.crm.resp.AjaxResult;
+import com._520it.crm.resp.PageResult;
 import com._520it.crm.service.IClewService;
-import com._520it.crm.util.StringUtils;
+import com._520it.crm.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

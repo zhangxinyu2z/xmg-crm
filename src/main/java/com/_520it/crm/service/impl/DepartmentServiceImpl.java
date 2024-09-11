@@ -1,16 +1,14 @@
 package com._520it.crm.service.impl;
 
-import java.util.Collections;
-import java.util.List;
-
+import com._520it.crm.domain.Department;
+import com._520it.crm.mapper.DepartmentMapper;
+import com._520it.crm.req.DepartmentQueryObject;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com._520it.crm.domain.Department;
-import com._520it.crm.mapper.DepartmentMapper;
-import com._520it.crm.resp.PageResult;
-import com._520it.crm.req.DepartmentPageReq;
-import com._520it.crm.service.DepartmentService;
+import java.util.List;
 
 /**
  * @author zhang xinyu
@@ -55,13 +53,13 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 
 	@Override
-	public PageResult queryForPage(DepartmentPageReq qo) {
+	public PageResult queryForPage(DepartmentQueryObject qo) {
 		Long count = departmentDao.queryForPageCount(qo);
 		if (count == 0) {
-			return new PageResult(0, Collections.EMPTY_LIST);
+			return PageResult.EMPTY;
 		}
 		List<Department> departmentList = departmentDao.queryForPage(qo);
-		return new PageResult(count.intValue(), departmentList);
+		return new PageResult(count, departmentList);
 	}
 
 	/* (non-Javadoc)
@@ -79,6 +77,16 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Override
 	public void save(Department department) {
 		departmentDao.insert(department);
+	}
+
+	@Override
+	public List<Department> listAll() {
+		return departmentDao.selectAll();
+	}
+
+	@Override
+	public List<Department> getByMid(Long id) {
+		return departmentDao.getByMid(id);
 	}
 
 }

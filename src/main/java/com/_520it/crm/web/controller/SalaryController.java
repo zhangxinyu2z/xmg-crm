@@ -2,12 +2,12 @@ package com._520it.crm.web.controller;
 
 import com._520it.crm.domain.Employee;
 import com._520it.crm.domain.Salary;
-import com._520it.crm.page.AjaxResult;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.SalaryQueryObejct;
+import com._520it.crm.req.SalaryQueryObejct;
+import com._520it.crm.resp.AjaxResult;
+import com._520it.crm.resp.PageResult;
 import com._520it.crm.service.ISalaryService;
-import com._520it.crm.util.PermissionUtils;
-import com._520it.crm.util.UserContext;
+import com._520it.crm.utils.PermissionUtils;
+import com._520it.crm.utils.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

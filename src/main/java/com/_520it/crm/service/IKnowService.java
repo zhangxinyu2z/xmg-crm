@@ -1,8 +1,8 @@
 package com._520it.crm.service;
 
 import com._520it.crm.domain.Know;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.KnowQueryObject;
+import com._520it.crm.req.KnowQueryObject;
+import com._520it.crm.resp.PageResult;
 
 import java.util.List;
 

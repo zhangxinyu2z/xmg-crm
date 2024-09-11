@@ -1,8 +1,8 @@
 package com._520it.crm.service;
 
 import com._520it.crm.domain.CheckIn;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
+import com._520it.crm.resp.PageResult;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public interface ICheckInService {
     //从数据库中查询出所有数据
     List<CheckIn> listAll();
 
-    PageResult queryByCondition(QueryObject qo);
+    PageResult queryByCondition(PageReq qo);
 
     /**
      * 普通员工考勤查询

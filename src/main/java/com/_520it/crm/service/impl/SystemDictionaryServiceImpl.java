@@ -1,16 +1,14 @@
 package com._520it.crm.service.impl;
 
-import java.util.Collections;
-import java.util.List;
-
+import com._520it.crm.domain.SystemDictionary;
+import com._520it.crm.mapper.SystemDictionaryMapper;
+import com._520it.crm.req.PageReq;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.service.SystemDictionaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com._520it.crm.domain.SystemDictionary;
-import com._520it.crm.mapper.SystemDictionaryMapper;
-import com._520it.crm.resp.PageResult;
-import com._520it.crm.req.PageReq;
-import com._520it.crm.service.SystemDictionaryService;
+import java.util.List;
 
 @Service
 public class SystemDictionaryServiceImpl implements SystemDictionaryService {
@@ -41,10 +39,10 @@ public class SystemDictionaryServiceImpl implements SystemDictionaryService {
 	public PageResult queryForPage(PageReq qo) {
 		Long count = systemDictionaryDao.queryCount();
 		if(count == 0) {
-			return new PageResult(0, Collections.EMPTY_LIST);
+			return PageResult.EMPTY;
 		} 
 		List<SystemDictionary> records = systemDictionaryDao.queryForPage(qo);
-		return new PageResult(count.intValue(), records);
+		return new PageResult(count, records);
 	}
 
 	@Override

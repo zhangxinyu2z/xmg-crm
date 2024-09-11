@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Setter
 @Getter
-public class CustomerChartQueryObject extends QueryObject {
+public class CustomerChartQueryObject extends PageReq {
     private Long userId;
     private String keyword;
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")

@@ -1,8 +1,8 @@
 package com._520it.crm.service;
 
 import com._520it.crm.domain.Task;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.TaskQueryObject;
+import com._520it.crm.req.TaskQueryObject;
+import com._520it.crm.resp.PageResult;
 
 import java.util.List;
 

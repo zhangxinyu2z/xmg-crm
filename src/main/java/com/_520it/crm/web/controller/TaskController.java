@@ -1,22 +1,19 @@
 package com._520it.crm.web.controller;
 
+import com._520it.crm.annotation.RequiredPermission;
 import com._520it.crm.domain.Employee;
 import com._520it.crm.domain.Task;
-import com._520it.crm.page.AjaxResult;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.TaskQueryObject;
-import com._520it.crm.service.IDepartmentService;
+import com._520it.crm.req.TaskQueryObject;
+import com._520it.crm.resp.AjaxResult;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.service.DepartmentService;
 import com._520it.crm.service.ITaskService;
-import com._520it.crm.util.RequiredPermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
@@ -35,7 +32,7 @@ public class TaskController {
     private ITaskService taskService;
 
     @Autowired
-    private IDepartmentService departmentService;
+    private DepartmentService departmentService;
 
     @RequestMapping("/task")
     public String index() {

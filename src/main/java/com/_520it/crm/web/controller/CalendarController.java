@@ -1,8 +1,8 @@
 package com._520it.crm.web.controller;
 
 import com._520it.crm.domain.Calendar;
-import com._520it.crm.page.AjaxResult;
-import com._520it.crm.query.CalendarQueryObject;
+import com._520it.crm.req.CalendarQueryObject;
+import com._520it.crm.resp.AjaxResult;
 import com._520it.crm.service.ICalendarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

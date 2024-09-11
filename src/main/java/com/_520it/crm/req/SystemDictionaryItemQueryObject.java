@@ -9,7 +9,7 @@ import lombok.Setter;
  * @date 2021/06/26
  */
 @Setter@Getter
-public class SystemDictionaryItemPageReq extends PageReq {
+public class SystemDictionaryItemQueryObject extends PageReq {
 	/**
 	 * 数据字典项id
 	 */

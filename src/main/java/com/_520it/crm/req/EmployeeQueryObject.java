@@ -11,7 +11,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class EmployeePageReq extends PageReq {
+public class EmployeeQueryObject extends PageReq {
 
 	/** 员工高级查询关键字 */
 	private String keyword;

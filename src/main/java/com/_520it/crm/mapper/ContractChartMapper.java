@@ -2,21 +2,21 @@ package com._520it.crm.mapper;
 
 import com._520it.crm.domain.Contract;
 import com._520it.crm.domain.ContractChartVO;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
 
 import java.util.List;
 
 public interface ContractChartMapper {
 
-    List<Contract> selectByCondition(QueryObject qo);
+    List<Contract> selectByCondition(PageReq qo);
 
-    Long selectByConditionCount(QueryObject qo);
+    Long selectByConditionCount(PageReq qo);
 
-    List<String> selectTimeYear(QueryObject qo);
+    List<String> selectTimeYear(PageReq qo);
 
-    List<Long> selectAmountYear(QueryObject qo);
+    List<Long> selectAmountYear(PageReq qo);
 
-    List<ContractChartVO> selectPie(QueryObject qo);
+    List<ContractChartVO> selectPie(PageReq qo);
 
 
 }

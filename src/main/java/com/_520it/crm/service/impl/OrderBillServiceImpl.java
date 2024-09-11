@@ -2,8 +2,8 @@ package com._520it.crm.service.impl;
 
 import com._520it.crm.domain.OrderBill;
 import com._520it.crm.mapper.OrderBillMapper;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
+import com._520it.crm.resp.PageResult;
 import com._520it.crm.service.IOrderBillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,7 +46,7 @@ public class OrderBillServiceImpl implements IOrderBillService {
     }
 
     @Override
-    public PageResult queryByCondition(QueryObject qo) {
+    public PageResult queryByCondition(PageReq qo) {
         Long count = dao.queryByConditionCount(qo);
         if(count > 0){
             List<OrderBill> rows = dao.queryByCondition(qo);

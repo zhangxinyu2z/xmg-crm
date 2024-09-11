@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Setter
 @Getter
-public class TaskQueryObject extends QueryObject {
+public class TaskQueryObject extends PageReq {
     private Long handleUserId;
     private String keyword;
     @DateTimeFormat(pattern = "yyyy-MM-dd")

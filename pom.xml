@@ -14,6 +14,9 @@
         <org.springframework.version>4.2.3.RELEASE</org.springframework.version>
         <org.mybatis.version>3.2.3</org.mybatis.version>
         <mysql.version>8.0.25</mysql.version>
+        <!--4.10.4-->
+        <!--超出该版本不兼容ik-analyzer-->
+        <lucene.verison>4.10.4</lucene.verison>
     </properties>
 
     <dependencies>
@@ -231,14 +234,20 @@
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-core</artifactId>
-            <version>4.10.4</version>
+            <version>${lucene.verison}</version>
         </dependency>
         <!-- lucene高亮相关的包 -->
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-highlighter</artifactId>
-            <version>4.10.4</version>
+            <version>${lucene.verison}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-queryparser</artifactId>
+            <version>${lucene.verison}</version>
+        </dependency>
+
         <!-- IK：https://github.com/wks/ik-analyzer，需要手动安装到本地maven仓库 -->
 <!--        <dependency>
             <groupId>org.wltea.analyzer</groupId>
@@ -246,10 +255,11 @@
             <version>2012FF_u1</version>
         </dependency>-->
         <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-queryparser</artifactId>
-            <version>4.10.4</version>
+            <groupId>org.wltea.ik-analyzer</groupId>
+            <artifactId>ik-analyzer</artifactId>
+            <version>2012FF_u1</version>
         </dependency>
+
 
         <!--cxf-->
         <dependency>

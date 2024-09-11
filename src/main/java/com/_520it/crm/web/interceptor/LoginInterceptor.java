@@ -1,7 +1,7 @@
 package com._520it.crm.web.interceptor;
 
 import com._520it.crm.domain.Employee;
-import com._520it.crm.utils.PermissionUtil;
+import com._520it.crm.utils.PermissionUtils;
 import com._520it.crm.utils.UserContext;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.method.HandlerMethod;
@@ -42,7 +42,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 			// 拼接权限表达式（包名+类名:接口路径名）：com._520it.crm.web.controller.EmployeeController:employee_list
 			HandlerMethod handlerMethod = (HandlerMethod)handler;
 			String function = handlerMethod.getBean().getClass().getName() + ":" + handlerMethod.getMethod().getName();
-			boolean result = PermissionUtil.checkPermission(function);
+			boolean result = PermissionUtils.checkPermission(function);
 			if (result) {
 				return true;
 			} else {

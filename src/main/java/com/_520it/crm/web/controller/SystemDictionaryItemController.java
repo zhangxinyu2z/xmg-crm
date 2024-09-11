@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com._520it.crm.domain.SystemDictionaryItem;
 import com._520it.crm.service.SystemDictionaryItemService;
-import com._520it.crm.resp.AJAXResult;
+import com._520it.crm.resp.AjaxResult;
 
 /**
  * @author xinyu
@@ -22,42 +22,42 @@ public class SystemDictionaryItemController {
 	
 	@RequestMapping("/sysDic_add")
 	@ResponseBody
-	public AJAXResult add(SystemDictionaryItem dicItem) {
-		AJAXResult result = null;
+	public AjaxResult add(SystemDictionaryItem dicItem) {
+		AjaxResult result = null;
 		try {
 			dicItem.setState(false);
 			systemDictionaryItemService.insert(dicItem);
-			result= new AJAXResult(true,"添加成功");
+			result= new AjaxResult(true,"添加成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			result = new AJAXResult("添加失败，请联系管理员");
+			result = new AjaxResult("添加失败，请联系管理员");
 		}
 		return result;
 	}
 	@RequestMapping("/sysDic_update")
 	@ResponseBody
-	public AJAXResult update(SystemDictionaryItem dicItem) {
-		AJAXResult result = null;
+	public AjaxResult update(SystemDictionaryItem dicItem) {
+		AjaxResult result = null;
 		try {
 			systemDictionaryItemService.updateByPrimaryKey(dicItem);
-			result= new AJAXResult(true,"添加成功");
+			result= new AjaxResult(true,"添加成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			result = new AJAXResult("添加失败，请联系管理员");
+			result = new AjaxResult("添加失败，请联系管理员");
 		}
 		return result;
 	}
 	
 	@RequestMapping("/sysDic_forbidden")
 	@ResponseBody
-	public AJAXResult forbidden(Long id) {
-		AJAXResult result = null;
+	public AjaxResult forbidden(Long id) {
+		AjaxResult result = null;
 		try {
 			systemDictionaryItemService.forbiddenDictionaryItem(id);
-			result= new AJAXResult(true,"操作成功");
+			result= new AjaxResult(true,"操作成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			result = new AJAXResult("操作失败，请联系管理员");
+			result = new AjaxResult("操作失败，请联系管理员");
 		}
 		return result;
 	}

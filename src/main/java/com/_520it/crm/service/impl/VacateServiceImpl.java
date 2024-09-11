@@ -2,8 +2,8 @@ package com._520it.crm.service.impl;
 
 import com._520it.crm.domain.Vacate;
 import com._520it.crm.mapper.VacateMapper;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
+import com._520it.crm.resp.PageResult;
 import com._520it.crm.service.IVacateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,7 +56,7 @@ public class VacateServiceImpl implements IVacateService {
     }
 
     @Override
-    public PageResult queryByCondition(QueryObject qo) {
+    public PageResult queryByCondition(PageReq qo) {
         // 根据查询条件查询出总条数
         Long count = dao.queryByConditionCount(qo);
         if (count == 0) {
@@ -69,7 +69,7 @@ public class VacateServiceImpl implements IVacateService {
     }
 
     @Override
-    public PageResult queryVacateByEid(QueryObject qo) {
+    public PageResult queryVacateByEid(PageReq qo) {
         // 根据查询条件查询出总条数
         Long count = dao.queryVacateByEidCount(qo);
         if (count == 0) {

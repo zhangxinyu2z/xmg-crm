@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * 客户知识库
+ *
  * @author
  */
 @Controller
@@ -18,14 +19,11 @@ public class KnowledgeController {
     @Autowired
     private IKnowledgeMenuService knowledgeMenuService;
 
-    //界面
     @RequestMapping("/knowledge")
     public String index() {
         return "knowledge";
-
     }
 
-    //菜单列表
     @RequestMapping("/knowledgeMenu")
     @ResponseBody
     public List<KnowledgeMenu> list() {
@@ -33,6 +31,5 @@ public class KnowledgeController {
         result = knowledgeMenuService.queryKnowledgeMenu();
         return result;
     }
-
 
 }

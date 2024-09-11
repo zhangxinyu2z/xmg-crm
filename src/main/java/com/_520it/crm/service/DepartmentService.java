@@ -1,10 +1,10 @@
 package com._520it.crm.service;
 
-import java.util.List;
-
 import com._520it.crm.domain.Department;
+import com._520it.crm.req.DepartmentQueryObject;
 import com._520it.crm.resp.PageResult;
-import com._520it.crm.req.DepartmentPageReq;
+
+import java.util.List;
 
 public interface DepartmentService {
 	int deleteByPrimaryKey(Long id);
@@ -27,7 +27,7 @@ public interface DepartmentService {
 	 * @param qo
 	 * @return
 	 */
-	PageResult queryForPage(DepartmentPageReq qo);
+	PageResult queryForPage(DepartmentQueryObject qo);
 
 	/**
 	 * @param department
@@ -39,4 +39,7 @@ public interface DepartmentService {
 	 */
 	void save(Department department);
 
+	List<Department> listAll();
+
+	List<Department> getByMid(Long id);
 }

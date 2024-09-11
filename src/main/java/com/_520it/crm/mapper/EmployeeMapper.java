@@ -1,7 +1,7 @@
 package com._520it.crm.mapper;
 
 import com._520it.crm.domain.Employee;
-import com._520it.crm.req.EmployeePageReq;
+import com._520it.crm.req.EmployeeQueryObject;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -30,12 +30,12 @@ public interface EmployeeMapper {
 	/**
 	 * 查询分页记录数
 	 */
-	Long queryForPageCount(EmployeePageReq queryObject);
+	Long queryForPageCount(EmployeeQueryObject queryObject);
 
 	/**
 	 * 查询分页数据
 	 */
-	List<Employee> queryForPage(EmployeePageReq queryObject);
+	List<Employee> queryForPage(EmployeeQueryObject queryObject);
 
 	void updateState(long id);
 

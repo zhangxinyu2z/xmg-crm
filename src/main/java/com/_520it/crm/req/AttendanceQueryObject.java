@@ -6,7 +6,7 @@ import lombok.Setter;
 
 
 @Setter @Getter
-public class AttendanceQueryObject extends QueryObject{
+public class AttendanceQueryObject extends PageReq{
 
 	 private String keyword; // 关键字查询
 	

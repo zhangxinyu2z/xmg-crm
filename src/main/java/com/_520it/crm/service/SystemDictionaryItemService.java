@@ -1,10 +1,10 @@
 package com._520it.crm.service;
 
-import java.util.List;
-
 import com._520it.crm.domain.SystemDictionaryItem;
-import com._520it.crm.resp.PageResult;
 import com._520it.crm.req.PageReq;
+import com._520it.crm.resp.PageResult;
+
+import java.util.List;
 
 /**
  * @author xinyu
@@ -38,4 +38,5 @@ public interface SystemDictionaryItemService {
 	 */
 	List<SystemDictionaryItem> queryDicItem(Integer id);
 
+    List<SystemDictionaryItem> queryBySn(String sn);
 }

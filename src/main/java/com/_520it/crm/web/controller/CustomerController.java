@@ -2,10 +2,10 @@ package com._520it.crm.web.controller;
 
 import com._520it.crm.domain.*;
 import com._520it.crm.resp.PageResult;
-import com._520it.crm.req.CustomerPageReq;
-import com._520it.crm.resp.AJAXResult;
+import com._520it.crm.req.CustomerQueryObject;
+import com._520it.crm.resp.AjaxResult;
 import com._520it.crm.service.CustomerService;
-import com._520it.crm.utils.PermissionUtil;
+import com._520it.crm.utils.PermissionUtils;
 import com._520it.crm.utils.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,7 +36,7 @@ public class CustomerController {
 	 */
 	@RequestMapping("/customer_list")
 	@ResponseBody
-	public PageResult list(CustomerPageReq qo) {
+	public PageResult list(CustomerQueryObject qo) {
 		/*
 		 * 用户的角色不同，能查询的信息也有所不同
 		 * 市场专员只能查看自己负责的客户
@@ -47,7 +47,7 @@ public class CustomerController {
 		 * 角色信息由于管理员可以删除，直接通过角色表中判断不严谨，角色一定要分配权限
 		 * 而主管和专员的权限有不同就是主管有移交权限，而市场专员没有
 		 */
-		boolean result = PermissionUtil.checkPermission("com._520it.crm.web.controller.CustomerController:transfer");
+		boolean result = PermissionUtils.checkPermission("com._520it.crm.web.controller.CustomerController:transfer");
 		if (result) {
 			// 拥有该权限，查所有，不通过id
 
@@ -68,14 +68,14 @@ public class CustomerController {
 	 */
 	@RequestMapping("/formalcustomer_list")
 	@ResponseBody
-	public PageResult formalList(CustomerPageReq qo) {
+	public PageResult formalList(CustomerQueryObject qo) {
 		return customerService.formalList(qo);
 	}
 
 	@RequestMapping("/customer_save")
 	@ResponseBody
-	public AJAXResult save(Customer customer) {
-		AJAXResult result = null;
+	public AjaxResult save(Customer customer) {
+		AjaxResult result = null;
 		try {
 			Employee currentUser = (Employee)UserContext.get().getSession().getAttribute(UserContext.USER_IN_SESSION);
 
@@ -84,74 +84,74 @@ public class CustomerController {
 			customer.setInputtime(new Date());
 			// 新增用户状态为潜在客户 sql插入为0
 			customerService.insert(customer);
-			result = new AJAXResult(true, "录入成功");
+			result = new AjaxResult(true, "录入成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			result = new AJAXResult("警告，请联系管理员");
+			result = new AjaxResult("警告，请联系管理员");
 		}
 		return result;
 	}
 
 	@RequestMapping("/customer_update")
 	@ResponseBody
-	public AJAXResult update(Customer customer) {
-		AJAXResult result = null;
+	public AjaxResult update(Customer customer) {
+		AjaxResult result = null;
 		try {
 			// 修改sql,只修改操作的信息，其它的status、user之类的不要修改
 			customerService.updateByPrimaryKey(customer);
-			result = new AJAXResult(true, "修改成功");
+			result = new AjaxResult(true, "修改成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			result = new AJAXResult("警告，请联系管理员");
+			result = new AjaxResult("警告，请联系管理员");
 		}
 		return result;
 	}
 
 	@RequestMapping("/customer_fail")
 	@ResponseBody
-	public AJAXResult fail(Long id) {
-		AJAXResult result = null;
+	public AjaxResult fail(Long id) {
+		AjaxResult result = null;
 		try {
 			customerService.updateStatusById(id, -1);
-			result = new AJAXResult(true, "操作成功");
+			result = new AjaxResult(true, "操作成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			result = new AJAXResult("警告，请联系管理员");
+			result = new AjaxResult("警告，请联系管理员");
 		}
 		return result;
 	}
 
 	@RequestMapping("/customer_become")
 	@ResponseBody
-	public AJAXResult become(Long id) {
-		AJAXResult result = null;
+	public AjaxResult become(Long id) {
+		AjaxResult result = null;
 		try {
 			customerService.updateStatusById(id, 1);
-			result = new AJAXResult(true, "转正成功");
+			result = new AjaxResult(true, "转正成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			result = new AJAXResult("警告，请联系管理员");
+			result = new AjaxResult("警告，请联系管理员");
 		}
 		return result;
 	}
 
 	@RequestMapping("/customer_share")
 	@ResponseBody
-	public AJAXResult transfer(CustomerTransfer ct) {
-		AJAXResult result = null;
+	public AjaxResult transfer(CustomerTransfer ct) {
+		AjaxResult result = null;
 		Employee user = (Employee)UserContext.get().getSession().getAttribute(UserContext.USER_IN_SESSION);
 		if (ct.getOldseller().getId() == ct.getNewseller().getId()) {
-			result = new AJAXResult("您不能移交给原负责人啊");
+			result = new AjaxResult("您不能移交给原负责人啊");
 			return result;
 		}
 		try {
 			// 移交的操作员
 			ct.setTransuser(user);
 			customerService.transfer(ct);
-			result = new AJAXResult(true, "移交成功");
+			result = new AjaxResult(true, "移交成功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			result = new AJAXResult("请联系管理员");
+			result = new AjaxResult("请联系管理员");
 		}
 		return result;
 	}

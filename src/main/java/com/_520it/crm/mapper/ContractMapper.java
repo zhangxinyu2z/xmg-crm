@@ -1,7 +1,7 @@
 package com._520it.crm.mapper;
 
 import com._520it.crm.domain.Contract;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ public interface ContractMapper {
 
     int updateByPrimaryKey(Contract record);
 
-    List<Contract> queryByCondition(QueryObject qo);
+    List<Contract> queryByCondition(PageReq qo);
 
-    Long queryByConditionCount(QueryObject qo);
+    Long queryByConditionCount(PageReq qo);
 
     int checked(Long id);
 

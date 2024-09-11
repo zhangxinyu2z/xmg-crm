@@ -12,7 +12,7 @@ import java.util.Date;
  */
 @Setter
 @Getter
-public class CheckInQueryObject extends QueryObject {
+public class CheckInQueryObject extends PageReq {
     /**
      * 考勤状态
      */

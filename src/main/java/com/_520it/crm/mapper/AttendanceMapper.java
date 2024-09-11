@@ -2,6 +2,7 @@ package com._520it.crm.mapper;
 
 import com._520it.crm.domain.Attendance;
 import com._520it.crm.domain.CheckIn;
+import com._520it.crm.req.PageReq;
 
 import java.util.List;
 
@@ -37,9 +38,9 @@ public interface AttendanceMapper {
 
 	
 	
-	Long queryByConditionCount(QueryObject qo);
+	Long queryByConditionCount(PageReq qo);
 
-	List<CheckIn> queryByCondition(QueryObject qo);
+	List<CheckIn> queryByCondition(PageReq qo);
 
 	Long queryAttendanceByEidCount(Long id);
 

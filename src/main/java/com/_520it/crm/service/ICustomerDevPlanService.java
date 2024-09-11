@@ -1,8 +1,8 @@
 package com._520it.crm.service;
 
 import com._520it.crm.domain.CustomerDevPlan;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
+import com._520it.crm.resp.PageResult;
 
 /**
  * Created by Administrator on 2016/9/20.
@@ -24,13 +24,13 @@ public interface ICustomerDevPlanService {
      * @param qo
      * @return
      */
-    PageResult queryDevPlanByCondition(QueryObject qo);
+    PageResult queryDevPlanByCondition(PageReq qo);
 
     /**
      * 潜在客户计划列表
      * @param qo
      * @return
      */
-    PageResult queryPontentialDevPlanByCondition(QueryObject qo);
+    PageResult queryPontentialDevPlanByCondition(PageReq qo);
 
 }

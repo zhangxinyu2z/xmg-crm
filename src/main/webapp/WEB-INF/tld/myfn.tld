@@ -16,7 +16,7 @@
             用户权限控制
         </description>
         <name>checkPermission</name>
-        <function-class>com._520it.crm.utils.PermissionUtil</function-class>
+        <function-class>com._520it.crm.utils.PermissionUtils</function-class>
         <function-signature>boolean checkPermission(java.lang.String)</function-signature>
         <example>
            ${myFn:checkPermission('')}

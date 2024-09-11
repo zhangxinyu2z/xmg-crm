@@ -10,7 +10,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class NetworkDiskQueryObject extends QueryObject {
+public class NetworkDiskQueryObject extends PageReq {
 
     private String keyword;
 

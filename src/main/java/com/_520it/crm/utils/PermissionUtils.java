@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 @Component
 @Slf4j
-public class PermissionUtil {
+public class PermissionUtils {
 
     private static PermissionService permissionService;
 
@@ -27,7 +27,7 @@ public class PermissionUtil {
      */
     @Autowired
     public void setPermissionService(PermissionService permissionService) {
-        PermissionUtil.permissionService = permissionService;
+        PermissionUtils.permissionService = permissionService;
     }
 
     /**

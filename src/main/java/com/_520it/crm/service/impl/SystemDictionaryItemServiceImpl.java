@@ -1,16 +1,14 @@
 package com._520it.crm.service.impl;
 
-import java.util.Collections;
-import java.util.List;
-
+import com._520it.crm.domain.SystemDictionaryItem;
+import com._520it.crm.mapper.SystemDictionaryItemMapper;
+import com._520it.crm.req.PageReq;
+import com._520it.crm.resp.PageResult;
+import com._520it.crm.service.SystemDictionaryItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com._520it.crm.domain.SystemDictionaryItem;
-import com._520it.crm.mapper.SystemDictionaryItemMapper;
-import com._520it.crm.resp.PageResult;
-import com._520it.crm.req.PageReq;
-import com._520it.crm.service.SystemDictionaryItemService;
+import java.util.List;
 
 @Service
 public class SystemDictionaryItemServiceImpl implements SystemDictionaryItemService {
@@ -21,10 +19,10 @@ public class SystemDictionaryItemServiceImpl implements SystemDictionaryItemServ
 	public PageResult queryItemById(PageReq qo) {
 		Long count = systemDictionaryItemDao.queryCount(qo);
 		if (count == 0) {
-			return new PageResult(0, Collections.EMPTY_LIST);
+			return PageResult.EMPTY;
 		}
 		List<SystemDictionaryItem> itemList = systemDictionaryItemDao.queryForPageById(qo);
-		return new PageResult(count.intValue(), itemList);
+		return new PageResult(count, itemList);
 	}
 
 	@Override
@@ -68,4 +66,8 @@ public class SystemDictionaryItemServiceImpl implements SystemDictionaryItemServ
 		return systemDictionaryItemDao.queryDicItem(id);
 	}
 
+	@Override
+	public List<SystemDictionaryItem> queryBySn(String sn) {
+		return null;
+	}
 }

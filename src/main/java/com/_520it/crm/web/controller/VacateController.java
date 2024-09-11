@@ -2,12 +2,12 @@ package com._520it.crm.web.controller;
 
 import com._520it.crm.domain.Employee;
 import com._520it.crm.domain.Vacate;
-import com._520it.crm.page.AjaxResult;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.VacateQueryObject;
+import com._520it.crm.req.VacateQueryObject;
+import com._520it.crm.resp.AjaxResult;
+import com._520it.crm.resp.PageResult;
 import com._520it.crm.service.IVacateService;
-import com._520it.crm.util.PermissionUtils;
-import com._520it.crm.util.UserContext;
+import com._520it.crm.utils.PermissionUtils;
+import com._520it.crm.utils.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * 请假管理
@@ -89,7 +90,7 @@ public class VacateController {
                 Employee current = (Employee) request.getSession()
                         .getAttribute(UserContext.USER_IN_SESSION);
                 Long id = current.getId();
-                if (vacate.getEmployee().getId() == id) {
+                if (Objects.equals(vacate.getEmployee().getId(), id)) {
                     vacate.setState(0);
                     effectRows = vacateService.save(vacate);
                 } else {

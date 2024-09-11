@@ -1,7 +1,7 @@
 package com._520it.crm.mapper;
 
 import com._520it.crm.domain.CustomerDevPlan;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
 
 import java.util.List;
 
@@ -16,13 +16,13 @@ public interface CustomerDevPlanMapper {
 
     int updateByPrimaryKey(CustomerDevPlan record);
 
-    Long queryDevPlanByConditionCount(QueryObject qo);
+    Long queryDevPlanByConditionCount(PageReq qo);
 
-    List<CustomerDevPlan> queryDevPlanByCondition(QueryObject qo);
+    List<CustomerDevPlan> queryDevPlanByCondition(PageReq qo);
 
-    Long queryPotentialDevPlanByConditionCount(QueryObject qo);
+    Long queryPotentialDevPlanByConditionCount(PageReq qo);
 
-    List<CustomerDevPlan> queryPotentialDevPlanByCondition(QueryObject qo);
+    List<CustomerDevPlan> queryPotentialDevPlanByCondition(PageReq qo);
 
     CustomerDevPlan selectByCustomerId(Long id);
 }

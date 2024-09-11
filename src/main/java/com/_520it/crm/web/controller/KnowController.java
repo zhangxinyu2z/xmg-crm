@@ -1,8 +1,8 @@
 package com._520it.crm.web.controller;
 
 import com._520it.crm.domain.Know;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.KnowQueryObject;
+import com._520it.crm.req.KnowQueryObject;
+import com._520it.crm.resp.PageResult;
 import com._520it.crm.service.IKnowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -102,4 +102,53 @@
 			limit #{start},#{rows}
 		</if>
 	</select>
+
+	<sql id="fieldSql">
+		tran.id,  tran.transTime,tran.transReason,
+          c.id as c_id,c.name as c_name,
+          opuser.id as opuser_id, opuser.username as opuser_name,
+          old.id as old_id, old.username as old_username,
+          new.id as new_id,new.username as new_username
+	</sql>
+
+	<sql id="conditionSql">
+		<where>
+			<if test="keyword !=null">
+				AND c.name like concat('%',#{keyword},'%')
+			</if>
+			<if test="beginDate != null">
+				AND tran.transTime &gt;= #{beginDate}
+			</if>
+			<if test="endDate !=null">
+				AND tran.transTime &lt;= #{endDate}
+			</if>
+		</where>
+	</sql>
+
+	<select id="queryByConditonCount" resultType="long">
+		select
+		count(*)
+		from customertransfer tran
+		LEFT JOIN customer c on tran.customer_id = c.id
+		LEFT JOIN employee opuser on tran.transUser_id = opuser.id
+		LEFT JOIN employee old on tran.oldSeller_id = old.id
+		LEFT JOIN employee new on tran.newSeller_id = new.id
+		<include refid="conditionSql"/>
+		<if test="page != null">
+			limit #{start},#{rows}
+		</if>
+	</select>
+	<select id="queryByCondition" resultMap="BaseResultMap">
+		select
+		<include refid="fieldSql"/>
+		from customertransfer tran
+		LEFT JOIN customer c on tran.customer_id = c.id
+		LEFT JOIN employee opuser on tran.transUser_id = opuser.id
+		LEFT JOIN employee old on tran.oldSeller_id = old.id
+		LEFT JOIN employee new on tran.newSeller_id = new.id
+		<include refid="conditionSql"/>
+		<if test="page != null">
+			limit #{start},#{rows}
+		</if>
+	</select>
 </mapper>

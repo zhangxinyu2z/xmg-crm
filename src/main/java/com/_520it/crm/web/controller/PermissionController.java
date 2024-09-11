@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com._520it.crm.resp.PageResult;
-import com._520it.crm.req.PermissionPageReq;
+import com._520it.crm.req.PermissionQueryObject;
 import com._520it.crm.service.PermissionService;
 
 /**
@@ -20,13 +20,13 @@ public class PermissionController {
 
     @RequestMapping("/permission_list")
     @ResponseBody
-    public PageResult permissionList(PermissionPageReq qo) {
+    public PageResult permissionList(PermissionQueryObject qo) {
         return permissionService.queryForPage(qo);
     }
 
     @RequestMapping("/permission_queryById")
     @ResponseBody
-    public PageResult queryPermissionsById(PermissionPageReq qo) {
+    public PageResult queryPermissionsById(PermissionQueryObject qo) {
         return permissionService.queryForPage(qo);
     }
 }

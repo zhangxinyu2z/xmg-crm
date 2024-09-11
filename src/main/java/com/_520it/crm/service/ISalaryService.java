@@ -1,8 +1,8 @@
 package com._520it.crm.service;
 
 import com._520it.crm.domain.Salary;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
+import com._520it.crm.resp.PageResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public interface ISalaryService {
      * @param qo
      * @return
      */
-    PageResult queryByCondition(QueryObject qo);
+    PageResult queryByCondition(PageReq qo);
 
     /**
      *

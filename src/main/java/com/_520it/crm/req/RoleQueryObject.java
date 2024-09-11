@@ -9,6 +9,6 @@ import lombok.Setter;
  * @date 2021/06/20
  */
 @Setter@Getter
-public class RolePageReq extends PageReq {
+public class RoleQueryObject extends PageReq {
 	private String keyword;
 }

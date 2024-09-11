@@ -1,7 +1,7 @@
 package com._520it.crm.mapper;
 
 import com._520it.crm.domain.CheckIn;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ public interface CheckInMapper {
 
     int updateByPrimaryKey(CheckIn record);
 
-    Long queryByConditionCount(QueryObject qo);
+    Long queryByConditionCount(PageReq qo);
 
-    List<CheckIn> queryByCondition(QueryObject qo);
+    List<CheckIn> queryByCondition(PageReq qo);
 
 
     Long queryCheckInByEidCount(Long id);

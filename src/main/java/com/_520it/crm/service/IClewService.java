@@ -1,9 +1,8 @@
 package com._520it.crm.service;
 
 import com._520it.crm.domain.Clew;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.ClewQueryObject;
-
+import com._520it.crm.req.ClewQueryObject;
+import com._520it.crm.resp.PageResult;
 
 /**
  * @author zhangxinyu

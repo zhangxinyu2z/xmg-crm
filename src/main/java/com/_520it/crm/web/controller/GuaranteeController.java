@@ -1,12 +1,9 @@
 package com._520it.crm.web.controller;
 
-import com._520it.crm.domain.Customer;
-import com._520it.crm.domain.Guarantee;
-import com._520it.crm.domain.GuaranteeItem;
-import com._520it.crm.page.AjaxResult;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.GuaranteeQueryObject;
-import com._520it.crm.service.ICustomerService;
+import com._520it.crm.domain.*;
+import com._520it.crm.req.GuaranteeQueryObject;
+import com._520it.crm.resp.AjaxResult;
+import com._520it.crm.resp.PageResult;
 import com._520it.crm.service.IGuaranteeItemService;
 import com._520it.crm.service.IGuaranteeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +25,7 @@ public class GuaranteeController {
     @Autowired
     private IGuaranteeItemService guaranteeItemService;
     @Autowired
-    private ICustomerService CustomerService;
+    private com._520it.crm.service.CustomerService CustomerService;
 
     @RequestMapping("/guarantee")
     public String index() {

@@ -2,15 +2,13 @@ package com._520it.crm.service.impl;
 
 import com._520it.crm.domain.Guarantee;
 import com._520it.crm.mapper.GuaranteeMapper;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
+import com._520it.crm.resp.PageResult;
 import com._520it.crm.service.IGuaranteeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author zhangxinyu
@@ -54,7 +52,7 @@ public class GuaranteeServiceImpl implements IGuaranteeService {
 
 
     @Override
-    public PageResult queryByCondition(QueryObject qo) {
+    public PageResult queryByCondition(PageReq qo) {
         Long count = dao.selectByConditionCount(qo);
         if (count > 0) {
             List<Guarantee> result = dao.selectByCondition(qo);

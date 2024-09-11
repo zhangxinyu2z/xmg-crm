@@ -169,4 +169,122 @@
 			limit #{start},#{rows}
 		</if>
 	</select>
+
+	<update id="updateByChargeId">
+		update customer set inChargeUser_id = #{inchargeId} where id =#{id} ;
+	</update>
+
+	<update id="updateStatusSuccessById">
+		update customer set status = 1 where id =#{id}
+	</update>
+
+	<update id="customerAdmit">
+		update customer set status = 1 ,inChargeUser_id=#{inchargeId} where id =#{id}
+	</update>
+
+	<update id="moveToResourcePool">
+		update customer set status = 2 ,inChargeUser_id=#{inchargeId} where id =#{id}
+	</update>
+
+	<update id="lostCustomer">
+		update customer set status = -2 ,inChargeUser_id=#{inchargeId} where id =#{id}
+	</update>
+
+	<update id="updateStatusFalseById">
+		update customer set status = -1 where id =#{id}
+	</update>
+
+	<select id="queryResourcePoolByConditionCount" resultType="long">
+		select count(*) from customer c
+		left join employee input on c.inputUser_id = input.id
+		left join employee inchart on c.inChargeUser_id = inchart.id
+		<where>
+			<if test="userId != null">
+				AND inChargeUser_id =#{userId}
+			</if>
+			<if test="status == null">
+				AND c.status = 2
+			</if>
+		</where>
+	</select>
+	<select id="queryResourcePoolByCondition" resultMap="BaseResultMap">
+		select
+		<include refid="fieldSql"/>
+		from customer c
+		left join employee input on c.inputUser_id = input.id
+		left join employee inchart on c.inChargeUser_id = inchart.id
+
+		<where>
+			<if test="userId != null">
+				AND inChargeUser_id =#{userId}
+			</if>
+			<if test="status ==null">
+				AND c.status = 2
+			</if>
+			<include refid="conditionSql"/>
+			order by c.inputTime DESC
+			<if test="page !=null">
+				limit #{start},#{rows}
+			</if>
+		</where>
+	</select>
+	<select id="selectAllCount" resultType="long">
+		select count(*) from customer c
+								 left join employee input on c.inputUser_id = input.id
+			left join employee inchart on c.inChargeUser_id = inchart.id
+	</select>
+
+	<select id="queryByConditionCount" resultType="long">
+		select count(*) from customer c
+		left join employee input on c.inputUser_id = input.id
+		left join employee inchart on c.inChargeUser_id = inchart.id
+		<where>
+			<if test="userId != null">
+				AND inChargeUser_id =#{userId}
+			</if>
+			<if test="status == null">
+				AND c.status = 0
+			</if>
+		</where>
+	</select>
+
+	<sql id="fieldSql">
+		c.id, c.name, c.age, c.gender, c.tel, c.email, c.qq, c.wechat, c.job, c.salaryLevel, c.customerSource,
+        c.inputTime, c.status, c.becomeTime, c.inputUser_id, c.inChargeUser_id,
+        input.id as input_id, input.username as input_name,
+        inchart.id as inchart_id,inchart.username as inchart_name
+	</sql>
+
+	<sql id="conditionSql">
+		<if test="keyword != null">
+			AND (c.name like concat('%',#{keyword},'%') OR c.tel like concat('%',#{keyword},'%'))
+		</if>
+		<if test="status !=null">
+			AND c.status = #{status}
+		</if>
+	</sql>
+
+
+
+	<select id="queryByCondition" resultMap="BaseResultMap">
+		select
+		<include refid="fieldSql"/>
+		from customer c
+		left join employee input on c.inputUser_id = input.id
+		left join employee inchart on c.inChargeUser_id = inchart.id
+		<where>
+			<if test="userId != null">
+				AND inChargeUser_id =#{userId}
+			</if>
+			<if test="status == null">
+				AND c.status = 0
+			</if>
+			<include refid="conditionSql"/>
+			order by c.inputTime DESC
+			<if test="page !=null">
+				limit #{start},#{rows}
+			</if>
+		</where>
+
+	</select>
 </mapper>

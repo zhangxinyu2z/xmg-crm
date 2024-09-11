@@ -1,7 +1,7 @@
 package com._520it.crm.mapper;
 
 import com._520it.crm.domain.Guarantee;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.PageReq;
 
 import java.util.List;
 
@@ -17,9 +17,9 @@ public interface GuaranteeMapper {
     //修改
     int updateByPrimaryKey(Guarantee record);
     //总条数
-    Long selectByConditionCount(QueryObject qo);
+    Long selectByConditionCount(PageReq qo);
     //结果集
-    List<Guarantee> selectByCondition(QueryObject qo);
+    List<Guarantee> selectByCondition(PageReq qo);
     //删除明细
     int  deleteByItems(Long id);
     //修改延保时间

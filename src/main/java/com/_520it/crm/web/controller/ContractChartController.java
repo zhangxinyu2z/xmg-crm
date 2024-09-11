@@ -1,8 +1,8 @@
 package com._520it.crm.web.controller;
 
 import com._520it.crm.domain.ContractChartVO;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.ContractChartQueryObject;
+import com._520it.crm.req.ContractChartQueryObject;
+import com._520it.crm.resp.PageResult;
 import com._520it.crm.service.IContractChartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 年度报表

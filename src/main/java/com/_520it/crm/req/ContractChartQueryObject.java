@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 @Setter@Getter
-public class ContractChartQueryObject extends QueryObject {
+public class ContractChartQueryObject extends PageReq {
 
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @DateTimeFormat(pattern="yyyy-MM-dd")

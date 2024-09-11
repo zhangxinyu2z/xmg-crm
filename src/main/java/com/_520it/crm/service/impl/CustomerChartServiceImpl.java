@@ -3,11 +3,11 @@ package com._520it.crm.service.impl;
 import com._520it.crm.domain.Customer;
 import com._520it.crm.domain.CustomerVO;
 import com._520it.crm.mapper.CustomerChartMapper;
-import com._520it.crm.page.PageResult;
-import com._520it.crm.query.CustomerChartQueryObject;
-import com._520it.crm.query.QueryObject;
+import com._520it.crm.req.CustomerChartQueryObject;
+import com._520it.crm.req.PageReq;
+import com._520it.crm.resp.PageResult;
 import com._520it.crm.service.ICustomerChartService;
-import com._520it.crm.util.PermissionUtils;
+import com._520it.crm.utils.PermissionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ public class CustomerChartServiceImpl implements ICustomerChartService {
 
 
     @Override
-    public List<String> selectTimeYear(QueryObject qo) {
+    public List<String> selectTimeYear(PageReq qo) {
         if (PermissionUtils.checkPermission("com._520it.crm.web.controller.CustomerController:all")) {
             CustomerChartQueryObject chartQo = (CustomerChartQueryObject) qo;
             chartQo.setUserId(null);
@@ -29,7 +29,8 @@ public class CustomerChartServiceImpl implements ICustomerChartService {
     }
 
 
-    public List<Long> selectAmountYear(QueryObject qo) {
+    @Override
+    public List<Long> selectAmountYear(PageReq qo) {
         if (PermissionUtils.checkPermission("com._520it.crm.web.controller.CustomerController:all")) {
             CustomerChartQueryObject chartQo = (CustomerChartQueryObject) qo;
             chartQo.setUserId(null);
@@ -38,7 +39,7 @@ public class CustomerChartServiceImpl implements ICustomerChartService {
     }
 
     @Override
-    public List<CustomerVO> selectPie(QueryObject qo) {
+    public List<CustomerVO> selectPie(PageReq qo) {
         if (PermissionUtils.checkPermission("com._520it.crm.web.controller.CustomerController:all")) {
             CustomerChartQueryObject chartQo = (CustomerChartQueryObject) qo;
             chartQo.setUserId(null);
@@ -48,7 +49,7 @@ public class CustomerChartServiceImpl implements ICustomerChartService {
 
 
     @Override
-    public PageResult selectByCondition(QueryObject qo) {
+    public PageResult selectByCondition(PageReq qo) {
         if (PermissionUtils.checkPermission("com._520it.crm.web.controller.CustomerController:all")) {
             CustomerChartQueryObject chartQo = (CustomerChartQueryObject) qo;
             chartQo.setUserId(null);

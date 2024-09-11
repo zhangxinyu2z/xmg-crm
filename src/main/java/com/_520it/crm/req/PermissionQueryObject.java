@@ -9,7 +9,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class PermissionPageReq extends PageReq {
+public class PermissionQueryObject extends PageReq {
 	/** 角色id */
 	private Long rid;
 }

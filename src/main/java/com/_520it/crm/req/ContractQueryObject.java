@@ -12,7 +12,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class ContractQueryObject extends QueryObject{
+public class ContractQueryObject extends PageReq{
     private Integer status;
     private String keyword; // 关键字查询
     @DateTimeFormat(pattern = "yyyy-MM-dd")

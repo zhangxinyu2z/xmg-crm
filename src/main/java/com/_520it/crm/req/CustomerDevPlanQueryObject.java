@@ -12,7 +12,7 @@ import java.util.Date;
  */
 @Setter
 @Getter
-public class CustomerDevPlanQueryObject extends QueryObject {
+public class CustomerDevPlanQueryObject extends PageReq {
     private Long userId;
     /** 关键字查询 */
     private String keyword;

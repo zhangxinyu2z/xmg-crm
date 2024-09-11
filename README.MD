@@ -40,3 +40,11 @@
 1.使用tomcat7插件：idea可以在Configurations中新增一个maven配置，在run中填入tomcat7:run，这样就可以debug的方式启动项目。
 2.每个request.getSession()都会创建一个session，若客户端请求携带了服务端传递的jSessionId，那么request.getSession()
 就会获取该sessionId对应的session，否则创建一个新的session
+
+## 分词器
+
+安装jar到本地maven
+
+```mvn
+mvn install:install-file -DgroupId=org.wltea.ik-analyzer -DartifactId=ik-analyzer -Dversion=2012FF_u1 -Dmaven.test.skip=true -Dpackaging=jar -Dfile=C:\Users\daniel\Downloads\IKAnalyzer2012_u1\IKAnalyzer2012.jar
+```

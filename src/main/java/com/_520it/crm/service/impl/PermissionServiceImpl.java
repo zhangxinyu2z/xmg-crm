@@ -8,7 +8,6 @@ import com._520it.crm.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -50,10 +49,10 @@ public class PermissionServiceImpl implements PermissionService {
 	public PageResult queryForPage(PageReq pageReq) {
 		Long count = permissionMapper.queryForPageCount(pageReq);
 		if(count == 0) {
-			return new PageResult(0, Collections.EMPTY_LIST);
+			return PageResult.EMPTY;
 		}
 		List<Permission> resultList = permissionMapper.queryForPage(pageReq);
-		return new PageResult(count.intValue(), resultList);
+		return new PageResult(count, resultList);
 	}
 
 	@Override

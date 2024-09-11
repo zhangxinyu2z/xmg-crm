@@ -3,25 +3,21 @@ package com._520it.crm.service.impl;
 import com._520it.crm.domain.Employee;
 import com._520it.crm.domain.Role;
 import com._520it.crm.mapper.EmployeeMapper;
+import com._520it.crm.req.EmployeeQueryObject;
 import com._520it.crm.resp.PageResult;
-import com._520it.crm.req.EmployeePageReq;
 import com._520it.crm.service.EmployeeService;
 import jxl.Workbook;
 import jxl.format.Alignment;
 import jxl.format.VerticalAlignment;
-import jxl.write.Label;
-import jxl.write.WritableCellFormat;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
+import jxl.write.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.List;
+import java.lang.Boolean;
 
 /**
  * @author zhang xinyu
@@ -83,13 +79,13 @@ public class EmployeeServiceImpl implements EmployeeService {
      * 查询总记录数，如果不为0，根据分页条件查询分页数据
      */
     @Override
-    public PageResult queryForPage(EmployeePageReq queryObject) {
+    public PageResult queryForPage(EmployeeQueryObject queryObject) {
         Long count = employeeDao.queryForPageCount(queryObject);
         if (count == 0) {
-            return new PageResult(0, Collections.EMPTY_LIST);
+            return PageResult.EMPTY;
         }
         List<Employee> employeeList = employeeDao.queryForPage(queryObject);
-        return new PageResult(count.intValue(), employeeList);
+        return new PageResult(count, employeeList);
     }
 
     /**
