@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="myfn" uri="http://www.crm.cn/java/crm" %>
+<%@taglib prefix="myfn" uri="http://crm.520it.com/myfn" %>
 <html>
 <head>
     <title>快速签到</title>

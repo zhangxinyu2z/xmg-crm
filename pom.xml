@@ -15,7 +15,6 @@
         <org.mybatis.version>3.2.3</org.mybatis.version>
         <mysql.version>8.0.25</mysql.version>
         <!--4.10.4-->
-        <!--超出该版本不兼容ik-analyzer-->
         <lucene.verison>4.10.4</lucene.verison>
     </properties>
 

@@ -41,10 +41,12 @@
 2.每个request.getSession()都会创建一个session，若客户端请求携带了服务端传递的jSessionId，那么request.getSession()
 就会获取该sessionId对应的session，否则创建一个新的session
 
-## 分词器
+## lucene（全文检索） 
+
+分词器
 
 安装jar到本地maven
 
 ```mvn
-mvn install:install-file -DgroupId=org.wltea.ik-analyzer -DartifactId=ik-analyzer -Dversion=2012FF_u1 -Dmaven.test.skip=true -Dpackaging=jar -Dfile=C:\Users\daniel\Downloads\IKAnalyzer2012_u1\IKAnalyzer2012.jar
+mvn install:install-file -DgroupId=org.wltea.ik-analyzer -DartifactId=ik-analyzer -Dversion=2012FF_u1 -Dmaven.test.skip=true -Dpackaging=jar -Dfile=D:\c-data\IKAnalyzer2012FF_u1.jar
 ```

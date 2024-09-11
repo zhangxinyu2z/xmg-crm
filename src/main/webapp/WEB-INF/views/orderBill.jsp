@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="myFn" uri="http://www.crm.cn/java/crm" %>
+<%@ taglib prefix="myFn" uri="http://crm.520it.com/myfn" %>
 <html>
 <head>
     <title>订单管理</title>
