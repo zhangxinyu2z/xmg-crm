@@ -101,9 +101,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeDao.queryRoleById(eid);
     }
 
-    /* (non-Javadoc)
-     * @see com._520it.crm.service.EmployeeService#export(javax.servlet.ServletOutputStream)
-     */
     @Override
     public void export(ServletOutputStream outputStream) {
         // 查出所有数据
@@ -180,8 +177,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> queryEmployeeByRole() {
-        return employeeDao.queryEmployeeByRole();
+    public List<Employee> queryEmployeeByRoleId(Long roleId) {
+        return employeeDao.queryEmployeeByRoleId(roleId);
 
     }
 

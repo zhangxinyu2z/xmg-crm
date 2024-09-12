@@ -40,8 +40,7 @@ public class EmployeeController {
     @RequestMapping("/employee_queryRoleById")
     @ResponseBody
     public List<Long> queryByEmployeeId(Long eid) {
-        List<Long> roleIds = employeeService.queryRoleById(eid);
-        return roleIds;
+        return employeeService.queryRoleById(eid);
     }
 
     @RequestMapping("/employee_save")
@@ -148,8 +147,8 @@ public class EmployeeController {
      */
     @RequestMapping("/queryEmployeeByRole")
     @ResponseBody
-    public List<Employee> queryEmployeeByRole(String id) {
-        return employeeService.queryEmployeeByRole();
+    public List<Employee> queryEmployeeByRoleId(Long id) {
+        return employeeService.queryEmployeeByRoleId(id);
     }
 
 }

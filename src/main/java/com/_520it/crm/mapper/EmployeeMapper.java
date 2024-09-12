@@ -42,6 +42,7 @@ public interface EmployeeMapper {
 	/** 插入员工和角色关联信息 */
 	void insertRelation(@Param("eid") Long eid, @Param("rid") Long rid);
 
+	/** 查询用户角色 */
 	List<Long> queryRoleById(Long eid);
 
 	/**
@@ -50,15 +51,7 @@ public interface EmployeeMapper {
 	void deleteRelation(Long id);
 
 	/**
-	 * 有些方法写重复了，之后再修改
-	 * 
-	 * 关联部门表查询出所有员工信息的计数
-	 * @return
-	 */
-	Long selectCount();
-
-	/**
 	 * 查询人事专员角色关联的所有用户
 	 */
-	List<Employee> queryEmployeeByRole();
+	List<Employee> queryEmployeeByRoleId(Long id);
 }

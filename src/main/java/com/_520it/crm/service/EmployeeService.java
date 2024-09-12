@@ -54,6 +54,6 @@ public interface EmployeeService {
 	/**
 	 * 
 	 */
-	List<Employee> queryEmployeeByRole();
+	List<Employee> queryEmployeeByRoleId(Long id);
 
 }

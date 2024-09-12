@@ -1,101 +1,121 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com._520it.crm.mapper.EmployeeMapper">
-	<resultMap id="BaseResultMap" type="com._520it.crm.domain.Employee">
-		<id column="id" property="id" jdbcType="BIGINT" />
-		<result column="username" property="username" jdbcType="VARCHAR" />
-		<result column="realname" property="realname" jdbcType="VARCHAR" />
-		<result column="password" property="password" jdbcType="VARCHAR" />
-		<result column="tel" property="tel" jdbcType="VARCHAR" />
-		<result column="email" property="email" jdbcType="VARCHAR" />
-		<result column="inputtime" property="inputtime" jdbcType="DATE" />
-		<result column="state" property="state" jdbcType="BIT" />
-		<result column="admin" property="admin" jdbcType="BIT" />
-		<association property="dept" javaType="com._520it.crm.domain.Department" columnPrefix="dept_">
-			<id column="id" property="id" />
-			<result column="name" property="name" />
-		</association>
-	</resultMap>
-	
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-		delete from employee
-		where id = #{id,jdbcType=BIGINT}
-	</delete>
-	
-	<delete id="deleteRelation">
-		delete from employee_role where e_id=#{id}
-	</delete>
-	<insert id="insert" parameterType="com._520it.crm.domain.Employee" useGeneratedKeys="true" keyProperty="id">
-		insert into employee (username, realname, password,
-		tel, email, dept_id,
-		inputtime, state,
-		admin)
-		values (#{username,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
-		#{tel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{dept.id,jdbcType=BIGINT},
-		#{inputtime,jdbcType=DATE}, #{state,jdbcType=BIT}, #{admin,jdbcType=BIT})
-	</insert>
-	<insert id="insertRelation">
-		insert into employee_role (e_id,r_id) values (#{eid},#{rid})
-	</insert>
-	<update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.Employee">
-		update employee
-		set username = #{username,jdbcType=VARCHAR},
-		realname = #{realname,jdbcType=VARCHAR},
-		tel = #{tel,jdbcType=VARCHAR},
-		email =
-		#{email,jdbcType=VARCHAR},
-		dept_id = #{dept.id,jdbcType=BIGINT},
-		inputtime = #{inputtime,jdbcType=DATE}
-		where id = #{id,jdbcType=BIGINT}
-	</update>
-	<update id="updateState">
-		update employee set state = 0 where id=#{id}
-	</update>
-	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
-		select id, username, realname, password, tel, email, dept_id, inputtime, state, admin
-		from employee
-		where id =
-		#{id,jdbcType=BIGINT}
-	</select>
-	<select id="selectAll" resultMap="BaseResultMap">
-		select id, username, realname, password, tel, email, dept_id, inputtime, state, admin
-		from employee
-	</select>
-	<select id="getEmployeeForLogin" resultMap="BaseResultMap">
-		select * from employee where username=#{username} and password=#{password}
-	</select>
+    <resultMap id="BaseResultMap" type="com._520it.crm.domain.Employee">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="realname" property="realname" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="tel" property="tel" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="inputtime" property="inputtime" jdbcType="DATE"/>
+        <result column="state" property="state" jdbcType="BIT"/>
+        <result column="admin" property="admin" jdbcType="BIT"/>
+        <association property="dept" javaType="com._520it.crm.domain.Department" columnPrefix="dept_">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+        </association>
+    </resultMap>
 
-	<sql id="wheresql">
-		<where>
-			<if test="keyword != null">
-				(
-				e.username like concat("%",#{keyword},"%") or
-				e.realname like concat("%",#{keyword},"%") or
-				e.tel like concat("%",#{keyword},"%")
-				)
-			</if>
-		</where>
+	<sql id="field">
+		id,username,realname,password,tel,email,dept_id,inputtime,state,admin
 	</sql>
 
-	<select id="queryForPageCount" resultType="long">
-		select count(*) from employee e
-		<include refid="wheresql"></include>
-	</select>
-	<select id="queryForPage" resultMap="BaseResultMap">
-		select e.id, e.username,e.realname,e.tel,e.email,e.inputtime,e.state,e.admin,
-		d.id as dept_id, d.name as dept_name from employee e left join department d on e.dept_id = d.id
-		<include refid="wheresql"></include>
-		<if test="page != null">
-			limit #{start},#{rows}
-		</if>
-	</select>
-	
-	<select id="queryRoleById" resultType="long" >
-		select r_id from employee_role where e_id=#{eid}
-	</select>
-	
-	<select id="queryEmployeeByRole" resultMap="BaseResultMap">
-		select * from employee where employee.id in (select e_id from employee_role where r_id =6) and state = 1
-	</select>
-	
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from employee
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteRelation">
+        delete
+        from employee_role
+        where e_id = #{id}
+    </delete>
+    <insert id="insert" parameterType="com._520it.crm.domain.Employee" useGeneratedKeys="true" keyProperty="id">
+        insert into employee (username, realname, password,
+                              tel, email, dept_id,
+                              inputtime, state,
+                              admin)
+        values (#{username,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+                #{tel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{dept.id,jdbcType=BIGINT},
+                #{inputtime,jdbcType=DATE}, #{state,jdbcType=BIT}, #{admin,jdbcType=BIT})
+    </insert>
+    <insert id="insertRelation">
+        insert into employee_role (e_id, r_id)
+        values (#{eid}, #{rid})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.Employee">
+        update employee
+        set username  = #{username,jdbcType=VARCHAR},
+            realname  = #{realname,jdbcType=VARCHAR},
+            tel       = #{tel,jdbcType=VARCHAR},
+            email     = #{email,jdbcType=VARCHAR},
+            dept_id   = #{dept.id,jdbcType=BIGINT},
+            inputtime = #{inputtime,jdbcType=DATE}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateState">
+        update employee
+        set state = 0
+        where id = #{id}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="field"/>
+        from employee
+        where id =#{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select <include refid="field"/> from employee
+    </select>
+    <select id="getEmployeeForLogin" resultMap="BaseResultMap">
+        select <include refid="field"/>
+        from employee
+        where username = #{username}
+          and password = #{password}
+    </select>
+
+    <sql id="wheresql">
+        <where>
+            <if test="keyword != null">
+                (
+                e.username like concat("%",#{keyword},"%") or
+                e.realname like concat("%",#{keyword},"%") or
+                e.tel like concat("%",#{keyword},"%")
+                )
+            </if>
+        </where>
+    </sql>
+
+    <select id="queryForPageCount" resultType="long">
+        select count(*) from employee e
+        <include refid="wheresql"/>
+    </select>
+    <select id="queryForPage" resultMap="BaseResultMap">
+        select e.id, e.username,e.realname,e.tel,e.email,e.inputtime,e.state,e.admin,
+        d.id as dept_id, d.name as dept_name from employee e left join department d on e.dept_id = d.id
+        <include refid="wheresql"/>
+        <if test="page != null">
+            limit #{start},#{rows}
+        </if>
+    </select>
+
+    <select id="queryRoleById" resultType="long">
+        select r_id
+        from employee_role
+        where e_id = #{eid}
+    </select>
+
+    <select id="queryEmployeeByRoleId" resultMap="BaseResultMap">
+        select e.*
+        from employee e,
+             employee_role er,
+             role r
+        where e.id = er.e_id
+          and r.id = er.r_id
+          and er.r_id = #{id}
+          and e.state = 1
+    </select>
+
 </mapper>
