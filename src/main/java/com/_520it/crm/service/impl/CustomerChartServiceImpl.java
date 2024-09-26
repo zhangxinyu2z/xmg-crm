@@ -49,7 +49,7 @@ public class CustomerChartServiceImpl implements ICustomerChartService {
 
 
     @Override
-    public PageResult selectByCondition(PageReq qo) {
+    public PageResult selectByCondition(CustomerChartQueryObject qo) {
         if (PermissionUtils.checkPermission("com._520it.crm.web.controller.CustomerController:all")) {
             CustomerChartQueryObject chartQo = (CustomerChartQueryObject) qo;
             chartQo.setUserId(null);

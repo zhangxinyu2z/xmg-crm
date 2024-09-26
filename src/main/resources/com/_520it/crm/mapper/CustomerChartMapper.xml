@@ -74,10 +74,11 @@
     e.username as employee_name,e.id as employee_id
     from customer c LEFT JOIN employee e on c.inChargeUser_id=e.id
     <include refid="conditionSql"/>
-    <include refid="sss"/>,c.inChargeUser_id
+    <include refid="sss"/>
     <if test="page!=null">
       limit #{start},#{rows}
     </if>
+
   </select>
 
   <select id="selectTimeYear" resultType="String">

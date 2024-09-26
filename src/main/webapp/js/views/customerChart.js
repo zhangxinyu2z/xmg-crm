@@ -98,19 +98,13 @@ $(function () {
         onSelect: function () {
             var ids = $(this).combobox("getValues");
             if (ids == 'line') {
-
                 window.open("/customerChart_pictrue1", "", "width=500px,height=500px");
-
             }
             if (ids == 'column') {
-
                 window.showModalDialog("/customerChart_pictrue3", "", "dialogWidth=500px;dialogHeight=500px");
-
             }
             if (ids == 'pie') {
-
                 window.showModalDialog("/customerChart_pictrue2", "", "dialogWidth=500px;dialogHeight=500px");
-
             }
 
         }
