@@ -1,12 +1,16 @@
 package com._520it.crm.web.controller;
 
 import com._520it.crm.annotation.RequiredPermission;
-import com._520it.crm.domain.*;
+import com._520it.crm.domain.Customer;
+import com._520it.crm.domain.CustomerTransfer;
+import com._520it.crm.domain.Employee;
 import com._520it.crm.req.CustomerTransferQueryObject;
 import com._520it.crm.req.CustomerTransferVO;
 import com._520it.crm.resp.AjaxResult;
 import com._520it.crm.resp.PageResult;
-import com._520it.crm.service.*;
+import com._520it.crm.service.CustomerService;
+import com._520it.crm.service.CustomerTransferService;
+import com._520it.crm.service.EmployeeService;
 import com._520it.crm.utils.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,11 +51,9 @@ public class CustomerTransferController extends BaseController {
 	@RequestMapping("/customerTransfer_list")
 	@ResponseBody
 	public PageResult list(CustomerTransferQueryObject qo) {
-		PageResult result = null;
-		result = customerTransferService.queryByCondition(qo);
+		PageResult result = customerTransferService.queryPage(qo);
 		return result;
 	}
-
 
 	@RequestMapping("/customerTransfer_save")
 	@ResponseBody

@@ -1,8 +1,7 @@
 package com._520it.crm.mapper;
 
 import com._520it.crm.domain.Customer;
-import com._520it.crm.domain.CustomerTransfer;
-import com._520it.crm.req.*;
+import com._520it.crm.req.CustomerQueryObject;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -21,12 +20,12 @@ public interface CustomerMapper {
     /**
      * 查询当前用户负责的客户
      */
-    List<Customer> queryForPage(PageReq pageReq);
+    List<Customer> queryForPage(CustomerQueryObject pageReq);
 
     /**
      * 查询当前用户负责的客户的数量
      */
-    Long queryCount(PageReq pageReq);
+    Long queryCount(CustomerQueryObject pageReq);
 
     /**
      * 修改当前客户状态
@@ -40,22 +39,9 @@ public interface CustomerMapper {
      *
      * @param ct
      */
-    void updateInChargerUser(CustomerTransfer ct);
+    void updateInChargerUser(@Param("newSellerId")Long newSellerId, @Param("customerId") Long customerId);
 
-    /**
-     * 查询满足条件的所有正式客户的统计数量
-     */
-    Long queryFormalCustomerCount(CustomerQueryObject qo);
-
-    /**
-     * 查询满足条件的所有正式客户
-     *
-     * @param qo
-     * @return
-     */
-    List<Customer> queryFormalCustomer(CustomerQueryObject qo);
-
-    int updateByChargeId(Long id, Long inchargeuserId);
+    int updateByChargeId(@Param("id") Long id, @Param("inchargeId") Long inChargeId);
 
     // 吸纳资源池的用户
     int customerAdmit(@Param("inchargeId") Long inchargeId, @Param("id") Long id);
@@ -67,18 +53,10 @@ public interface CustomerMapper {
 
     Long selectAllCount();
 
-    /*获取正式客户*/
-    //List<Customer> listAllFormalCustomer();
-
-    Long queryResourcePoolByConditionCount(CustomerResourcePoolQueryObject qo);
-
-    List<Customer> queryResourcePoolByCondition(CustomerResourcePoolQueryObject qo);
-
     int updateStatusFalseById(Long id);
 
     int updateStatusSuccessById(Long id);
 
-    Long queryByConditionCount(PotentialCustomerQueryObject qo);
+    List<Customer> listAllFormalCustomer();
 
-    List<Customer> queryByCondition(PotentialCustomerQueryObject qo);
 }

@@ -23,6 +23,8 @@ public class PageResult {
 
 	private Map<String, Object> data = new HashMap();
 
+	public PageResult() {}
+
 	public PageResult(Long total, List rows) {
 		super();
 		this.total = total;

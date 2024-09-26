@@ -259,7 +259,7 @@ $(function () {
                                 // 删除成功后,重新加载数据
                                 orderBillDatagrid.datagrid("load");
                             } else {
-                                $.messager.alert("温馨提示", data.message, "warning");
+                                $.messager.alert("温馨提示", data.msg, "warning");
                             }
                         });
                     }
@@ -317,11 +317,11 @@ $(function () {
                 success: function (data) {
                     data = $.parseJSON(data)
                     if (data.success) {
-                        $.messager.alert("温馨提示", data.message, "info");
+                        $.messager.alert("温馨提示", data.msg, "info");
                         orderBillDialog.dialog("close");
                         orderBillDatagrid.datagrid("load");
                     } else {
-                        $.messager.alert("温馨提示", data.message, "warning");
+                        $.messager.alert("温馨提示", data.msg, "warning");
                     }
                 }
             });
@@ -348,7 +348,7 @@ $(function () {
                                 // 审核成功后,重新加载数据
                                 orderBillDatagrid.datagrid("load");
                             } else {
-                                $.messager.alert("温馨提示", data.message, "warning");
+                                $.messager.alert("温馨提示", data.msg, "warning");
                             }
                         });
                     }
@@ -373,7 +373,7 @@ $(function () {
                                 // 拒绝成功后,重新加载数据
                                 orderBillDatagrid.datagrid("load");
                             } else {
-                                $.messager.alert("温馨提示", data.message, "warning");
+                                $.messager.alert("温馨提示", data.msg, "warning");
                             }
                         });
                     }
@@ -417,12 +417,12 @@ $(function () {
                     success: function (data) {
                         data = $.parseJSON(data);
                         if (data.success) {
-                            $.messager.alert("温馨提示", data.message, "info");
+                            $.messager.alert("温馨提示", data.msg, "info");
                             orderBill_contractDialog.dialog("close");
                             orderBillDatagrid.datagrid("load");
                             orderBill_contractDialog.datagrid("load");
                         } else {
-                            $.messager.alert("温馨提示", data.message, "warning");
+                            $.messager.alert("温馨提示", data.msg, "warning");
                         }
                     }
                 })

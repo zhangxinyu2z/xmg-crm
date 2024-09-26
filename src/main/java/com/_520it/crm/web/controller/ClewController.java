@@ -53,7 +53,6 @@ public class ClewController extends BaseController {
     public void updateLucenePool() {
         //更新数据库到lucene库中
         clewService.luceneWriteIndex();
-
     }
 
     @RequestMapping("/clew_delete")

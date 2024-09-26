@@ -1,0 +1,216 @@
+.icon-blank{
+	background:url('icons/blank.gif') no-repeat center center;
+}
+.icon-add{
+	background:url('icons/edit_add.png') no-repeat center center;
+}
+.icon-edit{
+	background:url('icons/pencil.png') no-repeat center center;
+}
+.icon-remove{
+	background:url('icons/edit_remove.png') no-repeat center center;
+}
+.icon-save{
+	background:url('icons/filesave.png') no-repeat center center;
+}
+.icon-cut{
+	background:url('icons/cut.png') no-repeat center center;
+}
+.icon-ok{
+	background:url('icons/ok.png') no-repeat center center;
+}
+.icon-no{
+	background:url('icons/no.png') no-repeat center center;
+}
+.icon-cancel{
+	background:url('icons/cancel.png') no-repeat center center;
+}
+.icon-reload{
+	background:url('icons/reload.png') no-repeat center center;
+}
+.icon-search{
+	background:url('icons/search.png') no-repeat center center;
+}
+.icon-print{
+	background:url('icons/print.png') no-repeat center center;
+}
+.icon-help{
+	background:url('icons/help.png') no-repeat center center;
+}
+.icon-undo{
+	background:url('icons/undo.png') no-repeat center center;
+}
+.icon-redo{
+	background:url('icons/redo.png') no-repeat center center;
+}
+.icon-back{
+	background:url('icons/back.png') no-repeat center center;
+}
+.icon-sum{
+	background:url('icons/sum.png') no-repeat center center;
+}
+.icon-tip{
+	background:url('icons/tip.png') no-repeat center center;
+}
+
+.icon-mini-add{
+	background:url('icons/mini_add.png') no-repeat center center;
+}
+.icon-mini-edit{
+	background:url('icons/mini_edit.png') no-repeat center center;
+}
+.icon-mini-refresh{
+	background:url('icons/mini_refresh.png') no-repeat center center;
+}
+.icon-cog{
+	background:url('icons/cog.png') no-repeat center center;
+}
+.icon-user{
+	background:url('icons/user.png') no-repeat center center;
+}
+.icon-user-add{
+	background:url('icons/user_add.png') no-repeat center center;
+}
+.icon-user-comment{
+	background:url('icons/user_comment.png') no-repeat center center;
+}
+.icon-user-delete{
+	background:url('icons/user_delete.png') no-repeat center center;
+}
+.icon-user-edit{
+	background:url('icons/user_edit.png') no-repeat center center;
+}
+.icon-action-log{
+	background:url('icons/action_log.png') no-repeat center center;
+}
+.icon-date{
+	background:url('icons/date.png') no-repeat center center;
+}
+.icon-money{
+	background:url('icons/coins.png') no-repeat center center;
+}
+
+
+.icon-chart_column{
+	background:url('icons/chart_bar.png') no-repeat center center;
+}
+.icon-chart_bar{
+	background:url('icons/chart_bar.png') no-repeat center center;
+}
+.icon-user-admin{
+	background:url('icons/administrator.png') no-repeat center center;
+}
+.icon-depart{
+	background:url('icons/dept.gif') no-repeat center center;
+}
+.icon-angel{
+	background:url('icons/angel.png') no-repeat center center;
+}
+.icon-dict{
+	background:url('icons/education.png') no-repeat center center;
+}
+.icon-cal{
+	background:url('icons/16cal.gif') no-repeat center center;
+}
+.icon-tennis{
+	background:url('icons/sport_tennis.png') no-repeat center center;
+}
+.icon-chart{
+	background:url('icons/chart.gif') no-repeat center center;
+}
+.icon-chart-line{
+	background:url('icons/chart_line.png') no-repeat center center;
+}
+.icon-chart-organisation{
+	background:url('icons/chart_organisation.png') no-repeat center center;
+}
+.icon-zoom{
+	background:url('icons/zoom.png') no-repeat center center;
+}
+.icon-clock{
+	background:url('icons/clock_red.png') no-repeat center center;
+}
+.icon-house{
+	background:url('icons/house.png') no-repeat center center;
+}
+.icon-printer{
+	background:url('icons/printer.png') no-repeat center center;
+}
+.icon-book{
+	background:url('icons/book_spelling.png') no-repeat center center;
+}
+.icon-draw{
+	background:url('icons/draw_smudge.png') no-repeat center center;
+}
+.icon-backup{
+	background:url('icons/download-small.png') no-repeat center center;
+}
+.icon-hammer{
+	background:url('icons/auction_hammer_gavel.png') no-repeat center center;
+}
+.icon-candy{
+	background:url('icons/candy_cane.png') no-repeat center center;
+}
+.icon-wrench{
+	background:url('icons/wrench.png') no-repeat center center;
+}
+.icon-flag{
+	background:url('icons/flag_blue.png') no-repeat center center;
+}
+.icon-medal1{
+	background:url('icons/medal_silver_1.png') no-repeat center center;
+}
+.icon-medal2{
+	background:url('icons/medal_silver_2.png') no-repeat center center;
+}
+.icon-medal3{
+	background:url('icons/medal_silver_3.png') no-repeat center center;
+}
+.icon-medal4{
+	background:url('icons/medal_gold_1.png') no-repeat center center;
+}
+.icon-medal5{
+	background:url('icons/medal_bronze_3.png') no-repeat center center;
+}
+.icon-medal6{
+	background:url('icons/medal_bronze_2.png') no-repeat center center;
+}
+.icon-asterisk{
+	background:url('icons/asterisk_orange.png') no-repeat center center;
+}
+.icon-asterisk{
+	background:url('icons/asterisk_orange.png') no-repeat center center;
+}
+.icon-award1{
+	background:url('icons/award_star_bronze_2.png') no-repeat center center;
+}
+.icon-award2{
+	background:url('icons/award_star_gold_3.png') no-repeat center center;
+}
+.icon-ballon{
+	background:url('icons/ballon.png') no-repeat center center;
+}
+
+.icon-download{
+	background:url('icons/download.png') no-repeat center center;
+}
+.icon-rename{
+	background:url('icons/rename.png') no-repeat center center;
+}
+.icon-upload{
+	background:url('icons/upload.png') no-repeat center center;
+}
+.icon-new_folder{
+	background:url('icons/new_folder.png') no-repeat center center;
+}
+
+
+
+
+
+
+
+
+
+
+

@@ -36,20 +36,25 @@ width: 100%; height: 100%; background: white; text-align: center;">
     <div>
         <a data-cmd="add" class="easyui-linkbutton" iconCls="icon-add" plain="true">新增</a>
         <a data-cmd="edit" class="easyui-linkbutton" iconCls="icon-edit" plain="true">编辑</a>
+        <c:if test="${myfn:checkPermission('cn.xy.crm.web.controller.CustomerController:moveToResourcePool')}">
+            <a class="easyui-linkbutton" iconCls="icon-remove" plain="true" data-cmd="moveToResource">移入资源池</a>
+        </c:if>
         <a data-cmd="share" class="easyui-linkbutton" iconCls="icon-tip" plain="true">共享</a>
         <c:if test="${myfn:checkPermission('com._520it.crm.web.controller.CustomerController:transfer') }">
             <a data-cmd="transfer" class="easyui-linkbutton" iconCls="icon-tip" plain="true">移交</a>
         </c:if>
-        <a data-cmd="fail" class="easyui-linkbutton" iconCls="icon-no" plain="true">开发失败</a>
-        <a data-cmd="become" class="easyui-linkbutton" iconCls="icon-ok" plain="true">转正</a>
+        <c:if test="${myfn:checkPermission('cn.xy.crm.web.controller.CustomerController:customerLost')}">
+            <a  class="easyui-linkbutton" iconCls="icon-no" plain="true" data-cmd="lost">流失</a>
+        </c:if>
         <a data-cmd="refresh" class="easyui-linkbutton" iconCls="icon-reload" plain="true">刷新</a>
+        <a class="easyui-linkbutton" iconCls="icon-reload" plain="true" data-cmd="export">导出</a>
     </div>
     <div>
-        关键字：<input type="text" name="keyword" placeholder="姓名和手机号"> 状态：<select name="state"">
-        <option value="3" selected="selected">全部</option>
+        关键字：<input type="text" name="keyword" placeholder="姓名和手机号"> 状态：<select name="state">
+        <option value="" selected="selected">全部</option>
         <!-- 包括0和-1 -->
-        <option value="0">潜在客户</option>
-        <option value="-1">开发失败</option>
+        <option value="1">正式客户</option>
+        <option value="-2">流失客户</option>
         </select>
         <a data-cmd="search" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
     </div>
@@ -121,37 +126,42 @@ width: 100%; height: 100%; background: white; text-align: center;">
 
 <div id="transfer_dialog">
     <form id="transfer_form" method="post">
-        <input type="hidden" name="customer.id"/>
+        <input type="hidden" name="customerId"/>
         <!--  当前潜在客户的id -->
-        <input type="hidden" name="oldseller.id"/>
+        <%--inchargeuser.id--%>
+        <input type="hidden" name="oldSellerId"/>
         <!-- 原市场专员的id -->
-        <table align="center" style="margin-top: 15px;">
+        <table align="center">
             <tr>
-                <td>当前潜在客户</td>
+                <td>当前客户</td>
             </tr>
             <tr>
-                <td><input type="text" name="name" readonly=“readonly”/></td>
+                <td><input type="text" name="name" readonly=“readonly” disabled/></td>
             </tr>
             <tr>
-                <td>当前潜在客户负责人</td>
+                <td>当前客户负责人</td>
             </tr>
             <tr>
-                <td><input type="text" name="oldseller.name" readonly=“readonly”/></td>
+                <td><input type="text" name="oldSellerName" readonly=“readonly”/></td>
             </tr>
             <tr>
                 <td>移交给</td>
             </tr>
             <tr>
-                <td><input name="newseller.id" class="easyui-combobox"
-                           data-options="valueField:'id',textField:'username',editable:false,url:'/queryEmployeeByRole'"/>
+                <td><input name="newSellerId" class="easyui-combobox"
+                           data-options="valueField:'id',textField:'username',editable:false,url:'/listCommissionerEmployees'"/>
                 </td>
+            </tr>
+            <tr>
+                <td>移交原因</td>
+                <td><textarea name="transReason"></textarea></td>
             </tr>
         </table>
     </form>
 
     <div id="transfer_tb">
-        <a data-cmd="transfersave" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true">保存</a>
-        <a data-cmd="transfercancel" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true">取消</a>
+        <a data-cmd="transferSave" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true">保存</a>
+        <a data-cmd="transferCancel" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true">取消</a>
     </div>
 </div>
 

@@ -9,6 +9,7 @@ $(function () {
     customerResourcePoolDatagrid.datagrid({
         url: "customerResourcePool_list",
         fit: true,
+        rownumbers: true,
         fitColumns: true,
         singleSelect: true,
         pagination: true,
@@ -85,10 +86,10 @@ $(function () {
                     if(yes) {
                         $.get("/customer_admit?id=" + rowData.id, function (data) {
                             if (data.success) {
-                                $.messager.alert("温馨提示", data.message, "info");
+                                $.messager.alert("温馨提示", data.msg, "info");
                                 customerResourcePoolDatagrid.datagrid("reload");
                             } else {
-                                $.messager.alert("温馨提示", data.message, "info");
+                                $.messager.alert("温馨提示", data.msg, "info");
                             }
                         });
                     }
@@ -144,11 +145,11 @@ $(function () {
                 success: function (data) {
                     data = $.parseJSON(data)
                     if (data.success) {
-                        $.messager.alert("温馨提示", data.message, "info");
+                        $.messager.alert("温馨提示", data.msg, "info");
                         customerResourcePoolDialog.dialog("close");
                         customerResourcePoolDatagrid.datagrid("reload");
                     } else {
-                        $.messager.alert("温馨提示", data.message, "warning");
+                        $.messager.alert("温馨提示", data.msg, "warning");
                     }
                 }
             });

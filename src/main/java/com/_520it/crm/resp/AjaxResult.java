@@ -52,10 +52,14 @@ public class AjaxResult implements Serializable {
         return ajaxResult;
     }
 
-    public static AjaxResult createFailResponse(AjaxResult ajaxResult) {
-            ajaxResult.setSuccess(false);
-            ajaxResult.setMsg("操作失败");
-        return ajaxResult;
+    public static void setFailResponse(AjaxResult ajaxResult) {
+        ajaxResult.setSuccess(false);
+        ajaxResult.setMsg("操作失败");
+    }
+
+    public static void setFailResponse(AjaxResult ajaxResult, String msg) {
+        ajaxResult.setSuccess(false);
+        ajaxResult.setMsg(msg);
     }
 
 }

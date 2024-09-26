@@ -179,7 +179,5 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<Employee> queryEmployeeByRoleId(Long roleId) {
         return employeeDao.queryEmployeeByRoleId(roleId);
-
     }
-
 }

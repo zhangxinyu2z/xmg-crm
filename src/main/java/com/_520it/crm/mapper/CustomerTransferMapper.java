@@ -27,8 +27,4 @@ public interface CustomerTransferMapper {
 	 * @return
 	 */
 	List<CustomerTransfer> queryTransferList(PageReq qo);
-
-	Long queryByConditonCount(PageReq qo);
-
-	List<CustomerTransfer> queryByCondition(PageReq qo);
 }

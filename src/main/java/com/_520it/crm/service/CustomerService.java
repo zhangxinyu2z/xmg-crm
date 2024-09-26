@@ -1,10 +1,11 @@
 package com._520it.crm.service;
 
 import com._520it.crm.domain.Customer;
-import com._520it.crm.domain.CustomerTransfer;
-import com._520it.crm.req.*;
+import com._520it.crm.req.CustomerQueryObject;
+import com._520it.crm.req.TransferCustomerReq;
 import com._520it.crm.resp.PageResult;
 
+import javax.servlet.ServletOutputStream;
 import java.util.List;
 
 /**
@@ -30,7 +31,7 @@ public interface CustomerService {
 	 * <p>
 	 * 市场专员只能查询自己负责的
 	 */
-	PageResult queryForPage(PageReq pageReq);
+	PageResult queryForPage(CustomerQueryObject pageReq);
 
 	/**
 	 * 修改潜在客户状态为-1；开发失败 1;正式客户
@@ -40,18 +41,11 @@ public interface CustomerService {
 	/**
 	 * 转移潜在客户
 	 */
-	void transfer(CustomerTransfer ct);
-
-	/**
-	 * 查询所有的正式客户
-	 */
-	PageResult formalList(CustomerQueryObject qo);
+	void transfer(TransferCustomerReq req);
 
 	int updateByChargeId(Long id, Long inchargeuserId);
 
 	int customerAdmit(Long id, Long id1);
-
-	PageResult queryResourcePoolByCondition(CustomerResourcePoolQueryObject qo);
 
 	boolean save(Customer c);
 
@@ -61,5 +55,11 @@ public interface CustomerService {
 
 	int updateStatusSuccessById(Long id);
 
-	PageResult queryByCondition(PotentialCustomerQueryObject qo);
+    boolean shareOrTransfer(Customer c, Long inchargeId, String reason);
+
+	boolean moveToResourcePool(Long id, Long id1);
+
+	boolean lostCustomer(Long id, Long id1);
+
+	int exportCustomer(ServletOutputStream outputStream);
 }

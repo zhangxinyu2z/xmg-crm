@@ -41,6 +41,7 @@ $(function () {
 
     customerDevPlanSelectCombogrid.combogrid({
         rowNumbers:true,
+        rownumbers: true,
         panelWidth: 400,
         idField: 'id',
         textField: 'name',

@@ -5,17 +5,8 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <%@include file="common.jsp"%>
     <title>今日计划</title>
-    <link rel="stylesheet" type="text/css" href="/js/jquery-easyui/themes/default/easyui.css"><!-- 样式文本 -->
-    <link rel="stylesheet" type="text/css" href="/js/jquery-easyui/themes/icon.css"><!-- 图标样式 -->
-    <script type="text/javascript" src="/js/jquery-easyui/jquery.min.js"></script><!-- jQuery核心库 -->
-    <script type="text/javascript" src="/js/jquery-easyui/jquery.easyui.min.js"></script><!-- EasyUI核心库 -->
-    <script type="text/javascript" src="/js/jquery-easyui/locale/easyui-lang-zh_CN.js"></script><!-- 国际化 -->
-    <script type="text/javascript" src="/js/jquery-easyui/base.js"></script><!-- 补丁包 -->
-    <link rel="stylesheet" type="text/css" href="/js/fancy-box/jquery.fancybox.css?v=2.1.5" media="screen"/>
-    <!-- 小图变大图 -->
-    <script type="text/javascript" src="/js/fancy-box/jquery.fancybox.js?v=2.1.5"></script>
-    <script type="text/javascript" src="/js/jquery-easyui/datagrid-detailview.js"></script>
     <script type="text/javascript" src="/js/views/task.js"></script>
 </head>
 <body>

@@ -39,7 +39,7 @@ $(function() {
 		]]
 	});
 
-	// 页面加载完毕，对话框弹窗就完成，只不过被closeed隐藏
+	// 页面加载完毕，对话框弹窗就完成，只不过被closed隐藏
 	departmentDialog.dialog({
 		width: 280,
 		height: 300,

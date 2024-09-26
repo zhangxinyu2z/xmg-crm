@@ -26,8 +26,6 @@ $(function () {
         searchContent: function () {
             var param = {};
             var paramArr = $("#customerChart_searchForm").serializeArray();
-
-
             for (var i = 0; i < paramArr.length; i++) {
                 param[paramArr[i].name] = paramArr[i].value;
             }
@@ -101,7 +99,7 @@ $(function () {
             var ids = $(this).combobox("getValues");
             if (ids == 'line') {
 
-                window.showModalDialog("/customerChart_pictrue1", "", "dialogWidth=500px;dialogHeight=500px");
+                window.open("/customerChart_pictrue1", "", "width=500px,height=500px");
 
             }
             if (ids == 'column') {

@@ -9,7 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 /**
- * 保修单模型
+ * 保修单
  *
  * @author zhangxinyu
  */

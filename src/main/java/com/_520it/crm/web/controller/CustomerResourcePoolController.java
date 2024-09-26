@@ -1,11 +1,15 @@
 package com._520it.crm.web.controller;
 
 import com._520it.crm.annotation.RequiredPermission;
-import com._520it.crm.domain.*;
-import com._520it.crm.req.CustomerResourcePoolQueryObject;
+import com._520it.crm.domain.Customer;
+import com._520it.crm.domain.Employee;
+import com._520it.crm.domain.SystemDictionaryItem;
+import com._520it.crm.req.CustomerQueryObject;
 import com._520it.crm.resp.AjaxResult;
 import com._520it.crm.resp.PageResult;
-import com._520it.crm.service.*;
+import com._520it.crm.service.CustomerService;
+import com._520it.crm.service.RoleService;
+import com._520it.crm.service.SystemDictionaryItemService;
 import com._520it.crm.utils.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,12 +50,13 @@ public class CustomerResourcePoolController extends BaseController {
      */
     @RequestMapping("/customerResourcePool_list")
     @ResponseBody
-    public PageResult list(CustomerResourcePoolQueryObject qo) {
+    public PageResult list(CustomerQueryObject qo) {
         PageResult result = null;
         Employee e = (Employee)UserContext.get().getSession().getAttribute(UserContext.USER_IN_SESSION);
         try {
             qo.setUserId(e.getId());
-            result = customerService.queryResourcePoolByCondition(qo);
+            qo.setStatus(2);
+            result = customerService.queryForPage(qo);
         } catch (Exception e1) {
             e1.printStackTrace();
         }
@@ -88,14 +93,10 @@ public class CustomerResourcePoolController extends BaseController {
     @RequestMapping("/customerResourcePool_update")
     @ResponseBody
     public AjaxResult update(Customer c) {
-        //        Employee employee = (Employee) UserContext.getLocalRequest().getSession().getAttribute(UserContext
-        //        .USER_IN_SESSION);
-
         AjaxResult result = null;
         try {
             c.setStatus(0);
             int effectCount = customerService.updateById(c);
-
             if (effectCount > 0) {
                 result = new AjaxResult(true, "更新成功");
             } else {
@@ -105,19 +106,21 @@ public class CustomerResourcePoolController extends BaseController {
             e.printStackTrace();
             result = new AjaxResult(true, "更新异常");
         }
-
         return result;
     }
 
+    /**
+     * 吸纳，成为该客户的负责人
+     * @param id
+     * @return
+     */
     @RequestMapping("/customer_admit")
     @ResponseBody
     public AjaxResult admit(Long id) {
         Employee employee = (Employee)UserContext.get().getSession().getAttribute(UserContext.USER_IN_SESSION);
-
         AjaxResult result = null;
         try {
             int effectCount = customerService.customerAdmit(employee.getId(), id);
-
             if (effectCount > 0) {
                 result = new AjaxResult(true, "吸纳成功");
             } else {
@@ -127,7 +130,6 @@ public class CustomerResourcePoolController extends BaseController {
             e.printStackTrace();
             result = new AjaxResult(true, "吸纳异常");
         }
-
         return result;
     }
 

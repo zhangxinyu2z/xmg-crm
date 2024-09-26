@@ -99,10 +99,10 @@ $(function () {
                     // 发送请求去后插入签退时间
                     $.get("/checkIn_signOut", function (data) {
                         if (data.success) {
-                            $.messager.alert("温馨提示", data.message, "info");
+                            $.messager.alert("温馨提示", data.msg, "info");
                             checkInDatagrid.datagrid("reload");
                         } else {
-                            $.messager.alert("温馨提示", data.message, "warning");
+                            $.messager.alert("温馨提示", data.msg, "warning");
                         }
                     });
                 }
@@ -116,11 +116,11 @@ $(function () {
                     // 发送请求去后插入签到时间
                     $.get("/checkIn_signIn", function (data) {
                         if (data.success) {
-                            $.messager.alert("温馨提示", data.message, "info");
+                            $.messager.alert("温馨提示", data.msg, "info");
                             // 删除成功后,重新加载数据
                             checkInDatagrid.datagrid("reload");
                         } else {
-                            $.messager.alert("温馨提示", data.message, "warning");
+                            $.messager.alert("温馨提示", data.msg, "warning");
                         }
                     });
                 }
@@ -170,11 +170,11 @@ $(function () {
                 success: function (data) {
                     data = $.parseJSON(data)
                     if (data.success) {
-                        $.messager.alert("温馨提示", data.message, "info");
+                        $.messager.alert("温馨提示", data.msg, "info");
                         checkInDialog.dialog("close");
                         checkInDatagrid.datagrid("reload");
                     } else {
-                        $.messager.alert("温馨提示", data.message, "warning");
+                        $.messager.alert("温馨提示", data.msg, "warning");
                     }
                 }
             });

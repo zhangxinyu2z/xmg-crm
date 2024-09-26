@@ -10,5 +10,8 @@ import lombok.Setter;
 @Setter@Getter
 public class DepartmentQueryObject extends PageReq {
 	private String keyword;
+	/**
+	 * 状态：0：禁用 1：启用
+	 */
 	private Boolean state;
 }

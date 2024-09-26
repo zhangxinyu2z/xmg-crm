@@ -69,7 +69,7 @@
                 </td>
                 <td>实施方式</td>
                 <td><input class="easyui-combobox" name="plantype"
-                           data-options="url:'/potentialCustomer_query?sn=plantype', valueField:'name',textField:'name'"/>
+                           data-options="url:'/sysDic_queryBySn?sn=plantype', valueField:'name',textField:'name'"/>
                 </td>
             </tr>
             <tr>

@@ -89,10 +89,10 @@ $(function () {
                         // 发送请求去后台删除数据
                         $.get("/vacate_delete?id=" + row.id, function (data) {
                             if (data.success) {
-                                $.messager.alert("温馨提示", data.message, "info");
+                                $.messager.alert("温馨提示", data.msg, "info");
                                 vacateDatagrid.datagrid("reload");
                             } else {
-                                $.messager.alert("温馨提示", data.message, "warning");
+                                $.messager.alert("温馨提示", data.msg, "warning");
                             }
                         });
                     }
@@ -111,10 +111,10 @@ $(function () {
                         // 发送请求去审核
                         $.get("/vacate_audit?id=" + row.id, function (data) {
                             if (data.success) {
-                                $.messager.alert("温馨提示", data.message, "info");
+                                $.messager.alert("温馨提示", data.msg, "info");
                                 vacateDatagrid.datagrid("reload");
                             } else {
-                                $.messager.alert("温馨提示", data.message, "warning");
+                                $.messager.alert("温馨提示", data.msg, "warning");
                             }
                         });
                     }
@@ -141,11 +141,11 @@ $(function () {
                 success: function (data) {
                     data = $.parseJSON(data)
                     if (data.success) {
-                        $.messager.alert("温馨提示", data.message, "info");
+                        $.messager.alert("温馨提示", data.msg, "info");
                         vacateDialog.dialog("close");
                         vacateDatagrid.datagrid("reload");
                     } else {
-                        $.messager.alert("温馨提示", data.message, "warning");
+                        $.messager.alert("温馨提示", data.msg, "warning");
                     }
                 }
             });

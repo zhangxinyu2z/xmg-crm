@@ -145,10 +145,10 @@ public class EmployeeController {
      *
      * @return
      */
-    @RequestMapping("/queryEmployeeByRole")
+    @RequestMapping("/listCommissionerEmployees")
     @ResponseBody
-    public List<Employee> queryEmployeeByRoleId(Long id) {
-        return employeeService.queryEmployeeByRoleId(id);
+    public List<Employee> listCommissionerEmployees() {
+        return employeeService.queryEmployeeByRoleId(6L);
     }
 
 }

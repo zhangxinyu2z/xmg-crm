@@ -251,7 +251,7 @@ $(function () {
                                 // 删除成功后,重新加载数据
                                 contractDatagrid.datagrid("load");
                             } else {
-                                $.messager.alert("温馨提示", data.message, "warning");
+                                $.messager.alert("温馨提示", data.msg, "warning");
                             }
                         });
                     }
@@ -309,11 +309,11 @@ $(function () {
                 success: function (data) {
                     data = $.parseJSON(data)
                     if (data.success) {
-                        $.messager.alert("温馨提示", data.message, "info");
+                        $.messager.alert("温馨提示", data.msg, "info");
                         contractDialog.dialog("close");
                         contractDatagrid.datagrid("load");
                     } else {
-                        $.messager.alert("温馨提示", data.message, "warning");
+                        $.messager.alert("温馨提示", data.msg, "warning");
                     }
                 }
             });
@@ -336,7 +336,7 @@ $(function () {
                                 // 审核成功后,重新加载数据
                                 contractDatagrid.datagrid("load");
                             } else {
-                                $.messager.alert("温馨提示", data.message, "warning");
+                                $.messager.alert("温馨提示", data.msg, "warning");
                             }
                         });
                     }
@@ -361,7 +361,7 @@ $(function () {
                                 // 拒绝成功后,重新加载数据
                                 contractDatagrid.datagrid("load");
                             } else {
-                                $.messager.alert("温馨提示", data.message, "warning");
+                                $.messager.alert("温馨提示", data.msg, "warning");
                             }
                         });
                     }
@@ -403,12 +403,12 @@ $(function () {
                     success: function(data) {
                         data = $.parseJSON(data);
                         if (data.success) {
-                            $.messager.alert("温馨提示", data.message, "info");
+                            $.messager.alert("温馨提示", data.msg, "info");
                             contract_guaranteeDialog.dialog("close");
                             contractDatagrid.datagrid("load");
                             contract_guaranteeDialog.datagrid("load");
                         } else {
-                            $.messager.alert("温馨提示", data.message, "warning");
+                            $.messager.alert("温馨提示", data.msg, "warning");
                         }
                     }
                 })

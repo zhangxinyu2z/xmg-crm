@@ -11,7 +11,7 @@
     <script type="text/javascript">
 
         var tt = $.ajax({
-            url: "/ppp",
+            url: "/qqq",
             async: false
         }).responseText;
         tt = $.parseJSON(tt);
@@ -20,7 +20,7 @@
         var amountContracts;
 
         var yy = $.ajax({
-            url: "/groupChart?userId=" + userId,
+            url: "/groupCustomer?userId=" + userId,
             data:tt,
             async: false
         }).responseText;

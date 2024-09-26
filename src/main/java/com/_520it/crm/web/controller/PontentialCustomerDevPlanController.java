@@ -31,7 +31,7 @@ public class PontentialCustomerDevPlanController extends BaseController {
     @RequiredPermission("查看潜在客户开发计划")
     @RequestMapping("/potentialCustomerDevPlan")
     public String index() {
-        return "potentialCustomerDevPlan";
+        return "customerPotentialDevPlan";
     }
 
     /**

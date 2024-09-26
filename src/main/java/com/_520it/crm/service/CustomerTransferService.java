@@ -1,11 +1,11 @@
 package com._520it.crm.service;
 
 import com._520it.crm.domain.CustomerTransfer;
-import com._520it.crm.req.PageReq;
+import com._520it.crm.req.CustomerTransferQueryObject;
 import com._520it.crm.resp.PageResult;
 
 public interface CustomerTransferService {
-	PageResult list(PageReq qo);
+	PageResult queryPage(CustomerTransferQueryObject qo);
 
 	int save(CustomerTransfer e);
 
@@ -15,7 +15,4 @@ public interface CustomerTransferService {
 
 	int update(CustomerTransfer e);
 
-	PageResult listAll();
-
-	PageResult queryByCondition(PageReq qo);
 }

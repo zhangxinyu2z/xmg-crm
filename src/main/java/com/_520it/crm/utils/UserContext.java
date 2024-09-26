@@ -1,6 +1,7 @@
 package com._520it.crm.utils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 /**
  * @author zhang xinyu
@@ -34,5 +35,13 @@ public class UserContext {
 
     public static void clear() {
         THREAD_LOCAL.remove();
+    }
+
+    public static <T>  T getCurrentLoginEmployee(String sessionName, Class<T> clazz) {
+        Object attribute = UserContext.get().getSession().getAttribute(sessionName);
+        if (Objects.isNull(attribute) || !clazz.isInstance(attribute)) {
+            return null;
+        }
+        return clazz.cast(attribute);
     }
 }

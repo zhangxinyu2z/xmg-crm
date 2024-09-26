@@ -57,12 +57,12 @@ $(function () {
                             //console.debug(data);
                             //data = parseJSON(data);
                             if (data.success) {
-                                $.messager.alert('温馨提示', data.message, 'info', function () {
+                                $.messager.alert('温馨提示', data.msg, 'info', function () {
                                     $("#guarantee_datagrid").datagrid("reload");
                                     $("#guaranteeItem_datagrid").datagrid("reload");
                                 });
                             } else {
-                                $.messager.alert('温馨提示', data.message, 'error');
+                                $.messager.alert('温馨提示', data.msg, 'error');
                             }
 
 
@@ -85,12 +85,12 @@ $(function () {
                             //console.debug(data);
                             //data = parseJSON(data);
                             if (data.success) {
-                                $.messager.alert('温馨提示', data.message, 'info', function () {
+                                $.messager.alert('温馨提示', data.msg, 'info', function () {
                                     $("#guarantee_datagrid").datagrid("reload");
                                     $("#guaranteeItem_datagrid").datagrid("reload");
                                 });
                             } else {
-                                $.messager.alert('温馨提示', data.message, 'error');
+                                $.messager.alert('温馨提示', data.msg, 'error');
                             }
 
 
@@ -136,12 +136,12 @@ $(function () {
                     //console.debug(data);
                     data = $.parseJSON(data);
                     if (data.success) {
-                        $.messager.alert('温馨提示', data.message, 'info');
+                        $.messager.alert('温馨提示', data.msg, 'info');
                         $("#guarantee_dialog").dialog("close");
                         $("#guarantee_datagrid").datagrid("reload");
 
                     } else {
-                        $.messager.alert('温馨提示', data.message, 'error');
+                        $.messager.alert('温馨提示', data.msg, 'error');
                     }
                 }
 
@@ -237,12 +237,12 @@ $(function () {
                     console.debug(data);
                     data = $.parseJSON(data);
                     if (data.success) {
-                        $.messager.alert('温馨提示', data.message, 'info');
+                        $.messager.alert('温馨提示', data.msg, 'info');
                         $("#guaranteeItem_dialog").dialog("close");
                         $("#guaranteeItem_datagrid").datagrid("reload");
 
                     } else {
-                        $.messager.alert('温馨提示', data.message, 'error');
+                        $.messager.alert('温馨提示', data.msg, 'error');
                         $("#guaranteeItem_dialog").dialog("close");
                     }
                 }
@@ -260,11 +260,11 @@ $(function () {
                             //console.debug(data);
                             //data = parseJSON(data);
                             if (data.success) {
-                                $.messager.alert('温馨提示', data.message, 'info', function () {
+                                $.messager.alert('温馨提示', data.msg, 'info', function () {
                                     $("#guaranteeItem_datagrid").datagrid("reload");
                                 });
                             } else {
-                                $.messager.alert('温馨提示', data.message, 'error');
+                                $.messager.alert('温馨提示', data.msg, 'error');
                             }
 
 

@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
+/**
+ * 报表
+ */
 @Controller
 public class CustomerChartController {
 
@@ -88,7 +91,7 @@ public class CustomerChartController {
     }
 
 
-    @RequestMapping("/customermm")
+    @RequestMapping("/customerChart")
     public String index() {
         return "customerChart";
     }
@@ -98,19 +101,19 @@ public class CustomerChartController {
     public String pictrue2(CustomerChartQueryObject qo, HttpServletRequest request) {
 
         getTime(qo, request);
-        return "customerLine";
+        return "customerChartLine";
     }
 
     @RequestMapping("/customerChart_pictrue2")
     public String pictrue1(CustomerChartQueryObject qo, HttpServletRequest request) {
         getTime(qo, request);
-        return "customerPic";
+        return "customerChartPic";
     }
 
     @RequestMapping("/customerChart_pictrue3")
     public String pictrue3(CustomerChartQueryObject qo, HttpServletRequest request) {
         getTime(qo, request);
-        return "customerCloumn";
+        return "customerChartCloumn";
     }
 
     public static void getTime(CustomerChartQueryObject qo, HttpServletRequest request) {

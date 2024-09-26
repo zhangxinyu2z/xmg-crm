@@ -5,6 +5,7 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/js/jquery-easyui/themes/default/easyui.css">
 <!--图标样式  -->
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/js/jquery-easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/js/fancy-box/jquery.fancybox.css?v=2.1.5" media="screen"/>
 <!-- jQuery核心库 -->
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-easyui/jquery.min.js"></script>
 <!-- EasyUI核心库 -->
@@ -14,5 +15,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-easyui/locale/easyui-lang-zh_CN.js"></script>
 <%--解决easyui版本中，按钮置灰后仍可点击弹窗的bug--%>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-easyui/base.js"></script>
-
+<!-- 小图变大图 -->
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/fancy-box/jquery.fancybox.js?v=2.1.5"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-easyui/datagrid-detailview.js"></script>
 

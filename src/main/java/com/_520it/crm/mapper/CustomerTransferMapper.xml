@@ -2,153 +2,109 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com._520it.crm.mapper.CustomerTransferMapper">
 
-	<resultMap id="BaseResultMap" type="com._520it.crm.domain.CustomerTransfer">
-		<id column="id" jdbcType="BIGINT" property="id" />
-		<result column="transtime" jdbcType="TIMESTAMP" property="transtime" />
-		<result column="transreason" jdbcType="VARCHAR" property="transreason" />
-		<association property="customer" javaType="com._520it.crm.domain.Customer">
-			<id column="customer_id" property="id"/>
-			<result column="name" property="name"/>
-		</association>
-		<association property="transuser" javaType="com._520it.crm.domain.Employee" columnPrefix="transuser_">
-			<id column="id" property="id"/>
-			<result column="username" property="username"/>
-		</association>
-		<association property="oldseller" javaType="com._520it.crm.domain.Employee" columnPrefix="oldseller_">
-		<id column="id" property="id"/>
-			<result column="username" property="username"/>
-		</association>
-		<association property="newseller" javaType="com._520it.crm.domain.Employee" columnPrefix="newseller_">
-		<id column="id" property="id"/>
-			<result column="username" property="username"/>
-		</association>
-		
-	</resultMap>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-		delete from customertransfer
-		where id = #{id,jdbcType=BIGINT}
-	</delete>
-	<insert id="insert" keyProperty="id" parameterType="com._520it.crm.domain.CustomerTransfer" useGeneratedKeys="true">
-		insert into customertransfer (customer_id, transuser_id, transtime,
-		oldseller_id, newseller_id,
-		transreason
-		)
-		values (#{customer.id,jdbcType=BIGINT}, #{transuser.id,jdbcType=BIGINT}, now(),
-		#{oldseller.id,jdbcType=BIGINT}, #{newseller.id,jdbcType=BIGINT}, #{transreason,jdbcType=VARCHAR}
-		)
-	</insert>
-	<update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.CustomerTransfer">
-		update customertransfer
-		set customer_id =
-		#{customerId,jdbcType=BIGINT},
-		transuser_id = #{transuserId,jdbcType=BIGINT},
-		transtime =
-		#{transtime,jdbcType=TIMESTAMP},
-		oldseller_id = #{oldsellerId,jdbcType=BIGINT},
-		newseller_id =
-		#{newsellerId,jdbcType=BIGINT},
-		transreason = #{transreason,jdbcType=VARCHAR}
-		where id = #{id,jdbcType=BIGINT}
-	</update>
-	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-		select id, customer_id, transuser_id,
-		transtime, oldseller_id, newseller_id, transreason
-		from customertransfer
-		where id = #{id,jdbcType=BIGINT}
-	</select>
-	<select id="selectAll" resultMap="BaseResultMap">
-		select id, customer_id, transuser_id, transtime, oldseller_id, newseller_id,
-		transreason
-		from customertransfer
-	</select>
+    <resultMap id="BaseResultMap" type="com._520it.crm.domain.CustomerTransfer">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="transtime" jdbcType="TIMESTAMP" property="transtime"/>
+        <result column="transreason" jdbcType="VARCHAR" property="transreason"/>
+        <association property="customer" javaType="com._520it.crm.domain.Customer">
+            <id column="customer_id" property="id"/>
+            <result column="name" property="name"/>
+        </association>
+        <association property="transuser" javaType="com._520it.crm.domain.Employee" columnPrefix="transuser_">
+            <id column="id" property="id"/>
+            <result column="username" property="username"/>
+        </association>
+        <association property="oldseller" javaType="com._520it.crm.domain.Employee" columnPrefix="oldseller_">
+            <id column="id" property="id"/>
+            <result column="username" property="username"/>
+        </association>
+        <association property="newseller" javaType="com._520it.crm.domain.Employee" columnPrefix="newseller_">
+            <id column="id" property="id"/>
+            <result column="username" property="username"/>
+        </association>
 
-
-	<sql id="conditional">
-		<where>
-			<if test="customername != null">
-				and	c.name like concat("%",#{customername},"%")
-			</if>
-			<if test="begintime!=null">
-				and transtime &gt;= #{begintime}
-			</if>
-			<if test="endtime!=null">
-				and transtime &lt;=  #{endtime}
-			</if>
-		</where>
-	</sql>
-	<sql id = "from_sql">
-		from customertransfer t LEFT JOIN customer c on t.customer_id = c.id
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from customertransfer
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyProperty="id" parameterType="com._520it.crm.domain.CustomerTransfer" useGeneratedKeys="true">
+        insert into customertransfer (customer_id, transuser_id, transtime,
+                                      oldseller_id, newseller_id,
+                                      transreason)
+        values (#{customerId,jdbcType=BIGINT}, #{transUserId,jdbcType=BIGINT}, now(),
+                #{oldSellerId,jdbcType=BIGINT}, #{newSellerId,jdbcType=BIGINT}, #{transreason,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com._520it.crm.domain.CustomerTransfer">
+        update customertransfer
+        set customer_id  =
+                #{customerId,jdbcType=BIGINT},
+            transuser_id = #{transuserId,jdbcType=BIGINT},
+            transtime    =
+                #{transtime,jdbcType=TIMESTAMP},
+            oldseller_id = #{oldsellerId,jdbcType=BIGINT},
+            newseller_id =
+                #{newsellerId,jdbcType=BIGINT},
+            transreason  = #{transreason,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id,
+               customer_id,
+               transuser_id,
+               transtime,
+               oldseller_id,
+               newseller_id,
+               transreason
+        from customertransfer
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id,
+               customer_id,
+               transuser_id,
+               transtime,
+               oldseller_id,
+               newseller_id,
+               transreason
+        from customertransfer
+    </select>
+    <sql id="conditional">
+        <where>
+            <if test="customername != null">
+                and c.name like concat("%",#{customername},"%")
+            </if>
+            <if test="begintime!=null">
+                and transtime &gt;= #{begintime}
+            </if>
+            <if test="endtime!=null">
+                and transtime &lt;= #{endtime}
+            </if>
+        </where>
+    </sql>
+    <sql id="from_sql">
+        from customertransfer t LEFT JOIN customer c on t.customer_id = c.id
 		left join employee op on t.transuser_id = op.id
 		left join employee old on t.oldseller_id = old.id
 		left join employee new on t.newseller_id = new.id
-	</sql>
-	
-	<select id="queryCount" resultType="long">
-		select count(*) 
-		<include refid="from_sql"/>
-		<include refid="conditional" />
-		
-	</select>
+    </sql>
+    <select id="queryCount" resultType="long">
+        select count(*)
+        <include refid="from_sql"/>
+        <include refid="conditional"/>
 
-	<select id="queryTransferList" resultMap="BaseResultMap">
-		select t.id,t.transtime,t.transreason,
-		t.customer_id,c.name,
-		t.transuser_id,op.username transuser_username,
-		t.oldseller_id, old.username oldseller_username,
-		t.newseller_id,new.username newseller_username
-		<include refid="from_sql"/>
-		<include refid="conditional"/>
-		<if test="page!=null">
-			limit #{start},#{rows}
-		</if>
-	</select>
-
-	<sql id="fieldSql">
-		tran.id,  tran.transTime,tran.transReason,
-          c.id as c_id,c.name as c_name,
-          opuser.id as opuser_id, opuser.username as opuser_name,
-          old.id as old_id, old.username as old_username,
-          new.id as new_id,new.username as new_username
-	</sql>
-
-	<sql id="conditionSql">
-		<where>
-			<if test="keyword !=null">
-				AND c.name like concat('%',#{keyword},'%')
-			</if>
-			<if test="beginDate != null">
-				AND tran.transTime &gt;= #{beginDate}
-			</if>
-			<if test="endDate !=null">
-				AND tran.transTime &lt;= #{endDate}
-			</if>
-		</where>
-	</sql>
-
-	<select id="queryByConditonCount" resultType="long">
-		select
-		count(*)
-		from customertransfer tran
-		LEFT JOIN customer c on tran.customer_id = c.id
-		LEFT JOIN employee opuser on tran.transUser_id = opuser.id
-		LEFT JOIN employee old on tran.oldSeller_id = old.id
-		LEFT JOIN employee new on tran.newSeller_id = new.id
-		<include refid="conditionSql"/>
-		<if test="page != null">
-			limit #{start},#{rows}
-		</if>
-	</select>
-	<select id="queryByCondition" resultMap="BaseResultMap">
-		select
-		<include refid="fieldSql"/>
-		from customertransfer tran
-		LEFT JOIN customer c on tran.customer_id = c.id
-		LEFT JOIN employee opuser on tran.transUser_id = opuser.id
-		LEFT JOIN employee old on tran.oldSeller_id = old.id
-		LEFT JOIN employee new on tran.newSeller_id = new.id
-		<include refid="conditionSql"/>
-		<if test="page != null">
-			limit #{start},#{rows}
-		</if>
-	</select>
+    </select>
+    <select id="queryTransferList" resultMap="BaseResultMap">
+        select t.id,t.transtime,t.transreason,
+        t.customer_id,c.name,
+        t.transuser_id,op.username transuser_username,
+        t.oldseller_id, old.username oldseller_username,
+        t.newseller_id,new.username newseller_username
+        <include refid="from_sql"/>
+        <include refid="conditional"/>
+        <if test="page!=null">
+            limit #{start},#{rows}
+        </if>
+    </select>
 </mapper>

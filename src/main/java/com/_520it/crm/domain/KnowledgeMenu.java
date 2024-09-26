@@ -7,7 +7,7 @@ import org.apache.ibatis.type.Alias;
 import java.util.List;
 
 /**
- * 知识库
+ * 知识库菜单
  *
  * @author zhangxinyu
  */

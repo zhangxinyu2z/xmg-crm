@@ -2,7 +2,7 @@ package com._520it.crm.service.impl;
 
 import com._520it.crm.domain.CustomerTransfer;
 import com._520it.crm.mapper.CustomerTransferMapper;
-import com._520it.crm.req.PageReq;
+import com._520it.crm.req.CustomerTransferQueryObject;
 import com._520it.crm.resp.PageResult;
 import com._520it.crm.service.CustomerTransferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class CustomerTransferServiceImpl implements CustomerTransferService {
     private CustomerTransferMapper customerTransferDao;
 
     @Override
-    public PageResult list(PageReq qo) {
+    public PageResult queryPage(CustomerTransferQueryObject qo) {
         Long count = customerTransferDao.queryCount(qo);
         if (count == 0) {
             return PageResult.EMPTY;
@@ -44,25 +44,6 @@ public class CustomerTransferServiceImpl implements CustomerTransferService {
     @Override
     public int update(CustomerTransfer transfer) {
         return customerTransferDao.updateByPrimaryKey(transfer);
-    }
-
-    @Override
-    public PageResult listAll() {
-        return new PageResult(Long.parseLong(customerTransferDao.selectAll().size() + ""),
-            customerTransferDao.selectAll());
-    }
-
-    @Override
-    public PageResult queryByCondition(PageReq qo) {
-        // 根据查询条件查询出总条数
-        Long count = customerTransferDao.queryByConditonCount(qo);
-        if (count == 0) {
-            return PageResult.EMPTY;
-        } else {
-            // 返回查询的结果集
-            List<CustomerTransfer> listData = customerTransferDao.queryByCondition(qo);
-            return new PageResult(count, listData);
-        }
     }
 
 }

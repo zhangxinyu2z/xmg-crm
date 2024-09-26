@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
     var mytable, myfromdialog, myform, handle_dialog, handle_form;
     mytable = $("#task_tb");
     myfromdialog = $("#task_dialog");
@@ -177,9 +177,9 @@ $(function () {
                                 function (data) {
                                     if (data.success) {
                                         mytable.datagrid("reload");
-                                        $.messager.alert("提示消息", data.message, "info");
+                                        $.messager.alert("提示消息", data.msg, "info");
                                     } else {
-                                        $.messager.alert("提示消息", data.message, "info");
+                                        $.messager.alert("提示消息", data.msg, "info");
                                     }
                                 },
                                 "json"
@@ -204,10 +204,10 @@ $(function () {
                                 "/task_delAll?ids=" + cids,
                                 function (data) {
                                     if (data.success) {
-                                        $.messager.alert("提示消息", data.message, "info");
+                                        $.messager.alert("提示消息", data.msg, "info");
                                         mytable.datagrid("reload");
                                     } else {
-                                        $.messager.alert("提示消息", data.message, "info");
+                                        $.messager.alert("提示消息", data.msg, "info");
                                     }
                                 },
                                 "json"
@@ -244,13 +244,13 @@ $(function () {
                         mytable.datagrid("reload");
                         myfromdialog.dialog("close");
 
-                        $.messager.alert("提示消息", data.message, "info");
+                        $.messager.alert("提示消息", data.msg, "info");
                         //页面刷新,关闭窗口
                     } else {
                         //不成功
                         mytable.datagrid("reload");
                         myfromdialog.dialog("close");
-                        $.messager.alert("提示消息", data.message, "info");
+                        $.messager.alert("提示消息", data.msg, "info");
                         //关闭窗口
                     }
                 }
@@ -294,13 +294,13 @@ $(function () {
                         mytable.datagrid("reload");
                         handle_dialog.dialog("close");
 
-                        $.messager.alert("提示消息", data.message, "info");
+                        $.messager.alert("提示消息", data.msg, "info");
                         //页面刷新,关闭窗口
                     } else {
                         //不成功
                         mytable.datagrid("reload");
                         handle_dialog.dialog("close");
-                        $.messager.alert("提示消息", data.message, "info");
+                        $.messager.alert("提示消息", data.msg, "info");
                         //关闭窗口
                     }
                 }
@@ -338,9 +338,9 @@ $(function () {
                                 function (data) {
                                     if (data.success) {
                                         mytable.datagrid("reload");
-                                        $.messager.alert("提示消息", data.message, "info");
+                                        $.messager.alert("提示消息", data.msg, "info");
                                     } else {
-                                        $.messager.alert("提示消息", data.message, "info");
+                                        $.messager.alert("提示消息", data.msg, "info");
                                     }
                                 },
                                 "json"
@@ -366,9 +366,9 @@ $(function () {
                                 function (data) {
                                     if (data.success) {
                                         mytable.datagrid("reload");
-                                        $.messager.alert("提示消息", data.message, "info");
+                                        $.messager.alert("提示消息", data.msg, "info");
                                     } else {
-                                        $.messager.alert("提示消息", data.message, "info");
+                                        $.messager.alert("提示消息", data.msg, "info");
                                     }
                                 },
                                 "json"
@@ -396,9 +396,9 @@ $(function () {
                                 function (data) {
                                     if (data.success) {
                                         mytable.datagrid("reload");
-                                        $.messager.alert("提示消息", data.message, "info");
+                                        $.messager.alert("提示消息", data.msg, "info");
                                     } else {
-                                        $.messager.alert("提示消息", data.message, "info");
+                                        $.messager.alert("提示消息", data.msg, "info");
                                     }
                                 },
                                 "json"
@@ -424,9 +424,9 @@ $(function () {
                                 function (data) {
                                     if (data.success) {
                                         mytable.datagrid("reload");
-                                        $.messager.alert("提示消息", data.message, "info");
+                                        $.messager.alert("提示消息", data.msg, "info");
                                     } else {
-                                        $.messager.alert("提示消息", data.message, "info");
+                                        $.messager.alert("提示消息", data.msg, "info");
                                     }
                                 },
                                 "json"

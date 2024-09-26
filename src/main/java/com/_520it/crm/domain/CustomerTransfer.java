@@ -50,4 +50,13 @@ public class CustomerTransfer implements Serializable {
 	 */
 	private String transreason;
 
+	/** 客户id */
+	private Long customerId;
+	/** 移交人id */
+	private Long transUserId;
+	/** 原负责人id */
+	private Long oldSellerId;
+	/** 新负责人id */
+	private Long newSellerId;
+
 }

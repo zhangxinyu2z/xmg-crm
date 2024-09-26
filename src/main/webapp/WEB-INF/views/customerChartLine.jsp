@@ -10,7 +10,7 @@
     <title>WMS-销售报表(线形图)</title>
     <script type="text/javascript">
         var tt = $.ajax({
-            url: "/ppp",
+            url: "/qqq",
             async: false
         }).responseText;
         tt = $.parseJSON(tt);
@@ -18,7 +18,7 @@
         var times;
         var amountContracts;
         var yy = $.ajax({
-            url: "/groupChart?userId=" + userId,
+            url: "/groupCustomer?userId=" + userId,
             data: tt,
             async: false
         }).responseText;

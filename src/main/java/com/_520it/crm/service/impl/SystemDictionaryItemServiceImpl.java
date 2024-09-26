@@ -68,6 +68,6 @@ public class SystemDictionaryItemServiceImpl implements SystemDictionaryItemServ
 
 	@Override
 	public List<SystemDictionaryItem> queryBySn(String sn) {
-		return null;
+		return systemDictionaryItemDao.listBySn(sn);
 	}
 }

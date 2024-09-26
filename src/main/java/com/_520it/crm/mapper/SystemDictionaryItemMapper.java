@@ -1,9 +1,9 @@
 package com._520it.crm.mapper;
 
-import java.util.List;
-
 import com._520it.crm.domain.SystemDictionaryItem;
 import com._520it.crm.req.PageReq;
+
+import java.util.List;
 
 public interface SystemDictionaryItemMapper {
 	int deleteByPrimaryKey(Long id);
@@ -35,4 +35,6 @@ public interface SystemDictionaryItemMapper {
 	 *            字典ID
 	 */
 	List<SystemDictionaryItem> queryDicItem(Integer id);
+
+	List<SystemDictionaryItem> listBySn(String sn);
 }

@@ -1,15 +1,14 @@
 package com._520it.crm.web.controller;
 
-import java.util.List;
-
+import com._520it.crm.domain.SystemDictionaryItem;
+import com._520it.crm.resp.AjaxResult;
+import com._520it.crm.service.SystemDictionaryItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com._520it.crm.domain.SystemDictionaryItem;
-import com._520it.crm.service.SystemDictionaryItemService;
-import com._520it.crm.resp.AjaxResult;
+import java.util.List;
 
 /**
  * @author xinyu
@@ -67,6 +66,14 @@ public class SystemDictionaryItemController {
 	public List<SystemDictionaryItem> queryDicItem(Integer id) {
 		return systemDictionaryItemService.queryDicItem(id);
 	}
-	
-	
+
+	/**
+	 * 查询字典编号对应的子元素数据
+	 */
+	@RequestMapping("/sysDic_queryBySn")
+	@ResponseBody
+	public List<SystemDictionaryItem> queryBySn(String sn) {
+		return systemDictionaryItemService.queryBySn(sn);
+	}
+
 }

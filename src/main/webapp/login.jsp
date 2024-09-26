@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>小码哥客户关系管理系统</title>
     <link rel="stylesheet" href="css/style.css">
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-easyui/jquery.min.js"></script>
+    <%@include file="/WEB-INF/views/common.jsp" %>
     <script type="text/javascript">
         function submitForm() {
             $.post("${pageContext.request.contextPath}/login", $("form").serialize(), function (data) {
@@ -13,14 +13,15 @@
                     console.log(data);
                     window.location.href = "${pageContext.request.contextPath}/index";
                 } else {
-                    alert(data.msg);
+                    console.log(data);
+                    $.messager.alert("温馨提示", data.msg, "warning");
                 }
             });
         }
 
         function resetForm() {
-            $("form")[0].reset();
-            console.log($("form"));
+            /*$("form")[0].reset();*/
+            $("form").form("clear");
         }
 
         /* 监听键盘事件，如果用户输入enter，允许登录 */
@@ -30,6 +31,13 @@
                 submitForm();
             }
         })
+/*        document.onkeydown = function (event) {
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if (e && e.keyCode == 13) {
+                submitForm();
+            }
+        }*/
+
 
 
     </script>

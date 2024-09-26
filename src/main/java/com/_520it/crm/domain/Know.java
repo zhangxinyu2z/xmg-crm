@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.ibatis.type.Alias;
 
+/**
+ * 知识库
+ */
 @Setter@Getter
 @Alias("Know")
 public class Know {

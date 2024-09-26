@@ -1,11 +1,15 @@
 package com._520it.crm.web.controller;
 
 import com._520it.crm.annotation.RequiredPermission;
-import com._520it.crm.domain.*;
-import com._520it.crm.req.PotentialCustomerQueryObject;
+import com._520it.crm.domain.Customer;
+import com._520it.crm.domain.Employee;
+import com._520it.crm.req.CustomerQueryObject;
 import com._520it.crm.resp.AjaxResult;
 import com._520it.crm.resp.PageResult;
-import com._520it.crm.service.*;
+import com._520it.crm.service.CustomerService;
+import com._520it.crm.service.CustomerTransferService;
+import com._520it.crm.service.EmployeeService;
+import com._520it.crm.utils.PermissionUtils;
 import com._520it.crm.utils.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * 潜在客户管理
@@ -26,56 +29,56 @@ public class PotentialCustomerController extends BaseController {
 
     @Autowired
     private CustomerService customerService;
-
     @Autowired
     private CustomerTransferService transferService;
-
     @Autowired
     private EmployeeService employeeService;
-
-    @Autowired
-    private SystemDictionaryItemService systemDictionaryItemService;
 
     @RequiredPermission("查看潜在客户")
     @RequestMapping("/potentialCustomer")
     public String index() {
-        return "potentialCustomer";
+        return "customerPotential";
     }
 
     /**
-     * 查询所有潜在客户
-     * 默认全部显示所有的潜在客户
+     * 潜在客户管理列表
      */
     @RequestMapping("/potentialCustomer_list")
     @ResponseBody
-    public PageResult list(PotentialCustomerQueryObject qo) {
+    public PageResult list(CustomerQueryObject qo) {
         PageResult result = null;
-        Employee e = getCurrentLoginEmployee();
         try {
-            qo.setUserId(e.getId());
-            result = customerService.queryByCondition(qo);
+            if (!PermissionUtils.checkPermission(
+                "com._520it.crm.web.controller.PotentialCustomerController:transfer")) {
+                //根据id查询
+                Employee currentUser = UserContext.getCurrentLoginEmployee(UserContext.USER_IN_SESSION, Employee.class);
+                qo.setUserId(currentUser.getId());
+            }
+            if (qo.getStatus() == null) {
+                qo.setStatus(3);
+            }
+            result = customerService.queryForPage(qo);
         } catch (Exception e1) {
             e1.printStackTrace();
+            result = PageResult.EMPTY;
         }
         return result;
     }
 
-    private Employee getCurrentLoginEmployee() {
-        return (Employee)UserContext.get().getSession().getAttribute(UserContext.USER_IN_SESSION);
-    }
 
-    /**
-     * 查询字典项数据
-     *
-     * @param sn
-     * @return
-     */
-    @RequestMapping("/potentialCustomer_query")
+    @RequestMapping("/official_potentialCustomer_list")
     @ResponseBody
-    public List<SystemDictionaryItem> queryBySn(String sn) {
-        return systemDictionaryItemService.queryBySn(sn);
-
+    public PageResult formalList(CustomerQueryObject qo) {
+        if (!PermissionUtils.checkPermission(
+            "com._520it.crm.web.controller.PotentialCustomerController:transfer")) {
+            //根据id查询
+            Employee currentUser = UserContext.getCurrentLoginEmployee(UserContext.USER_IN_SESSION, Employee.class);
+            qo.setUserId(currentUser.getId());
+        }
+        qo.setStatus(0);
+        return customerService.queryForPage(qo);
     }
+
 
     /**
      * 添加潜在客户
@@ -87,7 +90,7 @@ public class PotentialCustomerController extends BaseController {
     @ResponseBody
     public AjaxResult save(Customer c) {
         AjaxResult result = AjaxResult.createResponse();
-        Employee employee = getCurrentLoginEmployee();
+        Employee employee = UserContext.getCurrentLoginEmployee(UserContext.USER_IN_SESSION, Employee.class);
         try {
             c.setStatus(0);
             c.setInputtime(new Date());
@@ -111,7 +114,7 @@ public class PotentialCustomerController extends BaseController {
     @RequestMapping("/potentialCustomer_update")
     @ResponseBody
     public AjaxResult update(Customer c) {
-        AjaxResult result = null;
+        AjaxResult result = AjaxResult.createResponse();
         try {
             c.setStatus(0);
             int effectCount = customerService.updateById(c);
@@ -132,41 +135,21 @@ public class PotentialCustomerController extends BaseController {
     /**
      * 共享功能和移交功能等同，不同的是市场专员只能共享自己的潜在客户给其他专员，而销售主管可分配所有专员的潜在客户
      *
-     * @param c          潜在客户信息
-     * @param inchargeId 其他专员
-     * @param reason
-     * @return
+     * @param c          当前客户的负责人和客户相关信息
+     * @param inchargeId 被移交人id
      */
     @RequestMapping("/potential_updateInCharge")
     @ResponseBody
     public AjaxResult updateInCharge(Customer c, Long inchargeId, String reason) {
         // 获取当前登录对象
-        AjaxResult result = null;
+        AjaxResult result = AjaxResult.createResponse();
         if (c.getInchargeuser().getId().equals(inchargeId)) {
-            result = new AjaxResult(false, "您不能自己共享或移交给自己");
+            result = new AjaxResult(false, "不能自己共享或移交给自己");
             return result;
         }
-        try {
-            Employee employee = this.getCurrentLoginEmployee();
-            // 创建移交记录对象
-            CustomerTransfer transfer = new CustomerTransfer();
-            transfer.setCustomer(c);
-            transfer.setOldseller(c.getInchargeuser());
-            transfer.setNewseller(employeeService.selectByPrimaryKey(inchargeId));
-            transfer.setTranstime(new Date());
-            transfer.setTransuser(employee);
-            transfer.setTransreason(reason);
-            // 创建移交记录
-            transferService.save(transfer);
-            int effectCount = customerService.updateByChargeId(c.getId(), inchargeId);
-            if (effectCount > 0) {
-                result = new AjaxResult(true, "操作成功");
-            } else {
-                result = new AjaxResult(false, "操作失败");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            result = new AjaxResult(false, "操作异常");
+        boolean b = customerService.shareOrTransfer(c, inchargeId, reason);
+        if (!b) {
+            AjaxResult.setFailResponse(result);
         }
         return result;
     }
@@ -180,13 +163,11 @@ public class PotentialCustomerController extends BaseController {
     @RequestMapping("/potentialCustomer_developFalse")
     @ResponseBody
     public AjaxResult developFailed(Long id) {
-        AjaxResult result = null;
+        AjaxResult result = AjaxResult.createResponse();
         try {
             int effectCount = customerService.updateStatusFalseById(id);
-
             if (effectCount > 0) {
                 result = new AjaxResult(true, "操作成功");
-
             } else {
                 result = new AjaxResult(true, "操作失败");
             }
@@ -194,20 +175,16 @@ public class PotentialCustomerController extends BaseController {
             e.printStackTrace();
             result = new AjaxResult(true, "操作异常");
         }
-
         return result;
     }
 
     /**
-     * 潜在客户开发成功为正式客户
-     *
-     * @param id
-     * @return
+     * 潜在客户开发成功 => 正式客户
      */
     @RequestMapping("/potentialCustomer_become")
     @ResponseBody
     public AjaxResult become(Long id) {
-        AjaxResult result = null;
+        AjaxResult result = AjaxResult.createResponse();
         try {
             int effectCount = customerService.updateStatusSuccessById(id);
 
@@ -220,7 +197,6 @@ public class PotentialCustomerController extends BaseController {
             e.printStackTrace();
             result = new AjaxResult(true, "操作异常");
         }
-
         return result;
     }
 

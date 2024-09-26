@@ -25,11 +25,10 @@ $(function() {
 			{ field: 'transreason', title: '移交原因', width: 1, align: 'center' },
 			{ field: 'transuser', title: '操作人', width: 1, align: 'center', formatter: userFormatter }
 		]]
-
 	});
 
 
-	transferDialog.dialog({
+	customerTransferDialog.dialog({
 		width: 400,
 		height: 400,
 		closed: true,/*对话框关闭*/
@@ -45,12 +44,11 @@ $(function() {
 		fitColumns: true, /*列表自适应大小*/
 		pagination: true,/*显示分页*/
 		textField: "name",
-		url: '/formalcustomer_list',
+		url: '/official_customer_list',
 		columns: [[
 			{ field: "name", title: "客户姓名", width: 1, align: 'center' },
 			{ field: "inchargeruser", title: "负责人", width: 1, align: 'center', formatter: userFormatter },
 		]]
-
 	});
 
 	// 市场专员
@@ -62,23 +60,22 @@ $(function() {
 		fitColumns: true, /*列表自适应大小*/
 		pagination: true,/*显示分页*/
 		textField: "username",
-		url: '/queryEmployeeByRole',
+		url: '/listCommissionerEmployees',
 		columns: [[
 			{ field: "username", title: "专员姓名", width: 1, align: 'center' }
 		]]
-
 	});
 
 	var cmdObj = {
 		add: function() {
-			transferDialog.dialog("open");/*打开窗口*/
-			transferDialog.dialog("setTitle", "创建客户移交");
+			customerTransferDialog.dialog("open");/*打开窗口*/
+			customerTransferDialog.dialog("setTitle", "创建客户移交");
 			transferForm.form("clear"); // 清空表单数据
 		},
 
 		transfersave: function() {
 			transferForm.form('submit', {
-				url: "/customer_share", // 和潜在客户模块中的移交功能一样
+				url: "/customer_transfer", // 和潜在客户模块中的移交功能一样
 				onSubmit: function(param) {
 					var g = customerCombogrid.combogrid('grid');
 					var r = g.datagrid('getSelected');
@@ -89,7 +86,7 @@ $(function() {
 					if (data.success) {
 						$.messager.alert("温馨提示", data.msg, "info", function() {
 							// 关闭对话框
-							transferDialog.dialog("close");
+							customerTransferDialog.dialog("close");
 							// 刷新页面
 							customerTransferDatagrid.datagrid('load');
 						});
@@ -98,28 +95,21 @@ $(function() {
 					}
 				}
 			});
-
 		},
-
 		transfercancel: function() {
-			transferDialog.dialog("close");
+			customerTransferDialog.dialog("close");
 		},
-
-
-
 		search: function() {
 			var customername = $("[name='customername']").val();
 			console.log(customername);
 			var begintime = $("input[name='begintime']").val();
 			var endtime = $("input[name='endtime']").val();
-
 			console.log(begintime);
 			// 传递参数，重新从服务器加载数据
 			customerTransferDatagrid.datagrid("load", { customername: customername, begintime: begintime, endtime: endtime });
 		},
 		cancel: function() {
 			customerTransferDialog.dialog("close");
-
 		},
 		refresh: function() {
 			customerTransferDatagrid.datagrid("reload");
@@ -136,10 +126,8 @@ $(function() {
 	});
 });
 
-
 function customerFormatter(value, index, row) {
 	return value ? value.name : "";
-
 }
 
 function userFormatter(value, index, row) {

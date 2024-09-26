@@ -7,6 +7,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
+/**
+ * 合同dto
+ */
 @Getter@Setter
 public class ContractChart {
     private Long id;
